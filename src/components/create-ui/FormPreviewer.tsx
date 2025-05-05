@@ -1,0 +1,39 @@
+"use client";
+
+import useFormStore from "@/utils/useFormStore";
+import AnswerBox from "./AnswerBox";
+
+const FormPreviewer = () => {
+  const form = useFormStore((state) => state.form);
+
+  return (
+    <div className="flex-1 p-6 bg-gray-50 rounded-md shadow-sm">
+      <h1 className="text-2xl font-semibold italic text-center text-blue-700 mb-6">
+        {form.formHeader.title || "Untitled Form"}
+      </h1>
+      <div className="space-y-4">
+        {form.questions.map((question) => {
+          console.log("updated: ", question.ans.type);
+          return (
+            <div
+              key={question.id}
+              className="p-4 border border-gray-300 rounded-md bg-white shadow-sm"
+            >
+              <h2 className="text-lg font-medium text-gray-800">
+                {question.title}
+              </h2>
+              <AnswerBox
+                isInteractive={true}
+                data={question.ans.data}
+                questionId={question.id}
+                option={question.ans.type}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default FormPreviewer;
