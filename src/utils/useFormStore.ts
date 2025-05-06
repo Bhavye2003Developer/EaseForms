@@ -9,6 +9,9 @@ import {
   VersionType,
 } from "./types";
 interface FormState {
+  settings: {
+    timer: string;
+  };
   form: FormType;
   currentVersionId: number;
   currentQuestionId: number;
@@ -21,9 +24,13 @@ interface FormState {
   updateFormHeader: (formHeaderState: FormHeaderType) => void;
   updateAnswerType: (questionId: number, type: AnsType) => void;
   updateAnswerData: (questionId: number, updatedData: AnswerDataType) => void;
+  updateTimer: (updatedTimer: string) => void;
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
+  settings: {
+    timer: "00:00:00",
+  },
   form: {
     formHeader: {
       title: "",
@@ -131,6 +138,15 @@ const useFormStore = create<FormState>()((set, get) => ({
     updatedQuestions[questionIndex] = question;
     set((state) => ({
       form: { ...state.form, questions: updatedQuestions },
+    }));
+  },
+  updateTimer: (updatedTimer: string) => {
+    set((state) => ({
+      ...state,
+      settings: {
+        ...state.settings,
+        timer: updatedTimer,
+      },
     }));
   },
 }));
