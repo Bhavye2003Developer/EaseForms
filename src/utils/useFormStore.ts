@@ -5,6 +5,7 @@ import {
   AnswerDataType,
   FormHeaderType,
   FormType,
+  QuestionsUIMode,
   QuestionType,
   VersionType,
 } from "./types";
@@ -23,12 +24,14 @@ interface FormState {
   updateAnswerType: (questionId: number, type: AnsType) => void;
   updateAnswerData: (questionId: number, updatedData: AnswerDataType) => void;
   updateTimer: (updatedTimer: string) => void;
+  updateUIMode: (selectedUIMode: QuestionsUIMode) => void;
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
   form: {
     settings: {
       timer: "00:00:00",
+      UIMode: QuestionsUIMode.Simple,
     },
     formData: {
       formHeader: {
@@ -197,6 +200,18 @@ const useFormStore = create<FormState>()((set, get) => ({
         settings: {
           ...state.form.settings,
           timer: updatedTimer,
+        },
+      },
+    }));
+  },
+  updateUIMode: (selectedUIMode: QuestionsUIMode) => {
+    set((state) => ({
+      ...state,
+      form: {
+        ...state.form,
+        settings: {
+          ...state.form.settings,
+          UIMode: selectedUIMode,
         },
       },
     }));

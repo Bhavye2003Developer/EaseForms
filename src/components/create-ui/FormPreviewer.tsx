@@ -1,12 +1,12 @@
 "use client";
 
 import useFormStore from "@/utils/useFormStore";
-import AnswerBox from "./AnswerBox";
+import QuestionsView from "./QuestionsView";
 
 const FormPreviewer = () => {
   const {
     form: {
-      formData: { formHeader, questions },
+      formData: { formHeader },
       settings: { timer },
     },
   } = useFormStore();
@@ -23,26 +23,7 @@ const FormPreviewer = () => {
           </span>
         )}
       </div>
-      <div className="space-y-4">
-        {questions.map((question) => {
-          return (
-            <div
-              key={question.id}
-              className="p-4 border border-gray-300 rounded-md bg-white shadow-sm"
-            >
-              <h2 className="text-lg font-medium text-gray-800">
-                {question.title}
-              </h2>
-              <AnswerBox
-                isInteractive={true}
-                data={question.ans.data}
-                questionId={question.id}
-                option={question.ans.type}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <QuestionsView />
     </div>
   );
 };

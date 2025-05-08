@@ -42,6 +42,11 @@ export type FormHeaderType = {
   // desc: string;
 };
 
+export enum QuestionsUIMode {
+  "Simple" = "Simple",
+  "Single" = "Single",
+}
+
 export type FormType = {
   formData: {
     formHeader: FormHeaderType;
@@ -49,6 +54,7 @@ export type FormType = {
   };
   settings: {
     timer: string;
+    UIMode: QuestionsUIMode;
   };
 };
 
