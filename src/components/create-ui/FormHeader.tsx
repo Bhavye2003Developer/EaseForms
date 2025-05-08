@@ -7,7 +7,7 @@ export default function FormHeader() {
   const createNewQuestion = useFormStore((state) => state.createNewQuestion);
   const setFormHeaderState = useFormStore((state) => state.updateFormHeader);
   const [title, setTitle] = useState(
-    useFormStore((state) => state.form.formHeader.title)
+    useFormStore((state) => state.form.formData.formHeader.title)
   );
   const wrapperRef = useRef(null);
 

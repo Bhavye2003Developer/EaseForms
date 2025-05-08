@@ -3,7 +3,10 @@
 import useFormStore from "@/utils/useFormStore";
 
 export default function SettingsDialog() {
-  const { settings, updateTimer } = useFormStore();
+  const {
+    form: { settings },
+    updateTimer,
+  } = useFormStore();
 
   return (
     <div className="p-4 text-sm text-gray-800">

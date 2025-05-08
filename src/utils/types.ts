@@ -43,8 +43,13 @@ export type FormHeaderType = {
 };
 
 export type FormType = {
-  formHeader: FormHeaderType;
-  questions: QuestionType[];
+  formData: {
+    formHeader: FormHeaderType;
+    questions: QuestionType[];
+  };
+  settings: {
+    timer: string;
+  };
 };
 
 export type VersionType = {

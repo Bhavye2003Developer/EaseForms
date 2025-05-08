@@ -7,7 +7,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import QuestionCreator from "./QuestionCreator";
 
 export default function FormCreator() {
-  const questions = useFormStore((state) => state.form.questions);
+  const questions = useFormStore((state) => state.form.formData.questions);
   const updateQuestionsArray = useFormStore(
     (state) => state.updatedQuestionArray
   );

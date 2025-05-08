@@ -8,10 +8,8 @@ import {
   QuestionType,
   VersionType,
 } from "./types";
+import { stat } from "fs";
 interface FormState {
-  settings: {
-    timer: string;
-  };
   form: FormType;
   currentVersionId: number;
   currentQuestionId: number;
@@ -28,21 +26,23 @@ interface FormState {
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
-  settings: {
-    timer: "00:00:00",
-  },
   form: {
-    formHeader: {
-      title: "",
+    settings: {
+      timer: "00:00:00",
     },
-    questions: [],
+    formData: {
+      formHeader: {
+        title: "",
+      },
+      questions: [],
+    },
   },
   currentQuestionId: 1,
   currentVersionId: 1,
   versions: [],
   createNewQuestion: (prevQuestionId: number) => {
     const [updatedQuestions, currentQuestionId] = [
-      [...get().form.questions],
+      [...get().form.formData.questions],
       get().currentQuestionId,
     ];
 
@@ -58,25 +58,46 @@ const useFormStore = create<FormState>()((set, get) => ({
       },
     });
     set((state) => ({
-      form: { ...state.form, questions: updatedQuestions },
+      ...state,
       currentQuestionId: state.currentQuestionId + 1,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
     }));
   },
 
   deleteQuestion: (currentQuestionId: number) => {
-    const updatedQuestions = [...get().form.questions];
+    const updatedQuestions = [...get().form.formData.questions];
 
     const questionIndex = updatedQuestions.findIndex(
       (question) => question.id === currentQuestionId
     );
     updatedQuestions.splice(questionIndex, 1);
     set((state) => ({
-      form: { ...state.form, questions: updatedQuestions },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
     }));
   },
   updatedQuestionArray: (questionsArray: QuestionType[]) => {
     set((state) => ({
-      form: { ...state.form, questions: questionsArray },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: questionsArray,
+        },
+      },
     }));
   },
   // duplicateQuestion: (questionId: number) => {
@@ -96,7 +117,7 @@ const useFormStore = create<FormState>()((set, get) => ({
   //   }));
   // }
   updateQuestion: (questionId: number, title: string) => {
-    const updatedQuestions = [...get().form.questions];
+    const updatedQuestions = [...get().form.formData.questions];
 
     const questionIndex = updatedQuestions.findIndex(
       (question) => question.id === questionId
@@ -105,16 +126,30 @@ const useFormStore = create<FormState>()((set, get) => ({
     question.title = title;
     updatedQuestions[questionIndex] = question;
     set((state) => ({
-      form: { ...state.form, questions: updatedQuestions },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
     }));
   },
   updateFormHeader: (formHeaderState: FormHeaderType) => {
     set((state) => ({
-      form: { ...state.form, formHeader: formHeaderState },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          formHeader: formHeaderState,
+        },
+      },
     }));
   },
   updateAnswerType: (questionId: number, type: AnsType) => {
-    const updatedQuestions = [...get().form.questions];
+    const updatedQuestions = [...get().form.formData.questions];
 
     const questionIndex = updatedQuestions.findIndex(
       (question) => question.id === questionId
@@ -124,11 +159,18 @@ const useFormStore = create<FormState>()((set, get) => ({
     question.ans.data = AnsOption[type];
     updatedQuestions[questionIndex] = question;
     set((state) => ({
-      form: { ...state.form, questions: updatedQuestions },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
     }));
   },
   updateAnswerData: (questionId: number, updatedData: AnswerDataType) => {
-    const updatedQuestions = [...get().form.questions];
+    const updatedQuestions = [...get().form.formData.questions];
 
     const questionIndex = updatedQuestions.findIndex(
       (question) => question.id === questionId
@@ -137,15 +179,25 @@ const useFormStore = create<FormState>()((set, get) => ({
     question.ans.data = updatedData;
     updatedQuestions[questionIndex] = question;
     set((state) => ({
-      form: { ...state.form, questions: updatedQuestions },
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
     }));
   },
   updateTimer: (updatedTimer: string) => {
     set((state) => ({
       ...state,
-      settings: {
-        ...state.settings,
-        timer: updatedTimer,
+      form: {
+        ...state.form,
+        settings: {
+          ...state.form.settings,
+          timer: updatedTimer,
+        },
       },
     }));
   },
