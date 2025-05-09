@@ -1,8 +1,8 @@
 "use client";
 
-import { AnsType, QuestionType } from "@/utils/types";
+import { AnsOption, AnsType, QuestionType } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerBox from "./AnswerBox";
 
 export default function QuestionCreator({
@@ -12,23 +12,18 @@ export default function QuestionCreator({
   questionData: QuestionType;
   index: number;
 }) {
-  const [option, setOption] = useState<AnsType>(AnsType.ShortText);
-  const [title, setTitle] = useState(questionData.title);
+  const [question, setQuestion] = useState(questionData);
 
-  const createNewQuestion = useFormStore((state) => state.createNewQuestion);
-  const updateQuestion = useFormStore((state) => state.updateQuestion);
-  const deleteQuestion = useFormStore((state) => state.deleteQuestion);
-  const updateAnswerType = useFormStore((state) => state.updateAnswerType);
-
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    updateQuestion(questionData.id, title);
-  }, [title]);
+  const {
+    createNewQuestion,
+    updateQuestion,
+    deleteQuestion,
+    duplicateQuestion,
+  } = useFormStore((state) => state);
 
   useEffect(() => {
-    updateAnswerType(questionData.id, option);
-  }, [option]);
+    updateQuestion(question.id, question);
+  }, [question]);
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 max-w-2xl w-full mx-auto mt-6">
@@ -40,17 +35,31 @@ export default function QuestionCreator({
         <input
           autoFocus
           type="text"
-          value={title}
+          value={question.title}
           placeholder="Type your question here..."
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setQuestion({
+              ...question,
+              title: e.target.value,
+            });
+          }}
           className="flex-1 p-3 border border-blue-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <select
-          value={option}
-          onChange={(e) =>
-            setOption(AnsType[e.target.value as keyof typeof AnsType])
-          }
+          value={question.ans.type}
+          onChange={(e) => {
+            const ansType = AnsType[e.target.value as keyof typeof AnsType];
+            console.log("Selected: ", ansType);
+            setQuestion({
+              ...question,
+              ans: {
+                ...question.ans,
+                type: ansType,
+                data: AnsOption[ansType],
+              },
+            });
+          }}
           className="w-full sm:w-48 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           {Object.keys(AnsType).map((opt, idx) => (
@@ -62,25 +71,32 @@ export default function QuestionCreator({
       </div>
 
       <AnswerBox
-        option={option}
+        option={question.ans.type}
         isInteractive={false}
-        questionId={questionData.id}
-        data={questionData.ans.data}
+        questionId={question.id}
+        data={question.ans.data}
       />
 
       <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
         <button
-          onClick={() => createNewQuestion(questionData.id)}
+          onClick={() => createNewQuestion(question.id)}
           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition"
         >
           ➕ Add Question
         </button>
 
         <button
-          onClick={() => deleteQuestion(questionData.id)}
+          onClick={() => deleteQuestion(question.id)}
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
         >
           🗑️ Delete Question
+        </button>
+
+        <button
+          onClick={() => duplicateQuestion(question.id)}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition"
+        >
+          🔁 Duplicate Question
         </button>
       </div>
     </div>

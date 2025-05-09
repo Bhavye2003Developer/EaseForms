@@ -14,7 +14,7 @@ const AnswerBox = ({
   isInteractive: boolean;
   data: AnswerDataType;
 }) => {
-  console.log("From Answerbox: ", data, isInteractive);
+  // console.log("From Answerbox: ", data, isInteractive);
 
   return (
     <div>
