@@ -8,6 +8,7 @@ export default function SettingsDialog() {
     form: { settings },
     updateTimer,
     updateUIMode,
+    toggleTimerEnabled,
   } = useFormStore();
 
   return (
@@ -15,22 +16,41 @@ export default function SettingsDialog() {
       <h2 className="text-base font-semibold mb-4">⚙️ Form Settings</h2>
 
       <div className="space-y-6">
-        <div>
-          <label className="block mb-1 font-medium text-gray-700">
-            ⏱ Form Timer
-          </label>
-          <input
-            type="time"
-            step="1"
-            value={settings.timer}
-            onChange={(e) => updateTimer(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Set timer in <strong>hh:mm:ss</strong> format (24-hour clock).
-          </p>
+        <div className="flex items-center justify-between">
+          <label className="font-medium text-gray-700">⏱ Enable Timer</label>
+          <button
+            onClick={toggleTimerEnabled}
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+              settings.isTimerEnabled ? "bg-blue-500" : "bg-gray-300"
+            }`}
+          >
+            <div
+              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                settings.isTimerEnabled ? "translate-x-6" : "translate-x-0"
+              }`}
+            />
+          </button>
         </div>
 
+        {settings.isTimerEnabled && (
+          <div>
+            <label className="block mb-1 font-medium text-gray-700">
+              ⏱ Form Timer
+            </label>
+            <input
+              type="time"
+              step="1"
+              value={settings.timer}
+              onChange={(e) => updateTimer(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Set timer in <strong>hh:mm:ss</strong> format (24-hour clock).
+            </p>
+          </div>
+        )}
+
+        {/* UI Mode Select */}
         <div>
           <label className="block mb-1 font-medium text-gray-700">
             🧭 UI Mode

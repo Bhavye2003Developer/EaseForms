@@ -53,6 +53,7 @@ export type FormType = {
     questions: QuestionType[];
   };
   settings: {
+    isTimerEnabled: boolean;
     timer: string;
     UIMode: QuestionsUIMode;
   };

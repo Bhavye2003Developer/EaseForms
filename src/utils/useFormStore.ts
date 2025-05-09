@@ -9,7 +9,6 @@ import {
   QuestionType,
   VersionType,
 } from "./types";
-import { stat } from "fs";
 interface FormState {
   form: FormType;
   currentVersionId: number;
@@ -25,11 +24,13 @@ interface FormState {
   updateAnswerData: (questionId: number, updatedData: AnswerDataType) => void;
   updateTimer: (updatedTimer: string) => void;
   updateUIMode: (selectedUIMode: QuestionsUIMode) => void;
+  toggleTimerEnabled: () => void;
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
   form: {
     settings: {
+      isTimerEnabled: false,
       timer: "00:00:00",
       UIMode: QuestionsUIMode.Simple,
     },
@@ -212,6 +213,18 @@ const useFormStore = create<FormState>()((set, get) => ({
         settings: {
           ...state.form.settings,
           UIMode: selectedUIMode,
+        },
+      },
+    }));
+  },
+  toggleTimerEnabled: () => {
+    set((state) => ({
+      ...state,
+      form: {
+        ...state.form,
+        settings: {
+          ...state.form.settings,
+          isTimerEnabled: !state.form.settings.isTimerEnabled,
         },
       },
     }));

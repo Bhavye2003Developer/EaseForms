@@ -7,7 +7,7 @@ const FormPreviewer = () => {
   const {
     form: {
       formData: { formHeader },
-      settings: { timer },
+      settings: { timer, isTimerEnabled },
     },
   } = useFormStore();
 
@@ -17,7 +17,7 @@ const FormPreviewer = () => {
         <h1 className="text-2xl font-semibold italic text-center text-blue-700">
           {formHeader.title || "Untitled Form"}
         </h1>
-        {timer && (
+        {isTimerEnabled && (
           <span className="absolute right-0 top-1 text-sm text-gray-600 bg-white px-3 py-1 rounded shadow-sm border">
             ⏱ {timer}
           </span>
