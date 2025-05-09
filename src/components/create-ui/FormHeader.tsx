@@ -19,35 +19,31 @@ export default function FormHeader() {
 
   return (
     <div
-      className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white max-w-screen mx-auto"
+      className="p-6 rounded-lg shadow-xl max-w-screen mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
       ref={wrapperRef}
     >
-      <h1 className="text-lg font-semibold text-gray-800 mb-2">Form Header</h1>
+      <h1 className="text-2xl font-semibold text-white mb-4">Form Header</h1>
 
-      {
-        <input
-          autoFocus
-          type="text"
-          value={title}
-          placeholder="Type your form heading here..."
-          className="w-full p-2 border border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      }
+      <input
+        autoFocus
+        type="text"
+        value={title}
+        placeholder="Type your form heading here..."
+        className="w-full p-3 border-2 border-transparent rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 mb-6 shadow-md"
+        onChange={(e) => setTitle(e.target.value)}
+      />
 
-      {
-        <div className="flex">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-all"
-            onClick={() => {
-              console.log("creating new question...");
-              createNewQuestion(0);
-            }}
-          >
-            ➕ Add New Question
-          </button>
-        </div>
-      }
+      <div className="flex justify-end">
+        <button
+          className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition-all ease-in-out"
+          onClick={() => {
+            console.log("creating new question...");
+            createNewQuestion(0);
+          }}
+        >
+          ➕ Add New Question
+        </button>
+      </div>
     </div>
   );
 }

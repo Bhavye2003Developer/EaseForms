@@ -1,7 +1,6 @@
 import { QuestionType } from "@/utils/types";
-import AnswerBox from "./AnswerBox";
-import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
+import { useState } from "react";
 
 export default function SingleQuestionUI({
   questions,
@@ -26,18 +25,23 @@ export default function SingleQuestionUI({
   };
 
   return (
-    <div className="flex flex-col justify-between items-center h-[80vh] max-w-xl w-full mx-auto p-6 rounded-2xl shadow-lg bg-white">
-      {questions.length > 0 && (
-        <QuestionCard
-          question={questions[currentQuestionIndex]}
-          onPrev={handlePrev}
-          onNext={handleNext}
-          buttonsActivity={{
-            prev: !isFirst,
-            next: !isLast,
-          }}
-        />
-      )}
+    <div className="flex items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-100 p-6">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6">
+        {questions.length > 0 && (
+          <QuestionCard
+            question={questions[currentQuestionIndex]}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            buttonsActivity={{
+              prev: !isFirst,
+              next: !isLast,
+            }}
+          />
+        )}
+        <div className="text-center mt-4 text-sm text-gray-500">
+          Question {currentQuestionIndex + 1} of {questions.length}
+        </div>
+      </div>
     </div>
   );
 }

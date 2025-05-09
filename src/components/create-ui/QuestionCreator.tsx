@@ -13,12 +13,13 @@ export default function QuestionCreator({
   index: number;
 }) {
   const [option, setOption] = useState<AnsType>(AnsType.ShortText);
+  const [title, setTitle] = useState(questionData.title);
 
   const createNewQuestion = useFormStore((state) => state.createNewQuestion);
   const updateQuestion = useFormStore((state) => state.updateQuestion);
   const deleteQuestion = useFormStore((state) => state.deleteQuestion);
-  const [title, setTitle] = useState(questionData.title);
   const updateAnswerType = useFormStore((state) => state.updateAnswerType);
+
   const wrapperRef = useRef(null);
 
   useEffect(() => {
@@ -30,30 +31,31 @@ export default function QuestionCreator({
   }, [option]);
 
   return (
-    <div className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white mx-auto mt-4 max-w-screen">
-      <h1 className="text-lg font-semibold text-gray-800 mb-2">
-        {index + 1} <span className="text-gray-500">→</span> New Question
-      </h1>
+    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 max-w-2xl w-full mx-auto mt-6">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        {index + 1}. <span className="text-gray-500">New Question</span>
+      </h2>
 
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <input
           autoFocus
           type="text"
           value={title}
           placeholder="Type your question here..."
-          className="flex-[0.85] p-2 border border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           onChange={(e) => setTitle(e.target.value)}
+          className="flex-1 p-3 border border-blue-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <select
-          onChange={(e) => {
-            setOption(AnsType[e.target.value as keyof typeof AnsType]);
-          }}
-          className="flex-[0.15] p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={option}
+          onChange={(e) =>
+            setOption(AnsType[e.target.value as keyof typeof AnsType])
+          }
+          className="w-full sm:w-48 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          {Object.keys(AnsType).map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+          {Object.keys(AnsType).map((opt, idx) => (
+            <option key={idx} value={opt}>
+              {opt}
             </option>
           ))}
         </select>
@@ -66,24 +68,19 @@ export default function QuestionCreator({
         data={questionData.ans.data}
       />
 
-      <div className="flex">
+      <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-all"
-          onClick={() => {
-            console.log("creating new question...");
-            createNewQuestion(questionData.id);
-          }}
+          onClick={() => createNewQuestion(questionData.id)}
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition"
         >
-          ➕ Add New Question
+          ➕ Add Question
         </button>
+
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-all ml-2"
-          onClick={() => {
-            console.log("Deleting question");
-            deleteQuestion(questionData.id);
-          }}
+          onClick={() => deleteQuestion(questionData.id)}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
         >
-          Delete question
+          🗑️ Delete Question
         </button>
       </div>
     </div>

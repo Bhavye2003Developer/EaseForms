@@ -33,7 +33,7 @@ export default function FormEditor() {
           {showSettings && (
             <div
               ref={settingsRef}
-              className="absolute top-10 right-2 bg-white border rounded shadow-md z-20 p-2 w-40"
+              className="absolute top-10 right-2 border rounded shadow-md z-20 p-2 w-40"
             >
               <SettingsDialog />
             </div>

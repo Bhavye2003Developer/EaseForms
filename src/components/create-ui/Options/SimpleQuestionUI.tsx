@@ -7,21 +7,25 @@ export default function SimpleQuestionUI({
   questions: QuestionType[];
 }) {
   return (
-    <div>
-      {questions.map((question) => (
+    <div className="max-w-3xl mx-auto space-y-6 px-4 py-6">
+      {questions.map((question, idx) => (
         <div
           key={question.id}
-          className="p-4 border border-gray-300 rounded-md bg-white shadow-sm"
+          className="p-6 rounded-2xl shadow-md border border-gray-200 transition-all hover:shadow-lg"
         >
-          <h2 className="text-lg font-medium text-gray-800">
-            {question.title}
-          </h2>
-          <AnswerBox
-            isInteractive={true}
-            data={question.ans.data}
-            questionId={question.id}
-            option={question.ans.type}
-          />
+          <div className="mb-4 flex items-start justify-between">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 leading-snug">
+              {idx + 1}. {question.title}
+            </h2>
+          </div>
+          <div className="pl-1">
+            <AnswerBox
+              isInteractive={true}
+              data={question.ans.data}
+              questionId={question.id}
+              option={question.ans.type}
+            />
+          </div>
         </div>
       ))}
     </div>
