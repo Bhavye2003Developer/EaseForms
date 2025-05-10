@@ -1,5 +1,5 @@
 import { QuestionType } from "@/utils/types";
-import AnswerBox from "../AnswerBox";
+import AnswerBox from "../../create-ui/AnswerBox";
 
 export default function SimpleQuestionUI({
   questions,

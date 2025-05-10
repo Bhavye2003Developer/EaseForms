@@ -1,7 +1,7 @@
 import { AnsType, AnswerDataType } from "@/utils/types";
-import TextAnswer from "./Options/TextAnswer";
-import MultiChoice from "./Options/MultiChoice";
-import MultiSelect from "./Options/MultiSelect";
+import TextAnswer from "../Options/create/TextAnswer";
+import MultiChoice from "../Options/create/MultiChoice";
+import MultiSelect from "../Options/create/MultiSelect";
 
 const AnswerBox = ({
   questionId,
