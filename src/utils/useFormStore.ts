@@ -9,6 +9,7 @@ import {
   QuestionType,
   VersionType,
 } from "./types";
+import { form } from "./constants";
 interface FormState {
   form: FormType;
   questionIdToBeImplemented: number;
@@ -26,19 +27,7 @@ interface FormState {
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
-  form: {
-    settings: {
-      isTimerEnabled: false,
-      timer: "00:00:00",
-      UIMode: QuestionsUIMode.Simple,
-    },
-    formData: {
-      formHeader: {
-        title: "",
-      },
-      questions: [],
-    },
-  },
+  form: form,
   questionIdToBeImplemented: 1,
   versions: [],
   createNewQuestion: (prevQuestionId: number) => {

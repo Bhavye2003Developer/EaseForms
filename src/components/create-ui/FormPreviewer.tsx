@@ -25,7 +25,7 @@ const FormPreviewer = () => {
         )}
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="rounded-lg shadow-md p-6">
         <QuestionsView />
       </div>
     </div>

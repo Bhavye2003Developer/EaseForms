@@ -5,6 +5,7 @@ import { MoreVertical } from "lucide-react";
 import FormCreator from "./FormCreator";
 import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
+import Header from "./Header";
 
 export default function FormEditor() {
   const [showSettings, setShowSettings] = useState(false);
@@ -21,6 +22,7 @@ export default function FormEditor() {
           setShowSettings(false);
       }}
     >
+      <Header />
       <div className="flex w-full flex-1 overflow-hidden">
         <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
           <button
