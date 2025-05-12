@@ -7,13 +7,11 @@ import {
   FormType,
   QuestionsUIMode,
   QuestionType,
-  VersionType,
 } from "./types";
 import { form } from "./constants";
 interface FormState {
   form: FormType;
   questionIdToBeImplemented: number;
-  versions: VersionType[];
   createNewQuestion: (prevQuestionId: number) => void;
   deleteQuestion: (questionIdToBeImplemented: number) => void;
   updateQuestion: (questionId: number, updatedQuestion: QuestionType) => void;
@@ -29,7 +27,6 @@ interface FormState {
 const useFormStore = create<FormState>()((set, get) => ({
   form: form,
   questionIdToBeImplemented: 1,
-  versions: [],
   createNewQuestion: (prevQuestionId: number) => {
     const [updatedQuestions, questionIdToBeImplemented] = [
       [...get().form.formData.questions],

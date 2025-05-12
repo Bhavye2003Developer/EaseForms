@@ -59,9 +59,8 @@ export type FormType = {
   };
 };
 
-export type VersionType = {
-  id: number;
-  dt: Date;
-  type: string;
-  formData: FormType;
-};
+export enum Scene {
+  Editor,
+  Preview,
+  Live,
+}

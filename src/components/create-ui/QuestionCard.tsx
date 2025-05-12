@@ -1,4 +1,4 @@
-import { QuestionType } from "@/utils/types";
+import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
 import { useEffect } from "react";
 
@@ -33,7 +33,7 @@ export default function QuestionCard({
 
       <div className="flex-1 flex items-center justify-center w-full mb-8">
         <AnswerBox
-          isInteractive={true}
+          scene={Scene.Preview}
           data={question.ans.data}
           questionId={question.id}
           option={question.ans.type}

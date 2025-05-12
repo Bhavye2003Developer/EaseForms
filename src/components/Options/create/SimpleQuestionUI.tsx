@@ -1,4 +1,4 @@
-import { QuestionType } from "@/utils/types";
+import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "../../create-ui/AnswerBox";
 
 export default function SimpleQuestionUI({
@@ -20,7 +20,7 @@ export default function SimpleQuestionUI({
           </div>
           <div className="pl-1">
             <AnswerBox
-              isInteractive={true}
+              scene={Scene.Preview}
               data={question.ans.data}
               questionId={question.id}
               option={question.ans.type}

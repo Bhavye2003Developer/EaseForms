@@ -1,5 +1,5 @@
-import FormView from "@/components/FormView";
+import FormFillingView from "@/components/FormFillingView";
 
 export default function CreatePage() {
-  return <FormView />;
+  return <FormFillingView />;
 }

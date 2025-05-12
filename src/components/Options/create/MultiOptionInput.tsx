@@ -3,14 +3,12 @@
 import { AnswerDataType, choice } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 
-export default function MultiOption({
+export default function MultiOptionInput({
   questionId,
-  isInteractive,
   data,
   isMultiSelect,
 }: {
   questionId: number;
-  isInteractive: boolean;
   data: choice[];
   isMultiSelect: boolean;
 }) {
@@ -35,33 +33,25 @@ export default function MultiOption({
     <div className="p-4 space-y-4">
       {data.map((option) => (
         <div key={option.id} className="flex items-center space-x-2">
-          <input
-            disabled={!isInteractive}
-            type={isMultiSelect ? "checkbox" : "radio"}
-          />
+          <input disabled={true} type={isMultiSelect ? "checkbox" : "radio"} />
 
-          {isInteractive ? (
-            <p>{option.desc}</p>
-          ) : (
-            <input
-              autoFocus
-              type="text"
-              placeholder="Option description"
-              value={option.desc}
-              onChange={(e) => handleDescChange(option.id, e.target.value)}
-              className="border rounded p-2 flex-1"
-            />
-          )}
+          <input
+            autoFocus
+            type="text"
+            placeholder="Option description"
+            value={option.desc}
+            onChange={(e) => handleDescChange(option.id, e.target.value)}
+            className="border rounded p-2 flex-1"
+          />
         </div>
       ))}
-      {!isInteractive ? (
-        <button
-          onClick={handleAddOption}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Add Option
-        </button>
-      ) : null}
+
+      <button
+        onClick={handleAddOption}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Add Option
+      </button>
     </div>
   );
 }

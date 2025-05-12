@@ -2,18 +2,16 @@
 
 import { useEffect } from "react";
 import QuestionsView from "./create-ui/QuestionsView";
-import { useState } from "react";
-import { FormType } from "@/utils/types";
+import useFormFillingStore from "@/utils/useFormFillingStore";
 
-export default function FormView() {
-  const [formStruct, setFormStruct] = useState<FormType | null>(null);
+export default function FormFillingView() {
+  const { form, setForm } = useFormFillingStore();
 
   async function fetchFormStruct() {
     const res = await fetch("/api/create-form");
-
     const formStructResponse = (await res.json()).data;
     console.log("Form got: ", formStructResponse);
-    setFormStruct(formStructResponse.form);
+    setForm(formStructResponse.form);
   }
 
   useEffect(() => {
@@ -21,27 +19,27 @@ export default function FormView() {
   }, []);
 
   return (
-    <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br from-blue-50 to-indigo-100">
-      {formStruct === null ? (
+    <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br from-blue-50 to-indigo-100 w-screen h-screen">
+      {form === null ? (
         "Loading..."
       ) : (
         <div>
           <div className="relative mb-8">
             <h1 className="text-3xl font-bold italic text-center text-indigo-700 drop-shadow-sm">
-              {formStruct.formData.formHeader.title || "Untitled Form"}
+              {form.formData.formHeader.title || "Untitled Form"}
             </h1>
 
-            {formStruct.settings.isTimerEnabled && (
+            {form.settings.isTimerEnabled && (
               <span className="absolute right-0 top-2 text-xs font-medium bg-white text-indigo-700 px-3 py-1 rounded-full shadow-md border border-indigo-300">
-                ⏱ {formStruct.settings.timer}
+                ⏱ {form.settings.timer}
               </span>
             )}
           </div>
 
           <div className="rounded-lg shadow-md p-6">
             <QuestionsView
-              questions={formStruct.formData.questions}
-              UIMode={formStruct.settings.UIMode}
+              questions={form.formData.questions}
+              UIMode={form.settings.UIMode}
             />
           </div>
         </div>

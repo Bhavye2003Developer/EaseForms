@@ -1,6 +1,6 @@
 "use client";
 
-import { AnsOption, AnsType, QuestionType } from "@/utils/types";
+import { AnsOption, AnsType, QuestionType, Scene } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import { useEffect, useState } from "react";
 import AnswerBox from "./AnswerBox";
@@ -72,7 +72,7 @@ export default function QuestionCreator({
 
       <AnswerBox
         option={question.ans.type}
-        isInteractive={false}
+        scene={Scene.Editor}
         questionId={question.id}
         data={question.ans.data}
       />

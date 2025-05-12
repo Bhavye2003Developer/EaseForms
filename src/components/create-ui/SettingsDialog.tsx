@@ -35,7 +35,6 @@ export default function SettingsDialog() {
           </button>
         </div>
 
-        {/* Timer Input */}
         {settings.isTimerEnabled && (
           <div>
             <label className="block mb-1 font-medium text-gray-800">
@@ -53,8 +52,6 @@ export default function SettingsDialog() {
             </p>
           </div>
         )}
-
-        {/* UI Mode Selector */}
         <div>
           <label className="block mb-1 font-medium text-gray-800">
             🧭 UI Mode
