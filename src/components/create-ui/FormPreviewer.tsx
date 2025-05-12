@@ -2,6 +2,7 @@
 
 import useFormStore from "@/utils/useFormStore";
 import QuestionsView from "./QuestionsView";
+import { Scene } from "@/utils/types";
 
 const FormPreviewer = () => {
   const { form: formStruct } = useFormStore();
@@ -22,6 +23,7 @@ const FormPreviewer = () => {
 
       <div className="rounded-lg shadow-md p-6">
         <QuestionsView
+          scene={Scene.Preview}
           questions={formStruct.formData.questions}
           UIMode={formStruct.settings.UIMode}
         />

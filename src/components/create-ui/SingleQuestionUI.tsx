@@ -1,10 +1,12 @@
-import { QuestionType } from "@/utils/types";
-import QuestionCard from "./QuestionCard";
+import { QuestionType, Scene } from "@/utils/types";
 import { useState } from "react";
+import SingleQuestionCard from "./SingleQuestionCard";
 
 export default function SingleQuestionUI({
+  scene,
   questions,
 }: {
+  scene: Scene;
   questions: QuestionType[];
 }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -28,7 +30,8 @@ export default function SingleQuestionUI({
     <div className="flex items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-100 p-6">
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6">
         {questions.length > 0 && (
-          <QuestionCard
+          <SingleQuestionCard
+            scene={scene}
             question={questions[currentQuestionIndex]}
             onPrev={handlePrev}
             onNext={handleNext}

@@ -3,23 +3,27 @@
 import { useEffect } from "react";
 import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
+import { Scene } from "@/utils/types";
 
 export default function FormFillingView() {
   const { form, setForm } = useFormFillingStore();
 
   async function fetchFormStruct() {
     const res = await fetch("/api/create-form");
-    const formStructResponse = (await res.json()).data;
-    console.log("Form got: ", formStructResponse);
-    setForm(formStructResponse.form);
+    const formStructResponse = await res.json();
+    if (formStructResponse.data) {
+      console.log("Form got: ", formStructResponse.data);
+      setForm(formStructResponse.data.form);
+    }
   }
 
   useEffect(() => {
     fetchFormStruct();
   }, []);
 
+  
   return (
-    <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br from-blue-50 to-indigo-100 w-screen h-screen">
+    <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br w-screen h-screen">
       {form === null ? (
         "Loading..."
       ) : (
@@ -38,6 +42,7 @@ export default function FormFillingView() {
 
           <div className="rounded-lg shadow-md p-6">
             <QuestionsView
+              scene={Scene.Live}
               questions={form.formData.questions}
               UIMode={form.settings.UIMode}
             />
