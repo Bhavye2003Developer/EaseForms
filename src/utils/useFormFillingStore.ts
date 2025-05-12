@@ -1,16 +1,38 @@
 import { create } from "zustand";
-import { FormType } from "./types";
+import { AnswerDataType, FormType } from "./types";
 
 interface FormFillingState {
   form: FormType | null;
   setForm: (form: FormType) => void;
-  
+  updateAnswer: (questionId: number, answer: AnswerDataType) => void;
 }
 
 const useFormFillingStore = create<FormFillingState>((set, get) => ({
   form: null,
   setForm(form) {
     set((state) => ({ ...state, form }));
+  },
+  updateAnswer(questionId: number, answer: AnswerDataType) {
+    const form = get().form;
+    if (form) {
+      console.log("Answer changed inside updateAnswer: ", answer);
+      const questions = form.formData.questions;
+      const questionIndex = questions?.findIndex(
+        (question) => question.id === questionId
+      );
+      const question = questions[questionIndex];
+      question.ans.data = answer;
+      questions[questionIndex] = question;
+      set((state) => ({
+        form: {
+          ...state.form!,
+          formData: {
+            ...state.form!.formData,
+            questions: questions,
+          },
+        },
+      }));
+    }
   },
 }));
 

@@ -20,9 +20,9 @@ const AnswerBox = ({
   return (
     <div>
       {option === AnsType.ShortText ? (
-        <ShortText scene={scene} />
+        <ShortText questionId={questionId} scene={scene} answerData={data} />
       ) : option === AnsType.LongText ? (
-        <LongText scene={scene} />
+        <LongText questionId={questionId} scene={scene} answerData={data} />
       ) : option === AnsType.multiChoice && Array.isArray(data) ? (
         <MultiChoice questionId={questionId} scene={scene} data={data} />
       ) : option === AnsType.multiSelect && Array.isArray(data) ? (

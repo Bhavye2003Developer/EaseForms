@@ -1,4 +1,4 @@
-import { choice, Scene } from "@/utils/types";
+import { AnswerDataType, choice, Scene } from "@/utils/types";
 import MultiOptionInput from "./MultiOptionInput";
 import MultiOptionView from "./MultiOptionView";
 
