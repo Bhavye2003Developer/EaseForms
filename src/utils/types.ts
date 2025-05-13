@@ -5,10 +5,14 @@ export enum AnsType {
   "multiSelect" = "multiSelect",
 }
 
-export type choice = {
+export interface choice {
   id: number;
   desc: string;
   isMarked: boolean;
+}
+
+export type SectionType = {
+  id: number;
 };
 
 export type AnswerDataType = string | choice[] | number;
@@ -20,44 +24,46 @@ export const AnsOption: { [key in AnsType]: AnswerDataType } = {
   multiSelect: [{ id: Date.now(), desc: "", isMarked: false }],
 };
 
-export type QuestionType = {
+export interface QuestionType {
   id: number;
   title: string;
   ans: {
     type: AnsType;
     data: AnswerDataType;
   };
-};
+}
 
-export type multiChoice = {
+export interface multiChoice {
   choices: {
     id: number;
     desc: string;
     isMarked: boolean;
   }[];
-};
+}
 
-export type FormHeaderType = {
+export interface FormHeaderType {
   title: string;
   // desc: string;
-};
+}
 
 export enum QuestionsUIMode {
   "Simple" = "Simple",
   "Single" = "Single",
 }
 
-export type FormType = {
+export type DivStructType = (QuestionType | SectionType)[];
+
+export interface FormType {
   formData: {
     formHeader: FormHeaderType;
-    questions: QuestionType[];
+    questions: DivStructType;
   };
   settings: {
     isTimerEnabled: boolean;
     timer: string;
     UIMode: QuestionsUIMode;
   };
-};
+}
 
 export enum Scene {
   Editor,

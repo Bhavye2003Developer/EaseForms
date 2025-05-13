@@ -1,10 +1,11 @@
 "use client";
 
-import { QuestionType } from "@/utils/types";
+import { DivStructType } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import FormHeader from "./FormHeader";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import QuestionCreator from "./QuestionCreator";
+import QuestionOutlined from "./QuestionOutlined";
 
 export default function FormCreator() {
   const questions = useFormStore((state) => state.form.formData.questions);
@@ -13,7 +14,7 @@ export default function FormCreator() {
   );
 
   const reorder = (
-    list: QuestionType[],
+    list: DivStructType,
     startIndex: number,
     endIndex: number
   ) => {
@@ -61,7 +62,7 @@ export default function FormCreator() {
                         snapshot.isDragging ? "shadow-lg" : "shadow-sm"
                       }`}
                     >
-                      <QuestionCreator index={index} questionData={question} />
+                      <QuestionOutlined index={index} questionData={question} />
                     </div>
                   )}
                 </Draggable>

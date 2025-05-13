@@ -1,8 +1,8 @@
 import { AnsType, AnswerDataType, Scene } from "@/utils/types";
-import MultiChoice from "../Options/create/MultiChoice";
-import MultiSelect from "../Options/create/MultiSelect";
-import ShortText from "../Options/create/ShortText";
-import LongText from "../Options/create/LongText";
+import MultiChoice from "./create/MultiChoice";
+import MultiSelect from "./create/MultiSelect";
+import ShortText from "./create/ShortText";
+import LongText from "./create/LongText";
 
 const AnswerBox = ({
   questionId,

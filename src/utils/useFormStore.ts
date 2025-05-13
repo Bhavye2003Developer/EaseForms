@@ -3,30 +3,35 @@ import {
   AnsOption,
   AnsType,
   AnswerDataType,
+  DivStructType,
   FormHeaderType,
   FormType,
   QuestionsUIMode,
   QuestionType,
+  SectionType,
 } from "./types";
 import { form } from "./constants";
 interface FormState {
   form: FormType;
   questionIdToBeImplemented: number;
+  sectionCnt: number;
   createNewQuestion: (prevQuestionId: number) => void;
   deleteQuestion: (questionIdToBeImplemented: number) => void;
   updateQuestion: (questionId: number, updatedQuestion: QuestionType) => void;
   duplicateQuestion: (questionId: number) => void;
-  updatedQuestionArray: (questionsArray: QuestionType[]) => void;
+  updatedQuestionArray: (questionsArray: DivStructType) => void;
   updateFormHeader: (formHeaderState: FormHeaderType) => void;
   updateAnswerData: (questionId: number, updatedData: AnswerDataType) => void;
   updateTimer: (updatedTimer: string) => void;
   updateUIMode: (selectedUIMode: QuestionsUIMode) => void;
   toggleTimerEnabled: () => void;
+  addSection: (questionId: number) => void;
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
   form: form,
   questionIdToBeImplemented: 1,
+  sectionCnt: 0,
   createNewQuestion: (prevQuestionId: number) => {
     const [updatedQuestions, questionIdToBeImplemented] = [
       [...get().form.formData.questions],
@@ -75,7 +80,7 @@ const useFormStore = create<FormState>()((set, get) => ({
       },
     }));
   },
-  updatedQuestionArray: (questionsArray: QuestionType[]) => {
+  updatedQuestionArray: (questionsArray: DivStructType) => {
     set((state) => ({
       ...state,
       form: {
@@ -150,18 +155,20 @@ const useFormStore = create<FormState>()((set, get) => ({
       (question) => question.id === questionId
     );
     const question = updatedQuestions[questionIndex];
-    question.ans.data = updatedData;
-    updatedQuestions[questionIndex] = question;
-    set((state) => ({
-      ...state,
-      form: {
-        ...state.form,
-        formData: {
-          ...state.form.formData,
-          questions: updatedQuestions,
+    if ("ans" in question) {
+      question.ans.data = updatedData;
+      updatedQuestions[questionIndex] = question;
+      set((state) => ({
+        ...state,
+        form: {
+          ...state.form,
+          formData: {
+            ...state.form.formData,
+            questions: updatedQuestions,
+          },
         },
-      },
-    }));
+      }));
+    }
   },
   updateTimer: (updatedTimer: string) => {
     set((state) => ({
@@ -197,6 +204,31 @@ const useFormStore = create<FormState>()((set, get) => ({
           isTimerEnabled: !state.form.settings.isTimerEnabled,
         },
       },
+    }));
+  },
+  addSection: (questionId: number) => {
+    const updatedQuestions = [...get().form.formData.questions];
+
+    console.log("before updating deletion: ", updatedQuestions);
+
+    const questionIndex = updatedQuestions.findIndex(
+      (question) => question.id === questionId
+    );
+
+    const section: SectionType = { id: get().questionIdToBeImplemented };
+
+    updatedQuestions.splice(questionIndex + 1, 0, section);
+    set((state) => ({
+      ...state,
+      form: {
+        ...state.form,
+        formData: {
+          ...state.form.formData,
+          questions: updatedQuestions,
+        },
+      },
+      questionIdToBeImplemented: state.questionIdToBeImplemented + 1,
+      sectionCnt: state.sectionCnt + 1,
     }));
   },
 }));

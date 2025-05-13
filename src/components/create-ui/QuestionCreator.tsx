@@ -19,6 +19,7 @@ export default function QuestionCreator({
     updateQuestion,
     deleteQuestion,
     duplicateQuestion,
+    addSection,
   } = useFormStore((state) => state);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export default function QuestionCreator({
         data={question.ans.data}
       />
 
-      <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+      {/* <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
         <button
           onClick={() => createNewQuestion(question.id)}
           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition"
@@ -98,7 +99,14 @@ export default function QuestionCreator({
         >
           🔁 Duplicate Question
         </button>
-      </div>
+
+        <button
+          onClick={() => addSection(questionData.id)}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition"
+        >
+          Add Section
+        </button>
+      </div> */}
     </div>
   );
 }

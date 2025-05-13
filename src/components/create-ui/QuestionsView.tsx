@@ -1,6 +1,12 @@
-import SingleQuestionUI from "./SingleQuestionUI";
-import { QuestionsUIMode, QuestionType, Scene } from "@/utils/types";
-import SimpleQuestionUI from "../Options/create/SimpleQuestionUI";
+import SimpleQuestionUI from "./UI/SimpleQuestionUI";
+import SingleQuestionUI from "./UI/SingleQuestionUI";
+import {
+  DivStructType,
+  QuestionsUIMode,
+  QuestionType,
+  Scene,
+  SectionType,
+} from "@/utils/types";
 
 export default function QuestionsView({
   UIMode,
@@ -8,7 +14,7 @@ export default function QuestionsView({
   scene,
 }: {
   UIMode: QuestionsUIMode;
-  questions: QuestionType[];
+  questions: DivStructType;
   scene: Scene;
 }) {
   return (

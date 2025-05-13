@@ -2,7 +2,7 @@ import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
 import { useEffect } from "react";
 
-enum BtnCss {
+export enum BtnCss {
   enabled = "px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200",
   disabled = "px-5 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed",
 }
