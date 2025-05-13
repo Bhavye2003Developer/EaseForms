@@ -1,0 +1,62 @@
+import { Scene } from "@/utils/types";
+import { useState } from "react";
+import { toast } from "sonner";
+import { BtnCss } from "./SingleQuestionCard";
+import useFormFillingStore from "@/utils/useFormFillingStore";
+
+export default function SubmitBtn({ scene }: { scene: Scene }) {
+  const formSubmittingLoadingMsg = `Submitting the ${
+    scene === Scene.Preview ? "example" : ""
+  } form...`;
+
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+  const { form, setFormSubmitted } = useFormFillingStore();
+
+  async function submitForm() {
+    const req = await fetch("/api/fill-form", {
+      method: "POST",
+      body: JSON.stringify({
+        data: form,
+      }),
+    });
+    const res = await req.json();
+    return res;
+  }
+
+  return (
+    <>
+      <button
+        className={
+          isBtnDisabled
+            ? `${BtnCss.disabled} opacity-60 cursor-not-allowed`
+            : BtnCss.enabled
+        }
+        disabled={isBtnDisabled}
+        onClick={async () => {
+          setIsBtnDisabled(true);
+          console.log("scene: ", scene);
+          if (scene === Scene.Preview) {
+            console.log("msg: ", formSubmittingLoadingMsg);
+            toast.loading(formSubmittingLoadingMsg, {
+              id: "exampleMsg",
+            });
+            setTimeout(() => {
+              toast.dismiss("exampleMsg");
+              setIsBtnDisabled(false);
+            }, 5000);
+          } else {
+            toast.loading(formSubmittingLoadingMsg, {
+              id: "submittingForm",
+            });
+            await submitForm();
+            toast.dismiss("submittingForm");
+            toast.success("Form Submitted Successfully");
+            setFormSubmitted();
+          }
+        }}
+      >
+        Submit
+      </button>
+    </>
+  );
+}

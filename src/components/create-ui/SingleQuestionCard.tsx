@@ -1,6 +1,7 @@
 import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
 import { useEffect } from "react";
+import SubmitBtn from "./SubmitBtn";
 
 export enum BtnCss {
   enabled = "px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200",
@@ -50,13 +51,17 @@ export default function SingleQuestionCard({
         >
           ← Prev
         </button>
-        <button
-          onClick={onNext}
-          disabled={!buttonsActivity.next}
-          className={buttonsActivity.next ? BtnCss.enabled : BtnCss.disabled}
-        >
-          Next →
-        </button>
+        {buttonsActivity.next ? (
+          <button
+            onClick={onNext}
+            disabled={!buttonsActivity.next}
+            className={buttonsActivity.next ? BtnCss.enabled : BtnCss.disabled}
+          >
+            Next →
+          </button>
+        ) : (
+          <SubmitBtn scene={scene} />
+        )}
       </div>
     </div>
   );

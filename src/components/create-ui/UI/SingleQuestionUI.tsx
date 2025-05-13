@@ -1,6 +1,9 @@
+"use client";
+
 import { DivStructType, QuestionType, Scene, SectionType } from "@/utils/types";
 import { useState } from "react";
 import SingleQuestionCard from "../SingleQuestionCard";
+import useFormFillingStore from "@/utils/useFormFillingStore";
 
 export default function SingleQuestionUI({
   scene,
@@ -10,6 +13,7 @@ export default function SingleQuestionUI({
   questions: DivStructType;
 }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const { isFormSubmitted } = useFormFillingStore();
 
   const onlyQuestions = questions.filter((question) => "title" in question);
 
@@ -31,18 +35,20 @@ export default function SingleQuestionUI({
   return (
     <div className="flex items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-100 p-6">
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6">
-        {onlyQuestions.length > 0 && (
-          <SingleQuestionCard
-            scene={scene}
-            question={onlyQuestions[currentQuestionIndex]}
-            onPrev={handlePrev}
-            onNext={handleNext}
-            buttonsActivity={{
-              prev: !isFirst,
-              next: !isLast,
-            }}
-          />
-        )}
+        {isFormSubmitted
+          ? "Thanks for filling form"
+          : onlyQuestions.length > 0 && (
+              <SingleQuestionCard
+                scene={scene}
+                question={onlyQuestions[currentQuestionIndex]}
+                onPrev={handlePrev}
+                onNext={handleNext}
+                buttonsActivity={{
+                  prev: !isFirst,
+                  next: !isLast,
+                }}
+              />
+            )}
         <div className="text-center mt-4 text-sm text-gray-500">
           Question {currentQuestionIndex + 1} of {onlyQuestions.length}
         </div>

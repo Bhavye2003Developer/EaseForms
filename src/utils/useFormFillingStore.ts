@@ -3,12 +3,15 @@ import { AnswerDataType, FormType } from "./types";
 
 interface FormFillingState {
   form: FormType | null;
+  isFormSubmitted: boolean;
   setForm: (form: FormType) => void;
   updateAnswer: (questionId: number, answer: AnswerDataType) => void;
+  setFormSubmitted: () => void;
 }
 
 const useFormFillingStore = create<FormFillingState>((set, get) => ({
   form: null,
+  isFormSubmitted: false,
   setForm(form) {
     set((state) => ({ ...state, form }));
   },
@@ -21,18 +24,23 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
         (question) => question.id === questionId
       );
       const question = questions[questionIndex];
-      question.ans.data = answer;
-      questions[questionIndex] = question;
-      set((state) => ({
-        form: {
-          ...state.form!,
-          formData: {
-            ...state.form!.formData,
-            questions: questions,
+      if ("ans" in question) {
+        question.ans.data = answer;
+        questions[questionIndex] = question;
+        set((state) => ({
+          form: {
+            ...state.form!,
+            formData: {
+              ...state.form!.formData,
+              questions: questions,
+            },
           },
-        },
-      }));
+        }));
+      }
     }
+  },
+  setFormSubmitted: () => {
+    set((state) => ({ ...state, isFormSubmitted: true }));
   },
 }));
 

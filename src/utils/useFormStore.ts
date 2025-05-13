@@ -14,7 +14,6 @@ import { form } from "./constants";
 interface FormState {
   form: FormType;
   questionIdToBeImplemented: number;
-  sectionCnt: number;
   createNewQuestion: (prevQuestionId: number) => void;
   deleteQuestion: (questionIdToBeImplemented: number) => void;
   updateQuestion: (questionId: number, updatedQuestion: QuestionType) => void;
@@ -31,7 +30,6 @@ interface FormState {
 const useFormStore = create<FormState>()((set, get) => ({
   form: form,
   questionIdToBeImplemented: 1,
-  sectionCnt: 0,
   createNewQuestion: (prevQuestionId: number) => {
     const [updatedQuestions, questionIdToBeImplemented] = [
       [...get().form.formData.questions],
@@ -228,7 +226,6 @@ const useFormStore = create<FormState>()((set, get) => ({
         },
       },
       questionIdToBeImplemented: state.questionIdToBeImplemented + 1,
-      sectionCnt: state.sectionCnt + 1,
     }));
   },
 }));

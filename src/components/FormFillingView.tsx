@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { Scene } from "@/utils/types";
+import FormSubmissionPage from "./create-ui/FormSubmissionPage";
 
 export default function FormFillingView() {
-  const { form, setForm } = useFormFillingStore();
+  const { form, setForm, isFormSubmitted } = useFormFillingStore();
 
   async function fetchFormStruct() {
     const res = await fetch("/api/create-form");
@@ -21,10 +22,11 @@ export default function FormFillingView() {
     fetchFormStruct();
   }, []);
 
-  
   return (
     <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br w-screen h-screen">
-      {form === null ? (
+      {isFormSubmitted ? (
+        <FormSubmissionPage />
+      ) : form === null ? (
         "Loading..."
       ) : (
         <div>
