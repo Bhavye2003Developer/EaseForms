@@ -55,14 +55,14 @@ export enum QuestionsUIMode {
 export type DivStructType = (QuestionType | SectionType)[];
 
 export interface FormType {
-  formData: {
-    formHeader: FormHeaderType;
-    questions: DivStructType;
-  };
   settings: {
     isTimerEnabled: boolean;
     timer: string;
     UIMode: QuestionsUIMode;
+  };
+  formData: {
+    formHeader: FormHeaderType;
+    questions: DivStructType;
   };
 }
 

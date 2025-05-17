@@ -10,8 +10,7 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
   } form...`;
 
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
-  const { form, setFormSubmitted, updateAnswerNotFilledIds } =
-    useFormFillingStore();
+  const { form, setFormSubmitted } = useFormFillingStore();
 
   async function submitForm() {
     const req = await fetch("/api/fill-form", {
@@ -47,9 +46,10 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
                 answerNotFilledIds.push(question.id);
               }
             });
-            if (answerNotFilledIds.length > 0)
+            if (answerNotFilledIds.length > 0) {
               toast.error("You havn't attended all the questions yet");
-            else {
+              setIsBtnDisabled(false);
+            } else {
               if (scene === Scene.Preview) {
                 console.log("msg: ", formSubmittingLoadingMsg);
                 toast.loading(formSubmittingLoadingMsg, {

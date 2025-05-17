@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  password String
+  Form     Form[]
+}
+
+model Form {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  user       User       @relation(fields: [userId], references: [id])
+  userId     String     @db.ObjectId
+  FormStruct FormStruct
+}
+
+type FormStruct {
+  settings FormSettings
+  formData FormData
+}
+
+type FormSettings {
+  isTimerEnabled Boolean
+  timer          String
+  UIMode         QuestionsUIMode
+}
+
+type FormData {
+  formHeader FormHeader
+  questions  Question[]
+}
+
+type FormHeader {
+  title String
+}
+
+type Question {
+  id    String
+  title String
+  // ans
+}
+
+type Answer {
+  type           AnsType
+  data           Json
+  isAnswerFilled Boolean
+}
+
+enum AnsType {
+  ShortText
+  LongText
+  MultiChoice
+  MultiSelect
+}
+
+enum QuestionsUIMode {
+  Simple
+  Single
+}

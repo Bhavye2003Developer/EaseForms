@@ -10,8 +10,6 @@ interface FormFillingState {
     answer: AnswerDataType,
     isAnswerFilled: boolean
   ) => void;
-  answerNotFilledIds: number[];
-  updateAnswerNotFilledIds: (updated: number[]) => void;
   setFormSubmitted: () => void;
 }
 
@@ -20,10 +18,6 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
   isFormSubmitted: false,
   setForm(form) {
     set((state) => ({ ...state, form }));
-  },
-  answerNotFilledIds: [],
-  updateAnswerNotFilledIds: (updated: number[]) => {
-    set((state) => ({ ...state, answerNotFilledIds: updated }));
   },
   updateAnswer(
     questionId: number,
