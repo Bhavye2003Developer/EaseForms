@@ -2,6 +2,7 @@ import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
 import { useEffect } from "react";
 import SubmitBtn from "./SubmitBtn";
+import QuestionCasing from "../QuestionCasing";
 
 export enum BtnCss {
   enabled = "px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200",
@@ -30,6 +31,7 @@ export default function SingleQuestionCard({
 
   return (
     <div className="flex flex-col justify-between items-center h-full w-full">
+      {/* <QuestionCasing> */}
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
         {question.title}
       </h2>
@@ -42,6 +44,7 @@ export default function SingleQuestionCard({
           option={question.ans.type}
         />
       </div>
+      {/* </QuestionCasing> */}
 
       <div className="w-full flex justify-between items-center">
         <button

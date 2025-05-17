@@ -45,6 +45,7 @@ const useFormStore = create<FormState>()((set, get) => ({
       ans: {
         type: AnsType.ShortText,
         data: AnsOption.ShortText,
+        isAnswerFilled: false,
       },
     });
     set((state) => ({

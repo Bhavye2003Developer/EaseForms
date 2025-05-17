@@ -5,7 +5,13 @@ interface FormFillingState {
   form: FormType | null;
   isFormSubmitted: boolean;
   setForm: (form: FormType) => void;
-  updateAnswer: (questionId: number, answer: AnswerDataType) => void;
+  updateAnswer: (
+    questionId: number,
+    answer: AnswerDataType,
+    isAnswerFilled: boolean
+  ) => void;
+  answerNotFilledIds: number[];
+  updateAnswerNotFilledIds: (updated: number[]) => void;
   setFormSubmitted: () => void;
 }
 
@@ -15,7 +21,15 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
   setForm(form) {
     set((state) => ({ ...state, form }));
   },
-  updateAnswer(questionId: number, answer: AnswerDataType) {
+  answerNotFilledIds: [],
+  updateAnswerNotFilledIds: (updated: number[]) => {
+    set((state) => ({ ...state, answerNotFilledIds: updated }));
+  },
+  updateAnswer(
+    questionId: number,
+    answer: AnswerDataType,
+    isAnswerFilled: boolean
+  ) {
     const form = get().form;
     if (form) {
       console.log("Answer changed inside updateAnswer: ", answer);
@@ -26,6 +40,7 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
       const question = questions[questionIndex];
       if ("ans" in question) {
         question.ans.data = answer;
+        question.ans.isAnswerFilled = isAnswerFilled;
         questions[questionIndex] = question;
         set((state) => ({
           form: {

@@ -10,7 +10,8 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
   } form...`;
 
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
-  const { form, setFormSubmitted } = useFormFillingStore();
+  const { form, setFormSubmitted, updateAnswerNotFilledIds } =
+    useFormFillingStore();
 
   async function submitForm() {
     const req = await fetch("/api/fill-form", {
@@ -35,23 +36,39 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
         onClick={async () => {
           setIsBtnDisabled(true);
           console.log("scene: ", scene);
-          if (scene === Scene.Preview) {
-            console.log("msg: ", formSubmittingLoadingMsg);
-            toast.loading(formSubmittingLoadingMsg, {
-              id: "exampleMsg",
+
+          if (
+            Array.isArray(form?.formData.questions) &&
+            form.formData.questions.some((question) => "ans" in question)
+          ) {
+            const answerNotFilledIds: number[] = [];
+            form?.formData.questions.forEach((question) => {
+              if ("ans" in question && question.ans.isAnswerFilled === false) {
+                answerNotFilledIds.push(question.id);
+              }
             });
-            setTimeout(() => {
-              toast.dismiss("exampleMsg");
-              setIsBtnDisabled(false);
-            }, 5000);
-          } else {
-            toast.loading(formSubmittingLoadingMsg, {
-              id: "submittingForm",
-            });
-            await submitForm();
-            toast.dismiss("submittingForm");
-            toast.success("Form Submitted Successfully");
-            setFormSubmitted();
+            if (answerNotFilledIds.length > 0)
+              toast.error("You havn't attended all the questions yet");
+            else {
+              if (scene === Scene.Preview) {
+                console.log("msg: ", formSubmittingLoadingMsg);
+                toast.loading(formSubmittingLoadingMsg, {
+                  id: "exampleMsg",
+                });
+                setTimeout(() => {
+                  toast.dismiss("exampleMsg");
+                  setIsBtnDisabled(false);
+                }, 3000);
+              } else {
+                toast.loading(formSubmittingLoadingMsg, {
+                  id: "submittingForm",
+                });
+                await submitForm();
+                toast.dismiss("submittingForm");
+                toast.success("Form Submitted Successfully");
+                setFormSubmitted();
+              }
+            }
           }
         }}
       >

@@ -3,6 +3,7 @@ import AnswerBox from "./AnswerBox";
 import { BtnCss } from "./SingleQuestionCard";
 import { toast } from "sonner";
 import SubmitBtn from "./SubmitBtn";
+import QuestionCasing from "../QuestionCasing";
 
 export default function MultipleQuestionsCard({
   scene,
@@ -24,29 +25,27 @@ export default function MultipleQuestionsCard({
     <div className="w-full h-full flex flex-col justify-between">
       <div className="max-w-3xl w-full mx-auto space-y-6 px-4 py-6">
         {questions.map((question, idx) => (
-          <div
+          <QuestionCasing
             key={question.id}
-            className="p-6 bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition-all"
+            questionId={question.id}
+            isAnswerFilled={question.ans.isAnswerFilled}
           >
-            {"title" in question && (
-              <>
-                <div className="mb-4 flex justify-between items-start">
-                  <h2 className="text-lg font-semibold text-gray-800">
-                    {idx + 1}. {question.title}
-                  </h2>
-                </div>
-
-                <div className="pl-1">
-                  <AnswerBox
-                    scene={scene}
-                    data={question.ans.data}
-                    questionId={question.id}
-                    option={question.ans.type}
-                  />
-                </div>
-              </>
-            )}
-          </div>
+            <div className="p-6 bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition-all">
+              <div className="mb-4 flex justify-between items-start">
+                <h2 className="text-lg font-semibold text-gray-800">
+                  {idx + 1}. {question.title}
+                </h2>
+              </div>
+              <div className="pl-1">
+                <AnswerBox
+                  scene={scene}
+                  data={question.ans.data}
+                  questionId={question.id}
+                  option={question.ans.type}
+                />
+              </div>
+            </div>
+          </QuestionCasing>
         ))}
       </div>
 

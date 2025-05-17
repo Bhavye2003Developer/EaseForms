@@ -30,6 +30,7 @@ export interface QuestionType {
   ans: {
     type: AnsType;
     data: AnswerDataType;
+    isAnswerFilled: boolean;
   };
 }
 

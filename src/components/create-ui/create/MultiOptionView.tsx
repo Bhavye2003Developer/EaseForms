@@ -33,10 +33,10 @@ export default function MultiOptionView({
               id={inputId}
               type={inputType}
               name={`question-${questionId}`}
-              checked={scene !== Scene.Preview ? isChecked : undefined}
-              disabled={scene === Scene.Preview}
+              // checked={scene !== Scene.Preview ? isChecked : undefined}
+              // disabled={scene === Scene.Preview}
               onChange={(e) => {
-                if (scene === Scene.Preview) return;
+                // if (scene === Scene.Preview) return;
 
                 let updated = [...data];
 
@@ -48,7 +48,11 @@ export default function MultiOptionView({
                 }
 
                 updated[index].isMarked = e.target.checked;
-                updateAnswer(questionId, updated);
+                updateAnswer(
+                  questionId,
+                  updated,
+                  updated.some((choice) => choice.isMarked)
+                );
               }}
               className="w-4 h-4 accent-blue-600"
             />
