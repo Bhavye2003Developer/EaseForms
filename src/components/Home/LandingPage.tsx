@@ -16,13 +16,7 @@ export default function LandingPage() {
       <Header setShowAuth={setShowAuth} />
       <Hero setShowAuth={setShowAuth} />
       <Features />
-      {showAuth && (
-        <AuthModal
-          isLogin={isLogin}
-          setIsLogin={setIsLogin}
-          setShowAuth={setShowAuth}
-        />
-      )}
+      {showAuth && <AuthModal setShowAuth={setShowAuth} />}
       <Footer />
     </div>
   );

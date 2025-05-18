@@ -7,24 +7,28 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   console.log(body);
 
-  let msg = "Congratulations You have been successfully signed up.";
-  let error = null;
+  let transaction = null;
 
-  try {
-    const transaction = await prisma.user.create({
-      data: {
-        email: body.email,
-        password: body.password,
-      },
-    });
-    console.log("Transact status: ", transaction);
-  } catch {
-    msg = "Email already exists";
-    error = 401;
-  }
+  transaction = await prisma.user.create({
+    data: {
+      email: body.email,
+      password: body.password,
+    },
+  });
+  console.log("Transact status Signup: ", transaction);
+
+  const msg =
+    transaction === null
+      ? "Email already exists"
+      : "Congratulations You have been successfully signed up.";
+  const error = transaction === null ? 401 : null;
 
   return NextResponse.json({
     msg: msg,
     error: error,
+    data: {
+      id: transaction.id,
+      email: transaction.email,
+    },
   });
 }

@@ -1,9 +1,14 @@
-export enum AnsType {
-  "ShortText" = "ShortText",
-  "LongText" = "LongText",
-  "multiChoice" = "multiChoice",
-  "multiSelect" = "multiSelect",
-}
+import {
+  AnsType as AnsTypePrisma,
+  QuestionsUIMode,
+} from "../../generated/prisma";
+
+// export enum AnsType {
+//   "ShortText" = "ShortText",
+//   "LongText" = "LongText",
+//   "multiChoice" = "multiChoice",
+//   "multiSelect" = "multiSelect",
+// }
 
 export interface choice {
   id: number;
@@ -17,18 +22,18 @@ export type SectionType = {
 
 export type AnswerDataType = string | choice[] | number;
 
-export const AnsOption: { [key in AnsType]: AnswerDataType } = {
+export const AnsOption: { [key in AnsTypePrisma]: AnswerDataType } = {
   ShortText: "",
   LongText: "",
-  multiChoice: [{ id: Date.now(), desc: "", isMarked: false }],
-  multiSelect: [{ id: Date.now(), desc: "", isMarked: false }],
+  MultiChoice: [{ id: Date.now(), desc: "", isMarked: false }],
+  MultiSelect: [{ id: Date.now(), desc: "", isMarked: false }],
 };
 
 export interface QuestionType {
   id: number;
   title: string;
   ans: {
-    type: AnsType;
+    type: AnsTypePrisma;
     data: AnswerDataType;
     isAnswerFilled: boolean;
   };
@@ -47,10 +52,10 @@ export interface FormHeaderType {
   // desc: string;
 }
 
-export enum QuestionsUIMode {
-  "Simple" = "Simple",
-  "Single" = "Single",
-}
+// export enum QuestionsUIMode {
+//   "Simple" = "Simple",
+//   "Single" = "Single",
+// }
 
 export type DivStructType = (QuestionType | SectionType)[];
 

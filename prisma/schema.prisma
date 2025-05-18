@@ -43,9 +43,9 @@ type FormHeader {
 }
 
 type Question {
-  id    String
+  id    Int
   title String
-  // ans
+  ans   Answer
 }
 
 type Answer {

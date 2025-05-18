@@ -1,15 +1,14 @@
 import { create } from "zustand";
 import {
   AnsOption,
-  AnsType,
   AnswerDataType,
   DivStructType,
   FormHeaderType,
   FormType,
-  QuestionsUIMode,
   QuestionType,
   SectionType,
 } from "./types";
+import { AnsType, QuestionsUIMode } from "../../generated/prisma";
 import { form } from "./constants";
 interface FormState {
   form: FormType;

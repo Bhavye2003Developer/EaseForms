@@ -1,7 +1,7 @@
 "use client";
 
-import { QuestionsUIMode } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
+import { QuestionsUIMode } from "../../../generated/prisma";
 
 export default function SettingsDialog() {
   const {

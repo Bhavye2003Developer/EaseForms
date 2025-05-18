@@ -4,7 +4,17 @@ export const getFormattedTime = (dt: Date) => {
   }`;
 };
 
-// utils/cn.ts
 export const cn = (...classes: (string | false | null | undefined)[]) => {
   return classes.filter(Boolean).join(" ");
+};
+
+export const getEmailLogoText = (email: string) => {
+  const splits = email.split("@")[0].split(".");
+  const emailLogo =
+    "" +
+    splits
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase();
+  return emailLogo;
 };

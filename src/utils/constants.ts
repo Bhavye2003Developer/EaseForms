@@ -1,4 +1,5 @@
-import { FormType, QuestionsUIMode } from "./types";
+import { QuestionsUIMode } from "../../generated/prisma";
+import { FormType } from "./types";
 
 export const form: FormType = {
   settings: {

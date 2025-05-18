@@ -1,6 +1,7 @@
 "use client";
 
-import { AnsOption, AnsType, QuestionType, Scene } from "@/utils/types";
+import { AnsOption, QuestionType, Scene } from "@/utils/types";
+import { AnsType } from "../../../generated/prisma";
 import useFormStore from "@/utils/useFormStore";
 import { useEffect, useState } from "react";
 import AnswerBox from "./AnswerBox";
