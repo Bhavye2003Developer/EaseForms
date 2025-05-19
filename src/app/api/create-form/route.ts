@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
   return Response.json({
     message: "Form created successfully",
     error: null,
+    formId: transaction.id,
   });
 }
 

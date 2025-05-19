@@ -1,26 +1,49 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { Scene } from "@/utils/types";
 import FormSubmissionPage from "./create-ui/FormSubmissionPage";
+import { toast } from "sonner";
 
-export default function FormFillingView() {
+export default function FormFillingView({ formId }: { formId: string }) {
   const { form, setForm, isFormSubmitted } = useFormFillingStore();
+  const [error, setError] = useState(false);
 
   async function fetchFormStruct() {
-    const res = await fetch("/api/create-form");
-    const formStructResponse = await res.json();
-    if (formStructResponse.data) {
-      console.log("Form got: ", formStructResponse.data);
-      setForm(formStructResponse.data.form);
+    try {
+      const res = await fetch("/api/form", {
+        method: "POST",
+        body: JSON.stringify({ formId }),
+      });
+      const formStructResponse = await res.json();
+
+      if (formStructResponse?.form) {
+        console.log("Form got: ", formStructResponse.form);
+        setForm(formStructResponse.form.FormStruct);
+      } else setError(true);
+    } catch (err) {
+      setError(true);
     }
   }
 
   useEffect(() => {
     fetchFormStruct();
   }, []);
+
+  if (error) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <div className="text-center p-6 shadow-lg rounded-lg">
+          <h1 className="text-xl font-semibold text-red-600 mb-2">
+            Form Not Found
+          </h1>
+          <p className="text-gray-600">Please check the URL</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 p-8 rounded-xl shadow-lg relative bg-gradient-to-br w-screen h-screen">
