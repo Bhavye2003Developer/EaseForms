@@ -57,7 +57,7 @@ export default function Header({ formId }: { formId: string }) {
 
   return (
     <>
-      <div className="w-screen flex items-center justify-between px-6 py-1 border-b border-gray-200 shadow-sm bg-white">
+      <div className="w-screen flex items-center justify-between px-6 py-1 border-b border-gray-200 shadow-sm">
         <h1 className="text-2xl font-semibold text-gray-800">
           Create Your Form
         </h1>

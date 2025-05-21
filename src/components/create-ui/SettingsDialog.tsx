@@ -12,7 +12,7 @@ export default function SettingsDialog() {
   } = useFormStore();
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-blue-100 rounded-xl shadow-lg text-sm text-gray-900">
+    <div className="max-w-md mx-auto p-6 bg-blue-100 rounded-xl shadow-lg text-sm text-gray-900 w-fit">
       <h2 className="text-lg font-semibold mb-6 text-purple-800">
         ⚙️ Form Settings
       </h2>

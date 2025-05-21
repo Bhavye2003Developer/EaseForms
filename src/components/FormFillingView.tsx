@@ -5,10 +5,12 @@ import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { Scene } from "@/utils/types";
 import FormSubmissionPage from "./create-ui/FormSubmissionPage";
-import { toast } from "sonner";
+import Timer from "./create-ui/Timer";
+import TimeBasedIntroPage from "./create-ui/UI/TimeBasedIntroPage";
 
 export default function FormFillingView({ formId }: { formId: string }) {
   const { form, setForm, isFormSubmitted } = useFormFillingStore();
+  const [TimerIntroPageShown, setTimerIntroPageShown] = useState(false);
   const [error, setError] = useState(false);
 
   async function fetchFormStruct() {
@@ -22,9 +24,13 @@ export default function FormFillingView({ formId }: { formId: string }) {
       if (formStructResponse?.form) {
         console.log("Form got: ", formStructResponse.form);
         setForm(formStructResponse.form.FormStruct);
+        const isTimerEnabled =
+          formStructResponse.form.FormStruct.settings.isTimerEnabled;
+        setTimerIntroPageShown(isTimerEnabled);
       } else setError(true);
     } catch (err) {
       setError(true);
+      console.log(err);
     }
   }
 
@@ -51,6 +57,11 @@ export default function FormFillingView({ formId }: { formId: string }) {
         <FormSubmissionPage />
       ) : form === null ? (
         "Loading..."
+      ) : TimerIntroPageShown ? (
+        <TimeBasedIntroPage
+          hhmmss={form.settings.timer}
+          startForm={() => setTimerIntroPageShown(false)}
+        />
       ) : (
         <div>
           <div className="relative mb-8">
@@ -58,11 +69,7 @@ export default function FormFillingView({ formId }: { formId: string }) {
               {form.formData.formHeader.title || "Untitled Form"}
             </h1>
 
-            {form.settings.isTimerEnabled && (
-              <span className="absolute right-0 top-2 text-xs font-medium bg-white text-indigo-700 px-3 py-1 rounded-full shadow-md border border-indigo-300">
-                ⏱ {form.settings.timer}
-              </span>
-            )}
+            <Timer {...form.settings} scene={Scene.Live} />
           </div>
 
           <div className="rounded-lg shadow-md p-6">

@@ -5,6 +5,7 @@ import QuestionsView from "./QuestionsView";
 import { Scene } from "@/utils/types";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { useEffect } from "react";
+import Timer from "./Timer";
 
 const FormPreviewer = () => {
   const { form, setForm } = useFormFillingStore();
@@ -25,11 +26,7 @@ const FormPreviewer = () => {
               {form.formData.formHeader.title || "Untitled Form"}
             </h1>
 
-            {form.settings.isTimerEnabled && (
-              <span className="absolute right-0 top-2 text-xs font-medium bg-white text-indigo-700 px-3 py-1 rounded-full shadow-md border border-indigo-300">
-                ⏱ {form.settings.timer}
-              </span>
-            )}
+            <Timer {...form.settings} scene={Scene.Preview} />
           </div>
 
           <div className="rounded-lg shadow-md p-6">
