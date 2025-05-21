@@ -1,15 +1,35 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import FormCreator from "./FormCreator";
 import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
 import Header from "./Header";
+import useFormStore from "@/utils/useFormStore";
 
 export default function FormEditor({ formId }: { formId: string }) {
   const [showSettings, setShowSettings] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
+
+  const { setForm } = useFormStore();
+
+  const fetchForm = async () => {
+    const FORM_URL = `/api/create-form/fetch?formId=${formId}`;
+
+    const req = await fetch(FORM_URL);
+    const res = await req.json();
+
+    console.log("Fteched built form: ", res);
+
+    if (res.formStruct) {
+      setForm(res.formStruct);
+    }
+  };
+
+  useEffect(() => {
+    fetchForm();
+  }, []);
 
   return (
     <div

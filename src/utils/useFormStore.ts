@@ -13,6 +13,7 @@ import { form } from "./constants";
 interface FormState {
   form: FormType;
   questionIdToBeImplemented: number;
+  setForm: (fetchedForm: FormType) => void;
   createNewQuestion: (prevQuestionId: number) => void;
   deleteQuestion: (questionIdToBeImplemented: number) => void;
   updateQuestion: (questionId: number, updatedQuestion: QuestionType) => void;
@@ -29,6 +30,14 @@ interface FormState {
 const useFormStore = create<FormState>()((set, get) => ({
   form: form,
   questionIdToBeImplemented: 1,
+  setForm: (fetchedForm: FormType) => {
+    const maxQuestionId =
+      Math.max.apply(fetchedForm.formData.questions.map((q) => q.id)) + 1;
+    set((state) => ({
+      questionIdToBeImplemented: maxQuestionId,
+      form: fetchedForm,
+    }));
+  },
   createNewQuestion: (prevQuestionId: number) => {
     const [updatedQuestions, questionIdToBeImplemented] = [
       [...get().form.formData.questions],

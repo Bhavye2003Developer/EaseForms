@@ -4,14 +4,15 @@ import { DivStructType } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import FormHeader from "./FormHeader";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import QuestionCreator from "./QuestionCreator";
 import QuestionOutlined from "./QuestionOutlined";
 
 export default function FormCreator() {
-  const questions = useFormStore((state) => state.form.formData.questions);
-  const updateQuestionsArray = useFormStore(
-    (state) => state.updatedQuestionArray
-  );
+  const {
+    form: {
+      formData: { questions },
+    },
+    updatedQuestionArray,
+  } = useFormStore();
 
   const reorder = (
     list: DivStructType,
@@ -31,7 +32,7 @@ export default function FormCreator() {
       result.source.index,
       result.destination.index
     );
-    updateQuestionsArray(reordered);
+    updatedQuestionArray(reordered);
   };
 
   return (

@@ -5,10 +5,6 @@ export default async function CreatePage({
 }: {
   params: Promise<{ formId: string }>;
 }) {
-  // useEffect(() => {
-  //   console.log("Updated form quetions", formData.questions);
-  // }, [formData.questions]);
-
   const { formId } = await params;
 
   return (
