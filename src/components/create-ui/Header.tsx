@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export default function Header() {
+export default function Header({ formId }: { formId: string }) {
   const { form } = useFormStore();
   const [isPublishedBtnEnabled, setIsPublishedBtnEnabled] = useState(true);
   const [userId, setUserId] = useState("");
@@ -35,15 +35,15 @@ export default function Header() {
 
     try {
       const req = await fetch("/api/create-form", {
-        method: "POST",
-        body: JSON.stringify({ form, id: userId }),
+        method: "PUT",
+        body: JSON.stringify({ form, formId: formId }),
       });
       const res = await req.json();
       toast.dismiss("PublishLoadToast");
 
-      if (!res.error && res.formId) {
+      if (!res.error) {
         toast.success("Form Published Successfully");
-        const url = `${window.location.origin}/form/${res.formId}`;
+        const url = `${window.location.origin}/form/${formId}`;
         setShareUrl(url);
         setShowModal(true);
       } else {

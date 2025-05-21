@@ -1,23 +1,18 @@
-import { FormType } from "@/utils/types";
 import { NextRequest } from "next/server";
 import { PrismaClient } from "../../../../generated/prisma";
-
-let form: FormType | null = null;
 
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  console.log("Request accepted: ", data);
-  console.log("Id: ", data.id);
+  const { userId, form } = await req.json();
   const transaction = await prisma.form.create({
     data: {
       user: {
         connect: {
-          id: data.id,
+          id: userId,
         },
       },
-      FormStruct: data.form,
+      FormStruct: form,
     },
   });
 
@@ -30,9 +25,22 @@ export async function POST(req: NextRequest) {
   });
 }
 
-export function GET() {
+export async function PUT(req: NextRequest) {
+  const data = await req.json();
+  console.log("Request accepted: ", data);
+  console.log("Formid: ", data.formId);
+  const transaction = await prisma.form.update({
+    where: {
+      id: data.formId,
+    },
+    data: {
+      FormStruct: data.form,
+    },
+  });
+  console.log("Form updated status: ", transaction);
+
   return Response.json({
-    data: form,
-    status: 200,
+    message: "Form published successfully",
+    error: null,
   });
 }

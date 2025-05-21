@@ -7,7 +7,7 @@ import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
 import Header from "./Header";
 
-export default function FormEditor() {
+export default function FormEditor({ formId }: { formId: string }) {
   const [showSettings, setShowSettings] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +22,7 @@ export default function FormEditor() {
           setShowSettings(false);
       }}
     >
-      <Header />
+      <Header formId={formId} />
       <div className="flex w-full flex-1 overflow-hidden">
         <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
           <button

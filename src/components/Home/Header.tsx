@@ -1,6 +1,7 @@
+import { form } from "@/utils/constants";
 import { getEmailLogoText } from "@/utils/helpers";
 import useAppStore from "@/utils/useAppStore";
-import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default function Header({
@@ -10,6 +11,24 @@ export default function Header({
 }) {
   const { email } = useAppStore();
 
+  const redirectUserToCreateForm = async () => {
+    const userId = localStorage.getItem("easeforms_userId");
+    console.log("UserId: ", userId);
+
+    // CREATE NEW FORMID
+    const req = await fetch("/api/create-form", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: userId,
+        form,
+      }),
+    });
+    const response = await req.json();
+    const formId = response.formId;
+    const REDIRECTED_URL = `/create/${formId}`;
+    redirect(REDIRECTED_URL);
+  };
+
   return (
     <header className="w-full px-6 py-4 flex justify-between items-center shadow-md bg-white">
       <h1 className="text-2xl font-bold text-indigo-600">Easeforms</h1>
@@ -17,11 +36,14 @@ export default function Header({
       <div className="flex items-center space-x-4">
         {email ? (
           <>
-            <Link href={"/create"}>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-semibold transition">
-                + New Form
-              </button>
-            </Link>
+            {/* <Link href={"/create"}> */}
+            <button
+              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-semibold transition"
+              onClick={redirectUserToCreateForm}
+            >
+              + New Form
+            </button>
+            {/* </Link> */}
             <div
               className="w-10 h-10 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-700 font-semibold shadow-sm"
               title={email}
