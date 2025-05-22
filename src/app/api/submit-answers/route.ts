@@ -1,0 +1,25 @@
+import { FetchAnswersFromForm } from "@/utils/helpers";
+import { NextRequest, NextResponse } from "next/server";
+import { Prisma, PrismaClient } from "../../../../generated/prisma";
+import { Answer } from "@/utils/types";
+
+const prisma = new PrismaClient();
+
+export async function POST(req: NextRequest) {
+  const { form, formId } = await req.json();
+  //   console.log("backend: ", form, formId);
+  const answers: Answer[] = FetchAnswersFromForm(form);
+
+  console.log(answers);
+
+  const transaction = await prisma.formAnswer.create({
+    data: {
+      formId: formId,
+      answers: answers as Prisma.InputJsonArray,
+    },
+  });
+  console.log("Answer creation status: ", transaction);
+  return NextResponse.json({
+    msg: "Answers submitted successfully",
+  });
+}

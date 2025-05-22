@@ -23,6 +23,7 @@ export default function FormEditor({ formId }: { formId: string }) {
     console.log("Fteched built form: ", res);
 
     if (res.formStruct) {
+      console.log("Setting form...");
       setForm(res.formStruct);
     }
   };

@@ -9,7 +9,7 @@ import Timer from "./create-ui/Timer";
 import TimeBasedIntroPage from "./create-ui/UI/TimeBasedIntroPage";
 
 export default function FormFillingView({ formId }: { formId: string }) {
-  const { form, setForm, isFormSubmitted } = useFormFillingStore();
+  const { form, setForm, isFormSubmitted, setFormId } = useFormFillingStore();
   const [TimerIntroPageShown, setTimerIntroPageShown] = useState(false);
   const [error, setError] = useState(false);
 
@@ -36,6 +36,7 @@ export default function FormFillingView({ formId }: { formId: string }) {
 
   useEffect(() => {
     fetchFormStruct();
+    setFormId(formId);
   }, []);
 
   if (error) {

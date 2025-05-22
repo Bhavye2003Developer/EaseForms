@@ -10,13 +10,14 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
   } form...`;
 
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
-  const { form, setFormSubmitted } = useFormFillingStore();
+  const { form, setFormSubmitted, formId } = useFormFillingStore();
 
   async function submitForm() {
-    const req = await fetch("/api/fill-form", {
+    const req = await fetch("/api/submit-answers", {
       method: "POST",
       body: JSON.stringify({
-        data: form,
+        formId,
+        form,
       }),
     });
     const res = await req.json();

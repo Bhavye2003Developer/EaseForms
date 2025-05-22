@@ -76,3 +76,9 @@ export enum Scene {
   Preview,
   Live,
 }
+
+export type Answer = {
+  questionId: number;
+  type: AnsTypePrisma;
+  data: AnswerDataType;
+};

@@ -1,3 +1,5 @@
+import { Answer, FormType } from "./types";
+
 export const getFormattedTime = (dt: Date) => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
     dt.getHours() >= 12 ? "PM" : "AM"
@@ -20,11 +22,9 @@ export const getEmailLogoText = (email: string) => {
 };
 
 export const getTimeInSeconds = (hhmmss: string) => {
-  // console.log("val: ", hhmmss);
   if (hhmmss === "") return 0;
   const [hh, mm, ss] = hhmmss.split(":");
   const totalSeconds = +hh * 60 + +mm * 60 + +ss;
-  // console.log(hhmmss, totalSeconds);
   return totalSeconds;
 };
 
@@ -50,4 +50,20 @@ export const getFormattedHHMMSS = (hhmmss: string) => {
   if (+mm > 0) timeString += +mm + " minutes ";
   if (+ss > 0) timeString += " and " + +ss + " seconds ";
   return timeString;
+};
+
+export const FetchAnswersFromForm = (form: FormType): Answer[] => {
+  const questions = form.formData.questions;
+  const answers: Answer[] = [];
+  questions.forEach((question) => {
+    if ("ans" in question && question.ans.data) {
+      const answer: Answer = {
+        questionId: question.id,
+        type: question.ans.type,
+        data: question.ans.data,
+      };
+      answers.push(answer);
+    }
+  });
+  return answers;
 };

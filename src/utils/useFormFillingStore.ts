@@ -5,6 +5,8 @@ interface FormFillingState {
   form: FormType | null;
   isFormSubmitted: boolean;
   setForm: (form: FormType) => void;
+  formId: string;
+  setFormId: (formId: string) => void;
   updateAnswer: (
     questionId: number,
     answer: AnswerDataType,
@@ -18,6 +20,10 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
   isFormSubmitted: false,
   setForm(form) {
     set((state) => ({ ...state, form }));
+  },
+  formId: "null",
+  setFormId: (formId: string) => {
+    set((state) => ({ formId: formId }));
   },
   updateAnswer(
     questionId: number,
