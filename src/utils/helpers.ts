@@ -1,4 +1,4 @@
-import { Answer, FormType } from "./types";
+import { Answer, AnswerDataType, FormattedAnswerType, FormType } from "./types";
 
 export const getFormattedTime = (dt: Date) => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
@@ -52,6 +52,15 @@ export const getFormattedHHMMSS = (hhmmss: string) => {
   return timeString;
 };
 
+const extractAnswer = (answerData: AnswerDataType): FormattedAnswerType => {
+  if (!Array.isArray(answerData)) return answerData;
+  const answer: any[] = [];
+  answerData.forEach((tmpAnswer) => {
+    if (tmpAnswer.isMarked) answer.push(tmpAnswer.desc);
+  });
+  return answer;
+};
+
 export const FetchAnswersFromForm = (form: FormType): Answer[] => {
   const questions = form.formData.questions;
   const answers: Answer[] = [];
@@ -60,7 +69,7 @@ export const FetchAnswersFromForm = (form: FormType): Answer[] => {
       const answer: Answer = {
         questionId: question.id,
         type: question.ans.type,
-        data: question.ans.data,
+        data: extractAnswer(question.ans.data),
       };
       answers.push(answer);
     }

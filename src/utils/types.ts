@@ -77,8 +77,10 @@ export enum Scene {
   Live,
 }
 
+export type FormattedAnswerType = string | number | any[];
+
 export type Answer = {
   questionId: number;
   type: AnsTypePrisma;
-  data: AnswerDataType;
+  data: FormattedAnswerType;
 };
