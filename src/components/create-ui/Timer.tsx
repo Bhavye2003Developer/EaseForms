@@ -3,8 +3,7 @@
 import { getTimeInHHMMSS, getTimeInSeconds } from "@/utils/helpers";
 import { Scene } from "@/utils/types";
 import useFormFillingStore from "@/utils/useFormFillingStore";
-import useFormStore from "@/utils/useFormStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Timer({
   scene,
@@ -16,11 +15,14 @@ export default function Timer({
   timer: string;
 }) {
   const totalTime = getTimeInSeconds(timer);
-  const [localTimer, setLocalTimer] = useState(totalTime);
+  const [displayTime, setDisplayTime] = useState(totalTime);
+  const timerRef = useRef(totalTime);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { form, formId, setFormSubmitted } = useFormFillingStore();
 
   async function submitForm() {
+    console.log("Submitting form: ", form);
     const req = await fetch("/api/submit-answers", {
       method: "POST",
       body: JSON.stringify({
@@ -33,26 +35,28 @@ export default function Timer({
   }
 
   const initiateTimer = () => {
-    const intervalId = setInterval(() => {
-      console.log("inside timeout");
-      setLocalTimer((tmpSec) => {
-        if (tmpSec <= 1) {
-          submitForm();
-          setFormSubmitted();
-          clearInterval(intervalId);
-          return 0;
-        }
-        return tmpSec - 1;
-      });
+    intervalRef.current = setInterval(() => {
+      timerRef.current -= 1;
+      setDisplayTime(timerRef.current);
+
+      if (timerRef.current <= 0) {
+        clearInterval(intervalRef.current!);
+        submitForm();
+        setFormSubmitted();
+      }
     }, 1000);
   };
 
   useEffect(() => {
-    console.log("Init");
-    if (scene === Scene.Live) initiateTimer();
+    if (scene === Scene.Live && isTimerEnabled) {
+      initiateTimer();
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
-  const isDanger = localTimer <= totalTime * 0.1;
+  const isDanger = displayTime <= totalTime * 0.1;
 
   return (
     <>
@@ -65,7 +69,7 @@ export default function Timer({
                 : "bg-white text-indigo-700 border-indigo-300"
             }`}
         >
-          ⏱ {scene === Scene.Preview ? timer : getTimeInHHMMSS(localTimer)}
+          ⏱ {scene === Scene.Preview ? timer : getTimeInHHMMSS(displayTime)}
         </span>
       )}
     </>

@@ -25,6 +25,8 @@ interface FormState {
   updateUIMode: (selectedUIMode: QuestionsUIMode) => void;
   toggleTimerEnabled: () => void;
   addSection: (questionId: number) => void;
+  toggleDeadlineEnabled: () => void;
+  updateDeadline: (deadlineString: string) => void;
 }
 
 const useFormStore = create<FormState>()((set, get) => ({
@@ -238,6 +240,30 @@ const useFormStore = create<FormState>()((set, get) => ({
         },
       },
       questionIdToBeImplemented: state.questionIdToBeImplemented + 1,
+    }));
+  },
+  toggleDeadlineEnabled: () => {
+    set((state) => ({
+      ...state,
+      form: {
+        ...state.form,
+        settings: {
+          ...state.form.settings,
+          hasDeadline: !state.form.settings.hasDeadline,
+        },
+      },
+    }));
+  },
+  updateDeadline: (deadlineString: string) => {
+    set((state) => ({
+      ...state,
+      form: {
+        ...state.form,
+        settings: {
+          ...state.form.settings,
+          deadline: deadlineString,
+        },
+      },
     }));
   },
 }));

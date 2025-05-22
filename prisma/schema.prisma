@@ -45,6 +45,8 @@ type FormSettings {
   isTimerEnabled Boolean
   timer          String
   UIMode         QuestionsUIMode
+  hasDeadline    Boolean
+  deadline       String
 }
 
 type FormData {

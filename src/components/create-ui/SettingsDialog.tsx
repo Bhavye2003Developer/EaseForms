@@ -9,6 +9,8 @@ export default function SettingsDialog() {
     updateTimer,
     updateUIMode,
     toggleTimerEnabled,
+    toggleDeadlineEnabled,
+    updateDeadline,
   } = useFormStore();
 
   return (
@@ -52,6 +54,47 @@ export default function SettingsDialog() {
             </p>
           </div>
         )}
+
+        {/* Toggle Deadline */}
+        <div className="flex items-center justify-between">
+          <label className="font-medium text-gray-800">
+            📅 Enable Deadline
+          </label>
+          <button
+            onClick={toggleDeadlineEnabled}
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+              settings.hasDeadline ? "bg-blue-600" : "bg-gray-400"
+            }`}
+          >
+            <div
+              className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                settings.hasDeadline ? "translate-x-6" : "translate-x-0"
+              }`}
+            />
+          </button>
+        </div>
+
+        {settings.hasDeadline && (
+          <div>
+            <label className="block mb-1 font-medium text-gray-800">
+              🕒 Deadline
+            </label>
+            <input
+              type="datetime-local"
+              value={settings.deadline}
+              onChange={(e) => {
+                const newValue = e.target.value;
+                updateDeadline(newValue);
+                console.log("updating deadline: ", newValue);
+              }}
+              className="w-full p-2 border border-blue-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <p className="text-xs text-gray-700 mt-1">
+              After this time, users will no longer be able to submit the form.
+            </p>
+          </div>
+        )}
+
         <div>
           <label className="block mb-1 font-medium text-gray-800">
             🧭 UI Mode

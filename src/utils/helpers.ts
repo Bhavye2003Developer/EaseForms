@@ -42,14 +42,14 @@ export const getTimeInHHMMSS = (seconds: number) => {
   return `${hh}:${mm}:${ss}`;
 };
 
-export const getFormattedHHMMSS = (hhmmss: string) => {
-  const [hh, mm, ss] = hhmmss.split(":");
-  console.log(hh, mm, ss);
-  let timeString = " ";
-  if (+hh > 0) timeString += +hh + " hours ";
-  if (+mm > 0) timeString += +mm + " minutes ";
-  if (+ss > 0) timeString += " and " + +ss + " seconds ";
-  return timeString;
+export const getFormattedHHMMSS = (hhmmss: string): string => {
+  const [hh, mm, ss] = hhmmss.split(":").map(Number);
+  const parts = [];
+  if (hh > 0) parts.push(`${hh} hour${hh > 1 ? "s" : ""}`);
+  if (mm > 0) parts.push(`${mm} minute${mm > 1 ? "s" : ""}`);
+  if (ss > 0 || parts.length === 0)
+    parts.push(`${ss} second${ss > 1 ? "s " : " "}`);
+  return " " + parts.join(" ");
 };
 
 const extractAnswer = (answerData: AnswerDataType): FormattedAnswerType => {
@@ -65,7 +65,7 @@ export const FetchAnswersFromForm = (form: FormType): Answer[] => {
   const questions = form.formData.questions;
   const answers: Answer[] = [];
   questions.forEach((question) => {
-    if ("ans" in question && question.ans.data) {
+    if ("ans" in question) {
       const answer: Answer = {
         questionId: question.id,
         type: question.ans.type,

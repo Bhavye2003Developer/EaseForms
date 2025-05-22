@@ -6,6 +6,8 @@ export const form: FormType = {
     isTimerEnabled: false,
     timer: "00:00:00",
     UIMode: QuestionsUIMode.Simple,
+    hasDeadline: false,
+    deadline: "2026-22-05T18:30",
   },
   formData: {
     formHeader: {

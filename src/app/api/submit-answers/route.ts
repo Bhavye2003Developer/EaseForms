@@ -1,13 +1,13 @@
 import { FetchAnswersFromForm } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma, PrismaClient } from "../../../../generated/prisma";
-import { Answer } from "@/utils/types";
 
-const prisma = new PrismaClient();
+import { Answer } from "@/utils/types";
+import { prisma } from "@/db";
+import { Prisma } from "../../../../generated/prisma";
 
 export async function POST(req: NextRequest) {
   const { form, formId } = await req.json();
-  //   console.log("backend: ", form, formId);
+  // console.log("backend: ", form, formId);
   const answers: Answer[] = FetchAnswersFromForm(form);
 
   console.log(answers);

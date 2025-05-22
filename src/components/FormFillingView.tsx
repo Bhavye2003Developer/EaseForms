@@ -12,6 +12,7 @@ export default function FormFillingView({ formId }: { formId: string }) {
   const { form, setForm, isFormSubmitted, setFormId } = useFormFillingStore();
   const [TimerIntroPageShown, setTimerIntroPageShown] = useState(false);
   const [error, setError] = useState(false);
+  const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
 
   async function fetchFormStruct() {
     try {
@@ -22,15 +23,26 @@ export default function FormFillingView({ formId }: { formId: string }) {
       const formStructResponse = await res.json();
 
       if (formStructResponse?.form) {
-        console.log("Form got: ", formStructResponse.form);
-        setForm(formStructResponse.form.FormStruct);
-        const isTimerEnabled =
-          formStructResponse.form.FormStruct.settings.isTimerEnabled;
+        const formStruct = formStructResponse.form.FormStruct;
+        setForm(formStruct);
+
+        // Check for deadline
+        if (formStruct.settings.hasDeadline && formStruct.settings.deadline) {
+          const deadlineTime = new Date(formStruct.settings.deadline).getTime();
+          const now = new Date().getTime();
+          if (now > deadlineTime) {
+            setIsDeadlinePassed(true);
+          }
+        }
+
+        const isTimerEnabled = formStruct.settings.isTimerEnabled;
         setTimerIntroPageShown(isTimerEnabled);
-      } else setError(true);
+      } else {
+        setError(true);
+      }
     } catch (err) {
+      console.error(err);
       setError(true);
-      console.log(err);
     }
   }
 
@@ -47,6 +59,21 @@ export default function FormFillingView({ formId }: { formId: string }) {
             Form Not Found
           </h1>
           <p className="text-gray-600">Please check the URL</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isDeadlinePassed) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <div className="text-center p-6 shadow-lg rounded-lg bg-red-50 border border-red-300">
+          <h1 className="text-xl font-semibold text-red-600 mb-2">
+            🛑 Deadline Passed
+          </h1>
+          <p className="text-gray-700">
+            This form is no longer accepting responses.
+          </p>
         </div>
       </div>
     );

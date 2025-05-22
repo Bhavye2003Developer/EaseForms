@@ -64,6 +64,8 @@ export interface FormType {
     isTimerEnabled: boolean;
     timer: string;
     UIMode: QuestionsUIMode;
+    hasDeadline: boolean;
+    deadline: string;
   };
   formData: {
     formHeader: FormHeaderType;
