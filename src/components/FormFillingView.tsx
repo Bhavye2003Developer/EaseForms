@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
-import { Scene } from "@/utils/types";
+import { FetchedResponse, Scene } from "@/utils/types";
 import FormSubmissionPage from "./create-ui/FormSubmissionPage";
 import Timer from "./create-ui/Timer";
 import TimeBasedIntroPage from "./create-ui/UI/TimeBasedIntroPage";
@@ -20,13 +20,12 @@ export default function FormFillingView({ formId }: { formId: string }) {
         method: "POST",
         body: JSON.stringify({ formId }),
       });
-      const formStructResponse = await res.json();
+      const formStructResponse: FetchedResponse = await res.json();
 
-      if (formStructResponse?.form) {
-        const formStruct = formStructResponse.form.FormStruct;
+      if (formStructResponse.data.form) {
+        const formStruct = formStructResponse.data.form.FormStruct;
         setForm(formStruct);
 
-        // Check for deadline
         if (formStruct.settings.hasDeadline && formStruct.settings.deadline) {
           const deadlineTime = new Date(formStruct.settings.deadline).getTime();
           const now = new Date().getTime();

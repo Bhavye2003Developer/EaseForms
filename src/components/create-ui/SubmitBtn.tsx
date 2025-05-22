@@ -1,4 +1,4 @@
-import { Scene } from "@/utils/types";
+import { FetchedResponse, Scene } from "@/utils/types";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BtnCss } from "./SingleQuestionCard";
@@ -20,7 +20,7 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
         form,
       }),
     });
-    const res = await req.json();
+    const res: FetchedResponse = await req.json();
     return res;
   }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { FetchedResponse } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,7 +39,7 @@ export default function Header({ formId }: { formId: string }) {
         method: "PUT",
         body: JSON.stringify({ form, formId: formId }),
       });
-      const res = await req.json();
+      const res: FetchedResponse = await req.json();
       toast.dismiss("PublishLoadToast");
 
       if (!res.error) {

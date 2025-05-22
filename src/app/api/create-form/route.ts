@@ -1,7 +1,8 @@
 import { prisma } from "@/db";
-import { NextRequest } from "next/server";
+import { Response } from "@/utils/types";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Response {
   const { userId, form } = await req.json();
   const transaction = await prisma.form.create({
     data: {
@@ -16,14 +17,14 @@ export async function POST(req: NextRequest) {
 
   console.log("Form created status: ", transaction);
 
-  return Response.json({
-    message: "Form created successfully",
+  return NextResponse.json({
+    msg: "Form created successfully",
     error: null,
-    formId: transaction.id,
+    data: { formId: transaction.id },
   });
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest): Response {
   const data = await req.json();
   console.log("Request accepted: ", data);
   console.log("Formid: ", data.formId);
@@ -37,8 +38,9 @@ export async function PUT(req: NextRequest) {
   });
   console.log("Form updated status: ", transaction);
 
-  return Response.json({
-    message: "Form published successfully",
+  return NextResponse.json({
+    msg: "Form published successfully",
     error: null,
+    data: null,
   });
 }

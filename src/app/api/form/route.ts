@@ -1,7 +1,8 @@
 import { prisma } from "@/db";
-import { NextRequest } from "next/server";
+import { Response } from "@/utils/types";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Response {
   const { formId } = await req.json();
   console.log("Request accepted: ", formId);
 
@@ -13,9 +14,17 @@ export async function POST(req: NextRequest) {
 
   console.log(form);
 
-  return Response.json({
-    message: "Got form answers.",
-    error: form === null && 404,
-    form: form,
+  // return Response.json({
+  //   message: "Got form answers.",
+  //   error: form === null && 404,
+  //   form: form,
+  // });
+
+  return NextResponse.json({
+    msg: "Got form answers.",
+    error: form !== null ? null : "Form not found",
+    data: {
+      form,
+    },
   });
 }

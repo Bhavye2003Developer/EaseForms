@@ -1,5 +1,6 @@
 import { form } from "@/utils/constants";
 import { getEmailLogoText } from "@/utils/helpers";
+import { FetchedResponse } from "@/utils/types";
 import useAppStore from "@/utils/useAppStore";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -23,8 +24,8 @@ export default function Header({
         form,
       }),
     });
-    const response = await req.json();
-    const formId = response.formId;
+    const response: FetchedResponse = await req.json();
+    const formId = response.data.formId;
     const REDIRECTED_URL = `/create/${formId}`;
     redirect(REDIRECTED_URL);
   };

@@ -30,12 +30,6 @@ model FormAnswer {
   answers Json
 }
 
-type SingleAnswer {
-  questionId Int
-  type       AnsType
-  data       Json
-}
-
 type FormStruct {
   settings FormSettings
   formData FormData

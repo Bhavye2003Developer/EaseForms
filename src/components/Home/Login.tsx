@@ -1,5 +1,6 @@
 "use client";
 
+import { FetchedResponse } from "@/utils/types";
 import useAppStore from "@/utils/useAppStore";
 import React, { useState, FormEvent, FC } from "react";
 import { toast } from "sonner";
@@ -27,15 +28,15 @@ const Login: FC<LoginProps> = ({ setShowAuth, switchToSignup }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data: FetchedResponse = await res.json();
       console.log("Logged in data: ", data);
       if (!data.error) {
         const id: string = data.data.id;
         setEmailAndId(email, id);
-        toast.success(data.msg || "Logged in successfully!");
+        toast.success("Logged in successfully!");
         setShowAuth(false);
       } else {
-        toast.error(data.msg || "Login failed.");
+        toast.error("Login failed.");
       }
     } catch {
       toast.error("Something went wrong.");

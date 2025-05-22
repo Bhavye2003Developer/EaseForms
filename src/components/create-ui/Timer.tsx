@@ -1,7 +1,7 @@
 "use client";
 
 import { getTimeInHHMMSS, getTimeInSeconds } from "@/utils/helpers";
-import { Scene } from "@/utils/types";
+import { FetchedResponse, Scene } from "@/utils/types";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { useEffect, useRef, useState } from "react";
 
@@ -30,7 +30,7 @@ export default function Timer({
         form,
       }),
     });
-    const res = await req.json();
+    const res: FetchedResponse = await req.json();
     return res;
   }
 

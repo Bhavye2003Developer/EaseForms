@@ -1,14 +1,8 @@
+import { NextResponse } from "next/server";
 import {
   AnsType as AnsTypePrisma,
   QuestionsUIMode,
 } from "../../generated/prisma";
-
-// export enum AnsType {
-//   "ShortText" = "ShortText",
-//   "LongText" = "LongText",
-//   "multiChoice" = "multiChoice",
-//   "multiSelect" = "multiSelect",
-// }
 
 export interface choice {
   id: number;
@@ -49,13 +43,7 @@ export interface multiChoice {
 
 export interface FormHeaderType {
   title: string;
-  // desc: string;
 }
-
-// export enum QuestionsUIMode {
-//   "Simple" = "Simple",
-//   "Single" = "Single",
-// }
 
 export type DivStructType = (QuestionType | SectionType)[];
 
@@ -86,3 +74,11 @@ export type Answer = {
   type: AnsTypePrisma;
   data: FormattedAnswerType;
 };
+
+export type FetchedResponse = {
+  msg: string;
+  error: string | number | null;
+  data: any;
+};
+
+export type Response = Promise<NextResponse<FetchedResponse>>;

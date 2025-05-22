@@ -1,5 +1,6 @@
 "use client";
 
+import { FetchedResponse } from "@/utils/types";
 import React, { useState, FormEvent, FC } from "react";
 import { toast } from "sonner";
 
@@ -26,13 +27,13 @@ const Signup: FC<SignupProps> = ({ setShowAuth, switchToLogin }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data: FetchedResponse = await res.json();
       console.log("Signup data: ", data);
       if (!data.error) {
-        toast.success(data.msg || "Signed up successfully!");
+        toast.success("Signed up successfully!");
         setShowAuth(false);
       } else {
-        toast.error(data.msg || "Signup failed.");
+        toast.error("Signup failed.");
       }
     } catch {
       toast.error("Something went wrong.");

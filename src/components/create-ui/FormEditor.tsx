@@ -7,6 +7,7 @@ import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
 import Header from "./Header";
 import useFormStore from "@/utils/useFormStore";
+import { FetchedResponse } from "@/utils/types";
 
 export default function FormEditor({ formId }: { formId: string }) {
   const [showSettings, setShowSettings] = useState(false);
@@ -18,13 +19,12 @@ export default function FormEditor({ formId }: { formId: string }) {
     const FORM_URL = `/api/create-form/fetch?formId=${formId}`;
 
     const req = await fetch(FORM_URL);
-    const res = await req.json();
+    const res: FetchedResponse = await req.json();
 
-    console.log("Fteched built form: ", res);
-
-    if (res.formStruct) {
+    console.log("Fetched built form: ", res);
+    if (res.data.formStruct) {
       console.log("Setting form...");
-      setForm(res.formStruct);
+      setForm(res.data.formStruct);
     }
   };
 
