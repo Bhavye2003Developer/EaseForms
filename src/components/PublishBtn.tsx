@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export default function Header({ formId }: { formId: string }) {
+export default function PublishBtn() {
   const { form } = useFormStore();
   const [isPublishedBtnEnabled, setIsPublishedBtnEnabled] = useState(true);
   const [shareUrl, setShareUrl] = useState("");
@@ -34,21 +34,20 @@ export default function Header({ formId }: { formId: string }) {
     setIsPublishedBtnEnabled(false);
 
     try {
-      const req = await fetch("/api/create-form", {
-        method: "PUT",
-        body: JSON.stringify({ form, formId: formId }),
-      });
-      const res: FetchedResponse = await req.json();
-      toast.dismiss("PublishLoadToast");
-
-      if (!res.error) {
-        toast.success("Form Published Successfully");
-        const url = `${window.location.origin}/form/${formId}`;
-        setShareUrl(url);
-        setShowModal(true);
-      } else {
-        toast.error("Something went wrong while publishing.");
-      }
+      //   const req = await fetch("/api/create-form", {
+      //     method: "PUT",
+      //     body: JSON.stringify({ form, formId: formId }),
+      //   });
+      //   const res: FetchedResponse = await req.json();
+      //   toast.dismiss("PublishLoadToast");
+      //   if (!res.error) {
+      //     toast.success("Form Published Successfully");
+      //     const url = `${window.location.origin}/form/${formId}`;
+      //     setShareUrl(url);
+      //     setShowModal(true);
+      //   } else {
+      //     toast.error("Something went wrong while publishing.");
+      //   }
     } catch (error) {
       toast.dismiss("PublishLoadToast");
       toast.error("Failed to publish form.");
@@ -57,22 +56,17 @@ export default function Header({ formId }: { formId: string }) {
 
   return (
     <>
-      <div className="w-screen flex items-center justify-between px-6 py-1 border-b border-gray-200 shadow-sm">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Create Your Form
-        </h1>
-        <button
-          disabled={!isPublishedBtnEnabled}
-          className={`px-4 py-2 rounded-md transition text-white ${
-            isPublishedBtnEnabled
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-blue-400 cursor-not-allowed opacity-50"
-          }`}
-          onClick={handlePublish}
-        >
-          Publish
-        </button>
-      </div>
+      <button
+        disabled={!isPublishedBtnEnabled}
+        className={`px-4 py-2 rounded-md transition text-white ${
+          isPublishedBtnEnabled
+            ? "bg-blue-600 hover:bg-blue-700"
+            : "bg-blue-400 cursor-not-allowed opacity-50"
+        }`}
+        onClick={handlePublish}
+      >
+        Publish
+      </button>
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

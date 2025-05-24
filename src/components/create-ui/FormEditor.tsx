@@ -45,7 +45,8 @@ export default function FormEditor({ formId }: { formId: string }) {
           setShowSettings(false);
       }}
     >
-      <Header formId={formId} />
+      {/* <Header formId={formId} /> */}
+
       <div className="flex w-full flex-1 overflow-hidden">
         <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
           <button

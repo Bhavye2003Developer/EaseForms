@@ -1,8 +1,5 @@
 "use client";
 
-import { form } from "@/utils/constants";
-import { getUserData } from "@/utils/helpers";
-import { FetchedResponse } from "@/utils/types";
 import {
   SignedIn,
   SignedOut,
@@ -11,66 +8,56 @@ import {
   useAuth,
   UserButton,
 } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import React from "react";
+import { redirect, usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import CreateNewFormBtn from "./CreateNewFormBtn";
+import PublishBtn from "../PublishBtn";
+import { parseEndPoint } from "@/utils/helpers";
+import Link from "next/link";
 
 export default function Header({
   setIsLoading,
 }: {
-  setIsLoading: (val: boolean) => void;
+  setIsLoading?: (val: boolean) => void;
 }) {
   const { userId: clerkUserId } = useAuth();
 
-  const redirectUserToCreateForm = async () => {
-    setIsLoading(true);
-    const { userId } = getUserData();
+  const endPoint = usePathname();
 
-    const req = await fetch("/api/create-form", {
-      method: "POST",
-      body: JSON.stringify({ userId, form }),
-    });
-    const response: FetchedResponse = await req.json();
-    const formId = response.data.formId;
-    setIsLoading(false);
-    // redirect("/about");
-    redirect(`/create/${formId}`);
-  };
+  useEffect(() => {
+    console.log("Path name changed: ", endPoint, parseEndPoint(endPoint));
+  }, [endPoint]);
 
   return (
-    <header className="w-full h-16 shadow-sm border-b bg-white flex items-center justify-between px-6">
-      <h1 className="text-xl md:text-2xl font-semibold text-indigo-600 tracking-tight">
-        Easeforms
-      </h1>
+    <header className="w-full h-16 shadow-sm border-b flex items-center justify-between px-6">
+      <Link href={"/"}>
+        <h1 className="text-xl md:text-2xl font-semibold text-indigo-600 tracking-tight">
+          Easeforms
+        </h1>
+      </Link>
 
       <div className="flex items-center space-x-4">
-        {clerkUserId ? (
-          <>
-            <button
-              onClick={redirectUserToCreateForm}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md transition font-medium"
-            >
-              + New Form
-            </button>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </>
-        ) : (
-          <>
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md transition font-medium">
-                  Sign In
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-md transition font-medium">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-          </>
+        {parseEndPoint(endPoint) === "/create/:formId" ? (
+          <PublishBtn />
+        ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
+          <CreateNewFormBtn />
         )}
+
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md transition font-medium">
+              Sign In
+            </button>
+          </SignInButton>
+          <SignUpButton mode="modal">
+            <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-md transition font-medium">
+              Sign Up
+            </button>
+          </SignUpButton>
+        </SignedOut>
       </div>
     </header>
   );

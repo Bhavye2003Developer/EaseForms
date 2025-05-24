@@ -16,3 +16,5 @@ export const form: FormType = {
     questions: [],
   },
 };
+
+export const ROUTES = ["/", "/create/:formId", "/form/:formId"];

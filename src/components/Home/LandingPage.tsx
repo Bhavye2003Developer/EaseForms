@@ -23,8 +23,8 @@ export default function LandingPage() {
   }, [isSignedIn]);
 
   return (
-    <div className="flex flex-col items-center justify-between bg-white text-gray-800">
-      <Header setIsLoading={(bool) => setIsLoading(bool)} />
+    <div className="flex flex-col items-center justify-between text-gray-800">
+      {/* <Header setIsLoading={(bool) => setIsLoading(bool)} /> */}
       <Hero />
       UserId: {userId}
       <Features />

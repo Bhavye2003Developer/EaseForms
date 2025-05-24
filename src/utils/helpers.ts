@@ -7,6 +7,8 @@ import {
   FormType,
   UserData,
 } from "./types";
+import { ROUTES } from "./constants";
+import { match } from "path-to-regexp";
 
 export const getFormattedTime = (dt: Date): string => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
@@ -119,4 +121,12 @@ export const getUserData = () => {
 
 export const resetFormUserData = () => {
   localStorage.removeItem("easeforms_data");
+};
+
+export const parseEndPoint = (endPoint: string) => {
+  const foundedPath = ROUTES.find((route) => {
+    const matcher = match(route);
+    return matcher(endPoint);
+  });
+  return foundedPath;
 };

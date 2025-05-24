@@ -3,7 +3,7 @@ export default function Hero() {
   const { isSignedIn, user } = useUser();
 
   return (
-    <section className="w-full text-center px-4 py-20 bg-gray-50">
+    <section className="w-full text-center px-4 py-20">
       <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
         {isSignedIn
           ? `Welcome back, ${user.firstName}, to Easeforms!`
