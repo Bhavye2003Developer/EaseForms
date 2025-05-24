@@ -111,6 +111,12 @@ export const setFormUserId = async (clerk_userId: string) => {
   return;
 };
 
+export const getUserData = () => {
+  const userDataString = localStorage.getItem("easeforms_data")!;
+  const userData: UserData = JSON.parse(userDataString);
+  return userData;
+};
+
 export const resetFormUserData = () => {
   localStorage.removeItem("easeforms_data");
 };

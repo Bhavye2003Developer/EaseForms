@@ -25,11 +25,13 @@ export default function FormEditor({ formId }: { formId: string }) {
     if (res.data.formStruct) {
       console.log("Setting form...");
       setForm(res.data.formStruct);
+    } else {
+      console.log("No form found with formid");
     }
   };
 
   useEffect(() => {
-    fetchForm();
+    // fetchForm();
   }, []);
 
   return (

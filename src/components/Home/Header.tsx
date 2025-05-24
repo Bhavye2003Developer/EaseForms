@@ -1,6 +1,7 @@
 "use client";
 
 import { form } from "@/utils/constants";
+import { getUserData } from "@/utils/helpers";
 import { FetchedResponse } from "@/utils/types";
 import {
   SignedIn,
@@ -13,11 +14,16 @@ import {
 import { redirect } from "next/navigation";
 import React from "react";
 
-export default function Header() {
-  const { userId } = useAuth();
+export default function Header({
+  setIsLoading,
+}: {
+  setIsLoading: (val: boolean) => void;
+}) {
+  const { userId: clerkUserId } = useAuth();
 
   const redirectUserToCreateForm = async () => {
-    const userId = localStorage.getItem("easeforms_userId");
+    setIsLoading(true);
+    const { userId } = getUserData();
 
     const req = await fetch("/api/create-form", {
       method: "POST",
@@ -25,6 +31,8 @@ export default function Header() {
     });
     const response: FetchedResponse = await req.json();
     const formId = response.data.formId;
+    setIsLoading(false);
+    // redirect("/about");
     redirect(`/create/${formId}`);
   };
 
@@ -35,7 +43,7 @@ export default function Header() {
       </h1>
 
       <div className="flex items-center space-x-4">
-        {userId ? (
+        {clerkUserId ? (
           <>
             <button
               onClick={redirectUserToCreateForm}
@@ -43,7 +51,9 @@ export default function Header() {
             >
               + New Form
             </button>
-            <UserButton />
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </>
         ) : (
           <>

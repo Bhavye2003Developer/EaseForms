@@ -1,5 +1,6 @@
 "use client";
 
+import { getUserData } from "@/utils/helpers";
 import { FetchedResponse } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import { redirect } from "next/navigation";
@@ -18,7 +19,7 @@ export default function Header({ formId }: { formId: string }) {
   }, [form]);
 
   useEffect(() => {
-    const userId = localStorage.getItem("easeforms_userId");
+    const { userId } = getUserData();
     if (userId === null || userId === "") redirect("/");
     setUserId(userId);
   }, []);
