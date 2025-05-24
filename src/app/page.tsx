@@ -5,10 +5,10 @@ import useAppStore from "@/utils/useAppStore";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { init } = useAppStore();
-  useEffect(() => {
-    init();
-  }, []);
+  // const { init } = useAppStore();
+  // useEffect(() => {
+  //   init();
+  // }, []);
 
   return (
     <div>

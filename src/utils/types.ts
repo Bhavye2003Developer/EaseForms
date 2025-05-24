@@ -82,3 +82,13 @@ export type FetchedResponse = {
 };
 
 export type Response = Promise<NextResponse<FetchedResponse>>;
+
+export type User = {
+  email: string;
+  password: string;
+};
+
+export type UserData = {
+  userId: string;
+  clerkId: string;
+};

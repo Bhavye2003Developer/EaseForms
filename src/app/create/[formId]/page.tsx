@@ -1,4 +1,6 @@
 import FormEditor from "@/components/create-ui/FormEditor";
+import ErrorPage from "@/components/ErrorPage";
+import { formIdSchema } from "@/utils/zod_schemas";
 
 export default async function CreatePage({
   params,
@@ -7,9 +9,15 @@ export default async function CreatePage({
 }) {
   const { formId } = await params;
 
+  const isFormIdValid = formIdSchema.safeParse(formId);
+
   return (
     <div>
-      <FormEditor formId={formId} />
+      {isFormIdValid.success ? (
+        <FormEditor formId={formId} />
+      ) : (
+        <ErrorPage msg={"Form Id is invalid"} />
+      )}
     </div>
   );
 }

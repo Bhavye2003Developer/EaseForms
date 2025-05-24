@@ -1,4 +1,12 @@
-import { Answer, AnswerDataType, FormattedAnswerType, FormType } from "./types";
+import { useAuth } from "@clerk/nextjs";
+import {
+  Answer,
+  AnswerDataType,
+  FetchedResponse,
+  FormattedAnswerType,
+  FormType,
+  UserData,
+} from "./types";
 
 export const getFormattedTime = (dt: Date): string => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
@@ -77,4 +85,32 @@ export const FetchAnswersFromForm = (form: FormType): Answer[] => {
     }
   });
   return answers;
+};
+
+export const setFormUserId = async (clerk_userId: string) => {
+  console.log("Fetching userId");
+
+  const userData = localStorage.getItem("easeforms_data");
+  if (userData) {
+    const parsedUserData: UserData = JSON.parse(userData);
+    if (clerk_userId === parsedUserData.clerkId && parsedUserData.userId)
+      return;
+  }
+
+  console.log("User to be created with clerkId: ", clerk_userId);
+
+  const req = await fetch(`/api/user?clerkUserId=${clerk_userId}`);
+  const resp: FetchedResponse = await req.json();
+
+  const userDataToStore: UserData = {
+    userId: resp.data.userId,
+    clerkId: clerk_userId,
+  };
+
+  localStorage.setItem("easeforms_data", JSON.stringify(userDataToStore));
+  return;
+};
+
+export const resetFormUserData = () => {
+  localStorage.removeItem("easeforms_data");
 };

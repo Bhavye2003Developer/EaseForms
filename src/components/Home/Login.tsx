@@ -1,7 +1,8 @@
 "use client";
 
-import { FetchedResponse } from "@/utils/types";
+import { FetchedResponse, User } from "@/utils/types";
 import useAppStore from "@/utils/useAppStore";
+import { UserSchema } from "@/utils/zod_schemas";
 import React, { useState, FormEvent, FC } from "react";
 import { toast } from "sonner";
 
@@ -11,28 +12,37 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = ({ setShowAuth, switchToSignup }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User>({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const { setEmailAndId } = useAppStore();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email || !password)
-      return toast.error("Email and password are required.");
+    if (!user.email || !user.password) {
+      toast.error("Email and password are required.");
+      return;
+    }
+
+    if (UserSchema.safeParse(user).error) {
+      toast.error("Either email or password has problem");
+      return;
+    }
     setIsLoading(true);
     try {
       const res = await fetch("/api/user/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(user),
       });
       const data: FetchedResponse = await res.json();
       console.log("Logged in data: ", data);
       if (!data.error) {
         const id: string = data.data.id;
-        setEmailAndId(email, id);
+        setEmailAndId(user.email, id);
         toast.success("Logged in successfully!");
         setShowAuth(false);
       } else {
@@ -63,16 +73,16 @@ const Login: FC<LoginProps> = ({ setShowAuth, switchToSignup }) => {
         <input
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
           disabled={isLoading}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
           disabled={isLoading}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />

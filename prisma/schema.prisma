@@ -9,10 +9,9 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  email    String @unique
-  password String
-  Form     Form[]
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId String @unique
+  Form        Form[]
 }
 
 model Form {
