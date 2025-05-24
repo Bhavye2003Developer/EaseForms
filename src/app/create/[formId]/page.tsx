@@ -8,7 +8,6 @@ export default async function CreatePage({
   params: Promise<{ formId: string }>;
 }) {
   const { formId } = await params;
-
   const isFormIdValid = formIdSchema.safeParse(formId);
 
   return (

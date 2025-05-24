@@ -2,6 +2,7 @@
 
 import { getUserData } from "@/utils/helpers";
 import { FetchedResponse } from "@/utils/types";
+import useAppStore from "@/utils/useAppStore";
 import useFormStore from "@/utils/useFormStore";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ export default function PublishBtn() {
   const [shareUrl, setShareUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const userId = useRef(getUserData().userId);
+  const { formId } = useAppStore();
 
   useEffect(() => {
     setIsPublishedBtnEnabled(true);
@@ -34,20 +36,20 @@ export default function PublishBtn() {
     setIsPublishedBtnEnabled(false);
 
     try {
-      //   const req = await fetch("/api/create-form", {
-      //     method: "PUT",
-      //     body: JSON.stringify({ form, formId: formId }),
-      //   });
-      //   const res: FetchedResponse = await req.json();
-      //   toast.dismiss("PublishLoadToast");
-      //   if (!res.error) {
-      //     toast.success("Form Published Successfully");
-      //     const url = `${window.location.origin}/form/${formId}`;
-      //     setShareUrl(url);
-      //     setShowModal(true);
-      //   } else {
-      //     toast.error("Something went wrong while publishing.");
-      //   }
+      const req = await fetch("/api/create-form", {
+        method: "PUT",
+        body: JSON.stringify({ form, formId: formId }),
+      });
+      const res: FetchedResponse = await req.json();
+      toast.dismiss("PublishLoadToast");
+      if (!res.error) {
+        toast.success("Form Published Successfully");
+        const url = `${window.location.origin}/form/${formId}`;
+        setShareUrl(url);
+        setShowModal(true);
+      } else {
+        toast.error("Something went wrong while publishing.");
+      }
     } catch (error) {
       toast.dismiss("PublishLoadToast");
       toast.error("Failed to publish form.");

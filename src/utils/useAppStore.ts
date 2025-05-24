@@ -1,16 +1,13 @@
 import { create } from "zustand";
 
-// type AppSettings = {
-//   email: string | null;
-//   userId: string | null;
-//   init: () => void;
-//   setEmailAndId: (email: string, id: string) => void;
-//   isLoggedIn: boolean;
-// };
+type AppState = {
+  formId: string;
+  setFormId: (formId: string) => void;
+};
 
-const useAppStore = create((set, get) => ({
+const useAppStore = create<AppState>()((set, get) => ({
   formId: "",
-  setFormId: (formId: String) => {
+  setFormId: (formId: string) => {
     set(() => ({ formId }));
   },
 }));

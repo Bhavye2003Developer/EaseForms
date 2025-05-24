@@ -37,22 +37,24 @@ export default function Header({
       </Link>
 
       <div className="flex items-center space-x-4">
-        {parseEndPoint(endPoint) === "/create/:formId" ? (
-          <PublishBtn />
-        ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
-          <CreateNewFormBtn />
-        )}
+        {clerkUserId ? (
+          parseEndPoint(endPoint) === "/create/:formId" ? (
+            <PublishBtn />
+          ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
+            <CreateNewFormBtn />
+          )
+        ) : null}
 
         <SignedIn>
           <UserButton />
         </SignedIn>
         <SignedOut>
-          <SignInButton mode="modal">
+          <SignInButton>
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md transition font-medium">
               Sign In
             </button>
           </SignInButton>
-          <SignUpButton mode="modal">
+          <SignUpButton>
             <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-md transition font-medium">
               Sign Up
             </button>

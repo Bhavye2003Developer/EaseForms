@@ -3,7 +3,6 @@
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
 import { useSignIn } from "@clerk/nextjs";
-import { useState } from "react";
 
 export default function SignInPage() {
   const { isLoaded } = useSignIn();

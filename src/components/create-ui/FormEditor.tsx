@@ -5,15 +5,20 @@ import { MoreVertical } from "lucide-react";
 import FormCreator from "./FormCreator";
 import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
-import Header from "./Header";
 import useFormStore from "@/utils/useFormStore";
 import { FetchedResponse } from "@/utils/types";
+import useAppStore from "@/utils/useAppStore";
+import { useAuth } from "@clerk/nextjs";
 
 export default function FormEditor({ formId }: { formId: string }) {
-  const [showSettings, setShowSettings] = useState(false);
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const { userId: clerkUserId } = useAuth();
 
+  console.log(clerkUserId);
+
+  const [showSettings, setShowSettings] = useState(false);
   const { setForm } = useFormStore();
+  const { setFormId } = useAppStore();
+  const settingsRef = useRef<HTMLDivElement>(null);
 
   const fetchForm = async () => {
     const FORM_URL = `/api/create-form/fetch?formId=${formId}`;
@@ -31,7 +36,8 @@ export default function FormEditor({ formId }: { formId: string }) {
   };
 
   useEffect(() => {
-    // fetchForm();
+    setFormId(formId);
+    fetchForm();
   }, []);
 
   return (
@@ -45,8 +51,6 @@ export default function FormEditor({ formId }: { formId: string }) {
           setShowSettings(false);
       }}
     >
-      {/* <Header formId={formId} /> */}
-
       <div className="flex w-full flex-1 overflow-hidden">
         <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
           <button
