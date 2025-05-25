@@ -1,45 +1,45 @@
-import React from "react";
+"use client";
 
 const features = [
   {
     title: "Create Forms Easily",
-    description: "Build and edit forms with an intuitive editor.",
+    description: "Build forms quickly with an intuitive UI.",
   },
   {
     title: "Answer Types",
-    description:
-      "Supports long text, short text, multi-select, and multiple choice.",
+    description: "Supports short/long text, multi-select, and MCQs.",
   },
   {
     title: "Timed Forms",
-    description: "Set timers for individual forms to control response time.",
+    description: "Set response timers for better control.",
   },
-  {
-    title: "Drag-and-Drop Ordering",
-    description: "Reorder questions easily via drag-and-drop.",
-  },
+  { title: "Drag & Drop", description: "Reorder questions effortlessly." },
   {
     title: "Live Preview",
-    description: "See real-time updates while building your form.",
+    description: "Instant feedback while editing your form.",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="w-full py-16 px-4 md:px-8">
-      <h3 className="text-3xl font-bold text-center text-gray-800 mb-10">
-        Features
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="p-6 bg-gray-100 rounded-lg shadow-sm hover:shadow-md transition"
-          >
-            <h4 className="text-xl font-semibold mb-2">{feature.title}</h4>
-            <p className="text-gray-600">{feature.description}</p>
-          </div>
-        ))}
+    <section className="w-full bg-zinc-950 py-5 px-4">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          Powerful Features
+        </h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5 backdrop-blur-md shadow-sm hover:shadow-md transition"
+            >
+              <h3 className="text-lg font-semibold text-white mb-1">
+                {feature.title}
+              </h3>
+              <p className="text-zinc-400 text-sm">{feature.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

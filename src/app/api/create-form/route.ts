@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest): Response {
   const { userId, form } = await req.json();
+
+  console.log("userId: ", userId);
+
   const transaction = await prisma.form.create({
     data: {
       user: {

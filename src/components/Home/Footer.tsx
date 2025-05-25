@@ -1,8 +1,6 @@
-import React from "react";
-
 export default function Footer() {
   return (
-    <footer className="w-full py-6 text-center text-gray-500 text-sm">
+    <footer className="w-full bg-zinc-950 py-6 text-center text-sm text-zinc-500 border-t border-zinc-800">
       © {new Date().getFullYear()} Easeforms. All rights reserved.
     </footer>
   );
