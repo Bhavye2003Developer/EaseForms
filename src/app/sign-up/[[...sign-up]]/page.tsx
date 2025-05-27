@@ -11,7 +11,6 @@ export default function Page() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
         <SignUp.Root>
-          {/* Step 1: Sign Up Form */}
           <SignUp.Step name="start">
             <h1 className="mb-6 text-3xl font-bold text-gray-900">
               Create your <span className="text-blue-600">Easeforms</span>{" "}
@@ -20,8 +19,9 @@ export default function Page() {
 
             <Clerk.Connection
               name="google"
-              className="mb-6 w-full rounded-lg bg-red-500 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-red-600"
+              className="w-full mb-6 flex items-center justify-center gap-2 rounded-md bg-zinc-200 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition"
             >
+              <Clerk.Icon className="w-4 h-4" />
               Continue with Google
             </Clerk.Connection>
 

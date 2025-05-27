@@ -92,3 +92,7 @@ export type UserData = {
   userId: string;
   clerkId: string;
 };
+
+export type FormsMetaData = {
+  id: string;
+}[];

@@ -8,22 +8,23 @@ export default function SignInPage() {
   const { isLoaded } = useSignIn();
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-6 md:p-8 shadow-sm">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-xl p-8 shadow-md">
         <SignIn.Root>
           <SignIn.Step name="start">
-            <h1 className="text-center text-2xl font-semibold text-white mb-6">
+            <h1 className="text-2xl font-semibold text-white mb-6 text-center">
               Sign in to <span className="text-indigo-500">Easeforms</span>
             </h1>
 
             <Clerk.Connection
               name="google"
-              className="w-full mb-5 rounded-md bg-red-500 py-2 text-sm font-medium text-white transition hover:bg-red-600"
+              className="w-full mb-6 flex items-center justify-center gap-2 rounded-md bg-zinc-200 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition"
             >
+              <Clerk.Icon className="w-4 h-4" />
               Continue with Google
             </Clerk.Connection>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Clerk.Field name="identifier">
                 <Clerk.Label className="text-sm text-zinc-300">
                   Email
@@ -32,7 +33,7 @@ export default function SignInPage() {
                   type="email"
                   className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <Clerk.FieldError className="text-sm text-red-500 mt-1" />
+                <Clerk.FieldError className="mt-1 text-sm text-red-500" />
               </Clerk.Field>
 
               <Clerk.Field name="password">
@@ -43,14 +44,15 @@ export default function SignInPage() {
                   type="password"
                   className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <Clerk.FieldError className="text-sm text-red-500 mt-1" />
+                <Clerk.FieldError className="mt-1 text-sm text-red-500" />
               </Clerk.Field>
             </div>
 
             <SignIn.Action submit className="w-full mt-6" disabled={!isLoaded}>
               <button
                 type="submit"
-                className="w-full rounded-md bg-indigo-600 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                disabled={!isLoaded}
+                className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-60"
               >
                 {isLoaded ? "Sign In" : "Signing in..."}
               </button>
@@ -67,12 +69,12 @@ export default function SignInPage() {
                   Email Code
                 </Clerk.Label>
                 <Clerk.Input className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                <Clerk.FieldError className="text-sm text-red-500 mt-1" />
+                <Clerk.FieldError className="mt-1 text-sm text-red-500" />
               </Clerk.Field>
               <SignIn.Action submit className="w-full mt-4">
                 <button
                   type="submit"
-                  className="w-full rounded-md bg-indigo-600 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                  className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
                 >
                   Verify
                 </button>

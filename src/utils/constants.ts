@@ -17,4 +17,4 @@ export const form: FormType = {
   },
 };
 
-export const ROUTES = ["/", "/create/:formId", "/form/:formId"];
+export const ROUTES = ["/", "/create/:formId", "/form/:formId", "/dashboard"];

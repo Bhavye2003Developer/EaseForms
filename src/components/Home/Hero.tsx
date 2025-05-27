@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/moving-border";
 import { useUser } from "@clerk/nextjs";
 import { Highlight } from "@/components/ui/hero-highlight";
+import Link from "next/link";
 
 export default function Hero() {
   const { isSignedIn, user } = useUser();
@@ -25,12 +26,14 @@ export default function Hero() {
         </p>
 
         <div className="mt-10 flex justify-center">
-          <Button
-            borderRadius="1.5rem"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-base px-6 py-3 font-semibold transition"
-          >
-            Start Building Now
-          </Button>
+          <Link href={"/dashboard"}>
+            <Button
+              borderRadius="1.5rem"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white text-base px-6 py-3 font-semibold transition"
+            >
+              Start Building Now
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

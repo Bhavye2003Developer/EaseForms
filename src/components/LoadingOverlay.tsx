@@ -2,7 +2,7 @@ import React from "react";
 
 export default function LoadingOverlay({ message }: { message: string }) {
   return (
-    <div className="fixed inset-0 z-50 bg-white/40 backdrop-blur-[5px] flex flex-col items-center justify-center space-y-4">
+    <div className="absolute inset-0 z-50 bg-white/40 backdrop-blur-[5px] flex flex-col items-center justify-center space-y-4">
       <svg
         className="h-6 w-6 text-indigo-600 animate-spin"
         xmlns="http://www.w3.org/2000/svg"
