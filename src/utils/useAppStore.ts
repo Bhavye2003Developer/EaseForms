@@ -6,10 +6,15 @@ type AppState = {
   isLoading: boolean;
   loadingText: string;
   toggleLoading: (text?: string) => void;
+  showShareURLModal: boolean;
+  sharedURL: string;
+  toggleShowShareURLModal: (url?: string) => void;
 };
 
 const useAppStore = create<AppState>()((set, get) => ({
   formId: "",
+  sharedURL: "",
+  showShareURLModal: false,
   setFormId: (formId: string) => {
     set(() => ({ formId }));
   },
@@ -21,6 +26,14 @@ const useAppStore = create<AppState>()((set, get) => ({
       ...state,
       isLoading: !state.isLoading,
       loadingText: loadingText,
+    }));
+  },
+  toggleShowShareURLModal: (url?: string) => {
+    const urlText = url || "";
+    set((state) => ({
+      ...state,
+      sharedURL: urlText,
+      showShareURLModal: !state.showShareURLModal,
     }));
   },
 }));

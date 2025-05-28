@@ -9,7 +9,21 @@ export async function GET(req: NextRequest): Response {
       userId: userId,
     },
     select: {
-      id: true,
+      // id: true,
+      FormStruct: {
+        select: {
+          formData: {
+            select: {
+              formHeader: {
+                select: {
+                  title: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      publishedDate: true,
     },
   });
   return NextResponse.json({

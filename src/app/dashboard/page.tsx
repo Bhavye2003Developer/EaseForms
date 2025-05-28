@@ -3,11 +3,9 @@
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { getUserData } from "@/utils/helpers";
 import { FetchedResponse, FormsMetaData, Response } from "@/utils/types";
-import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const { userId } = useAuth();
   const [formsMetaData, setFormsMetaData] = useState<FormsMetaData | null>(
     null
   );
@@ -32,7 +30,12 @@ export default function Page() {
         <div>
           You have created: {formsMetaData.length} forms.
           {formsMetaData.map((formMetaData) => (
-            <h1>Form Id: {formMetaData.id}</h1>
+            <div>
+              <h1>
+                Form Title: {formMetaData.FormStruct.formData.formHeader.title}
+              </h1>
+              <h2>Form date: {formMetaData.publishedDate.toLocaleString()}</h2>
+            </div>
           ))}
         </div>
       )}

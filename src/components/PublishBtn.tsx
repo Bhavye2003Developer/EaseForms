@@ -11,10 +11,9 @@ import { toast } from "sonner";
 export default function PublishBtn() {
   const { form } = useFormStore();
   const [isPublishedBtnEnabled, setIsPublishedBtnEnabled] = useState(true);
-  const [shareUrl, setShareUrl] = useState("");
-  const [showModal, setShowModal] = useState(false);
+
   const userId = useRef(getUserData().userId);
-  const { formId } = useAppStore();
+  const { formId, toggleShowShareURLModal } = useAppStore();
 
   useEffect(() => {
     setIsPublishedBtnEnabled(true);
@@ -45,8 +44,7 @@ export default function PublishBtn() {
       if (!res.error) {
         toast.success("Form Published Successfully");
         const url = `${window.location.origin}/form/${formId}`;
-        setShareUrl(url);
-        setShowModal(true);
+        toggleShowShareURLModal(url);
       } else {
         toast.error("Something went wrong while publishing.");
       }
@@ -69,30 +67,6 @@ export default function PublishBtn() {
       >
         Publish
       </button>
-
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Form Published!</h2>
-            <p className="mb-4">Share this URL to access your form:</p>
-            <input
-              type="text"
-              readOnly
-              value={shareUrl}
-              className="w-full p-2 border rounded-md text-sm bg-gray-100"
-              onClick={(e) => (e.target as HTMLInputElement).select()}
-            />
-            <div className="mt-4 flex justify-end">
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

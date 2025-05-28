@@ -8,17 +8,16 @@ import SettingsDialog from "./SettingsDialog";
 import useFormStore from "@/utils/useFormStore";
 import { FetchedResponse } from "@/utils/types";
 import useAppStore from "@/utils/useAppStore";
-import { useAuth } from "@clerk/nextjs";
 
 export default function FormEditor({ formId }: { formId: string }) {
-  const { userId: clerkUserId } = useAuth();
-
-  console.log(clerkUserId);
-
   const [showSettings, setShowSettings] = useState(false);
+
+  const { sharedURL, toggleShowShareURLModal, showShareURLModal } =
+    useAppStore();
+
+  const settingsRef = useRef<HTMLDivElement>(null);
   const { setForm } = useFormStore();
   const { setFormId } = useAppStore();
-  const settingsRef = useRef<HTMLDivElement>(null);
 
   const fetchForm = async () => {
     const FORM_URL = `/api/create-form/fetch?formId=${formId}`;
@@ -26,12 +25,8 @@ export default function FormEditor({ formId }: { formId: string }) {
     const req = await fetch(FORM_URL);
     const res: FetchedResponse = await req.json();
 
-    console.log("Fetched built form: ", res);
     if (res.data.formStruct) {
-      console.log("Setting form...");
       setForm(res.data.formStruct);
-    } else {
-      console.log("No form found with formid");
     }
   };
 
@@ -42,7 +37,7 @@ export default function FormEditor({ formId }: { formId: string }) {
 
   return (
     <div
-      className="h-screen flex flex-col items-center overflow-hidden"
+      className="h-screen flex flex-col items-center overflow-hidden relative"
       onClick={(e) => {
         if (
           settingsRef.current &&
@@ -51,6 +46,29 @@ export default function FormEditor({ formId }: { formId: string }) {
           setShowSettings(false);
       }}
     >
+      {showShareURLModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-semibold mb-4">Form Published!</h2>
+            <p className="mb-4">Share this URL to access your form:</p>
+            <input
+              type="text"
+              readOnly
+              value={sharedURL}
+              className="w-full p-2 border rounded-md text-sm bg-gray-100"
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+            />
+            <div className="mt-4 flex justify-end">
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                onClick={() => toggleShowShareURLModal()}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex w-full flex-1 overflow-hidden">
         <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
           <button
