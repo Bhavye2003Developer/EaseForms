@@ -2,12 +2,25 @@
 
 import { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import FormCreator from "./FormCreator";
 import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
 import useFormStore from "@/utils/useFormStore";
-import { FetchedResponse } from "@/utils/types";
 import useAppStore from "@/utils/useAppStore";
+import { getUserData } from "@/utils/helpers";
+import { toast } from "sonner";
+import { FetchedResponse } from "@/utils/types";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 
 export default function FormEditor({ formId }: { formId: string }) {
   const [showSettings, setShowSettings] = useState(false);
@@ -20,12 +33,15 @@ export default function FormEditor({ formId }: { formId: string }) {
   const { setFormId } = useAppStore();
 
   const fetchForm = async () => {
-    const FORM_URL = `/api/create-form/fetch?formId=${formId}`;
+    const userId = getUserData().userId;
+    const FORM_URL = `/api/create-form/fetch?formId=${formId}&userId=${userId}`;
 
     const req = await fetch(FORM_URL);
     const res: FetchedResponse = await req.json();
 
-    if (res.data.formStruct) {
+    if (res.error) {
+      toast.error(res.msg);
+    } else if (res.data.formStruct) {
       setForm(res.data.formStruct);
     }
   };
@@ -37,61 +53,70 @@ export default function FormEditor({ formId }: { formId: string }) {
 
   return (
     <div
-      className="h-screen flex flex-col items-center overflow-hidden relative"
+      className="h-screen overflow-hidden bg-zinc-50 text-zinc-800 flex flex-col"
       onClick={(e) => {
         if (
           settingsRef.current &&
           !settingsRef.current.contains(e.target as Node)
-        )
+        ) {
           setShowSettings(false);
+        }
       }}
     >
-      {showShareURLModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Form Published!</h2>
-            <p className="mb-4">Share this URL to access your form:</p>
-            <input
-              type="text"
-              readOnly
-              value={sharedURL}
-              className="w-full p-2 border rounded-md text-sm bg-gray-100"
-              onClick={(e) => (e.target as HTMLInputElement).select()}
-            />
-            <div className="mt-4 flex justify-end">
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                onClick={() => toggleShowShareURLModal()}
-              >
-                Close
-              </button>
-            </div>
+      <Dialog
+        open={showShareURLModal}
+        onOpenChange={() => toggleShowShareURLModal()}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Form Published!</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-zinc-600">
+            Share this link to access your form:
+          </p>
+          <Input
+            readOnly
+            value={sharedURL}
+            className="bg-zinc-100 text-sm font-mono select-all"
+            onClick={(e) => (e.target as HTMLInputElement).select()}
+          />
+          <div className="flex justify-end pt-2">
+            <Button onClick={() => toggleShowShareURLModal()}>Close</Button>
           </div>
-        </div>
-      )}
-      <div className="flex w-full flex-1 overflow-hidden">
-        <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md relative">
-          <button
-            onClick={() => setShowSettings((prev) => !prev)}
-            className="absolute top-2 right-2 z-10 p-1 rounded hover:bg-gray-100"
-          >
-            <MoreVertical size={20} />
-          </button>
+        </DialogContent>
+      </Dialog>
 
-          {showSettings && (
-            <div
-              ref={settingsRef}
-              className="absolute top-10 right-2 border rounded shadow-md z-20 p-2 w-40"
-            >
-              <SettingsDialog />
-            </div>
-          )}
+      <div className="flex flex-1 gap-2 p-2 overflow-hidden">
+        <Card className="flex-1 relative overflow-hidden p-4 border-zinc-200 bg-white">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="absolute top-2 left-2 z-20 text-zinc-600 hover:bg-zinc-100"
+            onClick={() => setShowSettings((prev) => !prev)}
+          >
+            <MoreVertical size={18} />
+          </Button>
+
+          <AnimatePresence>
+            {showSettings && (
+              <motion.div
+                ref={settingsRef}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                className="absolute top-12 left-4 z-30 p-3 bg-white border rounded-lg shadow-md"
+              >
+                <SettingsDialog />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <FormCreator />
-        </div>
-        <div className="flex-1 p-2 overflow-auto rounded-lg shadow-md">
+        </Card>
+
+        <Card className="flex-1 overflow-auto p-4 border-zinc-200 bg-white">
           <FormPreviewer />
-        </div>
+        </Card>
       </div>
     </div>
   );

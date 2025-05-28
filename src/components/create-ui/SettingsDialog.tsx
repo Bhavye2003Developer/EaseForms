@@ -2,6 +2,17 @@
 
 import useFormStore from "@/utils/useFormStore";
 import { QuestionsUIMode } from "../../../generated/prisma";
+import { Card } from "@/components/ui/card";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export default function SettingsDialog() {
   const {
@@ -14,108 +25,100 @@ export default function SettingsDialog() {
   } = useFormStore();
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-blue-100 rounded-xl shadow-lg text-sm text-gray-900 w-fit">
-      <h2 className="text-lg font-semibold mb-6 text-purple-800">
+    <Card
+      className="w-[420px] h-[480px] p-5 bg-white shadow-lg rounded-xl text-sm border border-zinc-200 overflow-hidden"
+      style={{ transition: "all 0.3s ease" }}
+    >
+      <h2 className="text-lg font-semibold text-zinc-800 mb-4">
         ⚙️ Form Settings
       </h2>
 
-      <div className="space-y-6">
-        {/* Toggle Timer */}
+      <div className="space-y-5">
+        {/* Timer Toggle */}
         <div className="flex items-center justify-between">
-          <label className="font-medium text-gray-800">⏱ Enable Timer</label>
-          <button
-            onClick={toggleTimerEnabled}
-            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-              settings.isTimerEnabled ? "bg-blue-600" : "bg-gray-400"
-            }`}
-          >
-            <div
-              className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                settings.isTimerEnabled ? "translate-x-6" : "translate-x-0"
-              }`}
-            />
-          </button>
+          <Label className="text-zinc-700">⏱ Enable Timer</Label>
+          <Switch
+            checked={settings.isTimerEnabled}
+            onCheckedChange={toggleTimerEnabled}
+          />
         </div>
 
-        {settings.isTimerEnabled && (
-          <div>
-            <label className="block mb-1 font-medium text-gray-800">
-              ⏱ Form Timer
-            </label>
-            <input
+        {/* Timer Field */}
+        <div
+          className={`transition-all duration-300 ${
+            settings.isTimerEnabled
+              ? "opacity-100"
+              : "opacity-0 pointer-events-none h-0"
+          }`}
+        >
+          <div className="space-y-1">
+            <Label className="text-zinc-700">⏱ Form Timer</Label>
+            <Input
               type="time"
               step="1"
               value={settings.timer}
               onChange={(e) => updateTimer(e.target.value)}
-              className="w-full p-2 border border-blue-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <p className="text-xs text-gray-700 mt-1">
-              Set timer in <strong>hh:mm:ss</strong> format (24-hour clock).
+            <p className="text-xs text-zinc-500">
+              Format: <strong>hh:mm:ss</strong> (24-hour clock).
             </p>
           </div>
-        )}
-
-        {/* Toggle Deadline */}
-        <div className="flex items-center justify-between">
-          <label className="font-medium text-gray-800">
-            📅 Enable Deadline
-          </label>
-          <button
-            onClick={toggleDeadlineEnabled}
-            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-              settings.hasDeadline ? "bg-blue-600" : "bg-gray-400"
-            }`}
-          >
-            <div
-              className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                settings.hasDeadline ? "translate-x-6" : "translate-x-0"
-              }`}
-            />
-          </button>
         </div>
 
-        {settings.hasDeadline && (
-          <div>
-            <label className="block mb-1 font-medium text-gray-800">
-              🕒 Deadline
-            </label>
-            <input
+        {/* Deadline Toggle */}
+        <div className="flex items-center justify-between">
+          <Label className="text-zinc-700">📅 Enable Deadline</Label>
+          <Switch
+            checked={settings.hasDeadline}
+            onCheckedChange={toggleDeadlineEnabled}
+          />
+        </div>
+
+        {/* Deadline Field */}
+        <div
+          className={`transition-all duration-300 ${
+            settings.hasDeadline
+              ? "opacity-100"
+              : "opacity-0 pointer-events-none h-0"
+          }`}
+        >
+          <div className="space-y-1">
+            <Label className="text-zinc-700">🕒 Deadline</Label>
+            <Input
               type="datetime-local"
               value={settings.deadline}
-              onChange={(e) => {
-                const newValue = e.target.value;
-                updateDeadline(newValue);
-                console.log("updating deadline: ", newValue);
-              }}
-              className="w-full p-2 border border-blue-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={(e) => updateDeadline(e.target.value)}
             />
-            <p className="text-xs text-gray-700 mt-1">
-              After this time, users will no longer be able to submit the form.
+            <p className="text-xs text-zinc-500">
+              After this time, users won’t be able to submit the form.
             </p>
           </div>
-        )}
+        </div>
 
-        <div>
-          <label className="block mb-1 font-medium text-gray-800">
-            🧭 UI Mode
-          </label>
-          <select
+        {/* UI Mode */}
+        <div className="space-y-1">
+          <Label className="text-zinc-700">🧭 UI Mode</Label>
+          <Select
             value={settings.UIMode}
-            onChange={(e) => updateUIMode(e.target.value as QuestionsUIMode)}
-            className="w-full p-2 border border-blue-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onValueChange={(value) => updateUIMode(value as QuestionsUIMode)}
           >
-            <option value={QuestionsUIMode.Simple}>
-              Simple (All Questions)
-            </option>
-            <option value={QuestionsUIMode.Single}>
-              Single (One-at-a-Time)
-            </option>
-          </select>
-          <p className="text-xs text-gray-700 mt-1">
-            Choose how questions are displayed in the form.
+            <SelectTrigger>
+              <SelectValue placeholder="Select a mode" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={QuestionsUIMode.Simple}>
+                Simple (All Questions)
+              </SelectItem>
+              <SelectItem value={QuestionsUIMode.Single}>
+                Single (One-at-a-Time)
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-zinc-500">
+            Determines how users navigate questions.
           </p>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

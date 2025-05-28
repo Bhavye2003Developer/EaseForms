@@ -36,7 +36,7 @@ export default function FormCreator() {
   };
 
   return (
-    <div className="mx-auto p-1 bg-muted min-h-screen flex-1 max-w-screen">
+    <div className="mx-auto p-1 bg-muted min-h-screen flex-1 w-full">
       <FormHeader />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="singleList">
