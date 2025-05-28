@@ -94,6 +94,7 @@ export type UserData = {
 };
 
 export type FormsMetaData = {
+  id: string;
   publishedDate: Date;
   FormStruct: { formData: { formHeader: { title: string } } };
 }[];
