@@ -70,9 +70,10 @@ export enum Scene {
 export type FormattedAnswerType = string | number | any[];
 
 export type Answer = {
-  questionId: number;
+  questionId: string;
+  question: string;
   type: AnsTypePrisma;
-  data: FormattedAnswerType;
+  data: String;
 };
 
 export type FetchedResponse = {

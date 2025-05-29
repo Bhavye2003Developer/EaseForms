@@ -9,6 +9,8 @@ import {
 } from "./types";
 import { ROUTES } from "./constants";
 import { match } from "path-to-regexp";
+import { string } from "zod/v4";
+import { SubmittedAnswer } from "../../generated/prisma";
 
 export const getFormattedTime = (dt: Date): string => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
@@ -64,23 +66,24 @@ export const getFormattedHHMMSS = (hhmmss: string): string => {
   return " " + parts.join(" ");
 };
 
-const extractAnswer = (answerData: AnswerDataType): FormattedAnswerType => {
-  if (!Array.isArray(answerData)) return answerData;
+const extractAnswer = (answerData: AnswerDataType): string => {
+  if (!Array.isArray(answerData)) return String(answerData);
   const answer: any[] = [];
   answerData.forEach((tmpAnswer) => {
     if (tmpAnswer.isMarked) answer.push(tmpAnswer.desc);
   });
-  return answer;
+  return answer.join(",");
 };
 
-export const FetchAnswersFromForm = (form: FormType): Answer[] => {
+export const FetchAnswersFromForm = (form: FormType): SubmittedAnswer[] => {
   const questions = form.formData.questions;
-  const answers: Answer[] = [];
+  const answers: SubmittedAnswer[] = [];
   questions.forEach((question) => {
     if ("ans" in question) {
-      const answer: Answer = {
-        questionId: question.id,
-        type: question.ans.type,
+      const answer: SubmittedAnswer = {
+        questionId: String(question.id),
+        question: question.title,
+        type: question.ans.type as string,
         data: extractAnswer(question.ans.data),
       };
       answers.push(answer);

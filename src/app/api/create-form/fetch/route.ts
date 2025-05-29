@@ -23,8 +23,8 @@ export async function GET(req: NextRequest): Response {
 
   if (!transaction)
     return NextResponse.json({
-      msg: "You are not authorized to access or edit the form",
-      error: 401,
+      msg: "Either the form doesn't exists or you are not authorized to access the form.",
+      error: 404,
       data: null,
     });
 

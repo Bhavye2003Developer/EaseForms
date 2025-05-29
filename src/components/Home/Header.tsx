@@ -14,6 +14,8 @@ import CreateNewFormBtn from "./CreateNewFormBtn";
 import PublishBtn from "../PublishBtn";
 import { parseEndPoint } from "@/utils/helpers";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import useAppStore from "@/utils/useAppStore";
 
 export default function Header({
   setIsLoading,
@@ -22,6 +24,8 @@ export default function Header({
 }) {
   const { userId: clerkUserId } = useAuth();
   const endPoint = usePathname();
+
+  const { isPublishBtnHidden } = useAppStore();
 
   useEffect(() => {
     console.log("Path name changed: ", endPoint, parseEndPoint(endPoint));
@@ -37,11 +41,23 @@ export default function Header({
 
       <div className="flex items-center space-x-3">
         {clerkUserId &&
-          (parseEndPoint(endPoint) === "/create/:formId" ? (
+          (parseEndPoint(endPoint) === "/create/:formId" &&
+          !isPublishBtnHidden ? (
             <PublishBtn />
           ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
             <CreateNewFormBtn />
           ))}
+
+        {clerkUserId && parseEndPoint(endPoint) !== "/dashboard" && (
+          <Link href="/dashboard">
+            <Button
+              variant="outline"
+              className="text-sm text-white bg-blue-600 hover:bg-blue-700"
+            >
+              Dashboard
+            </Button>
+          </Link>
+        )}
 
         <SignedIn>
           <UserButton

@@ -3,19 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { Answer, Response } from "@/utils/types";
 import { prisma } from "@/db";
-import { Prisma } from "../../../../generated/prisma";
+import { SubmittedAnswer } from "../../../../generated/prisma";
 
 export async function POST(req: NextRequest): Response {
   const { form, formId } = await req.json();
   // console.log("backend: ", form, formId);
-  const answers: Answer[] = FetchAnswersFromForm(form);
+  const answers: SubmittedAnswer[] = FetchAnswersFromForm(form);
 
   console.log(answers);
 
   const transaction = await prisma.formAnswer.create({
     data: {
       formId: formId,
-      answers: answers as Prisma.InputJsonArray,
+      answers: answers,
     },
   });
   console.log("Answer creation status: ", transaction);

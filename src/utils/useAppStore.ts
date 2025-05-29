@@ -9,6 +9,8 @@ type AppState = {
   showShareURLModal: boolean;
   sharedURL: string;
   toggleShowShareURLModal: (url?: string) => void;
+  isPublishBtnHidden: boolean;
+  togglePublishBtnVisibility: () => void;
 };
 
 const useAppStore = create<AppState>()((set, get) => ({
@@ -34,6 +36,13 @@ const useAppStore = create<AppState>()((set, get) => ({
       ...state,
       sharedURL: urlText,
       showShareURLModal: !state.showShareURLModal,
+    }));
+  },
+  isPublishBtnHidden: true,
+  togglePublishBtnVisibility: () => {
+    set((state) => ({
+      ...state,
+      isPublishBtnHidden: !state.isPublishBtnHidden,
     }));
   },
 }));

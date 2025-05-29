@@ -21,16 +21,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import ErrorPage from "../ErrorPage";
+import LoadingOverlay from "../LoadingOverlay";
 
 export default function FormEditor({ formId }: { formId: string }) {
   const [showSettings, setShowSettings] = useState(false);
-
+  const [error, setError] = useState<string>("");
   const { sharedURL, toggleShowShareURLModal, showShareURLModal } =
     useAppStore();
 
+  const [isLoading, setIsLoading] = useState(true);
   const settingsRef = useRef<HTMLDivElement>(null);
   const { setForm } = useFormStore();
-  const { setFormId } = useAppStore();
+  const { setFormId, togglePublishBtnVisibility } = useAppStore();
 
   const fetchForm = async () => {
     const userId = getUserData().userId;
@@ -40,10 +43,12 @@ export default function FormEditor({ formId }: { formId: string }) {
     const res: FetchedResponse = await req.json();
 
     if (res.error) {
-      toast.error(res.msg);
+      setError(res.msg);
     } else if (res.data.formStruct) {
       setForm(res.data.formStruct);
+      togglePublishBtnVisibility();
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -52,72 +57,80 @@ export default function FormEditor({ formId }: { formId: string }) {
   }, []);
 
   return (
-    <div
-      className="h-screen overflow-hidden bg-zinc-50 text-zinc-800 flex flex-col"
-      onClick={(e) => {
-        if (
-          settingsRef.current &&
-          !settingsRef.current.contains(e.target as Node)
-        ) {
-          setShowSettings(false);
-        }
-      }}
-    >
-      <Dialog
-        open={showShareURLModal}
-        onOpenChange={() => toggleShowShareURLModal()}
-      >
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Form Published!</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-zinc-600">
-            Share this link to access your form:
-          </p>
-          <Input
-            readOnly
-            value={sharedURL}
-            className="bg-zinc-100 text-sm font-mono select-all"
-            onClick={(e) => (e.target as HTMLInputElement).select()}
-          />
-          <div className="flex justify-end pt-2">
-            <Button onClick={() => toggleShowShareURLModal()}>Close</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <div className="flex flex-1 gap-2 p-2 overflow-hidden">
-        <Card className="flex-1 relative overflow-hidden p-4 border-zinc-200 bg-white">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="absolute top-2 left-2 z-20 text-zinc-600 hover:bg-zinc-100"
-            onClick={() => setShowSettings((prev) => !prev)}
+    <>
+      {isLoading ? (
+        <LoadingOverlay message={"The form is loading..."} />
+      ) : error !== "" ? (
+        <ErrorPage msg={error} />
+      ) : (
+        <div
+          className="overflow-hidden bg-zinc-50 text-zinc-800 flex flex-col"
+          onClick={(e) => {
+            if (
+              settingsRef.current &&
+              !settingsRef.current.contains(e.target as Node)
+            ) {
+              setShowSettings(false);
+            }
+          }}
+        >
+          <Dialog
+            open={showShareURLModal}
+            onOpenChange={() => toggleShowShareURLModal()}
           >
-            <MoreVertical size={18} />
-          </Button>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>Form Published!</DialogTitle>
+              </DialogHeader>
+              <p className="text-sm text-zinc-600">
+                Share this link to access your form:
+              </p>
+              <Input
+                readOnly
+                value={sharedURL}
+                className="bg-zinc-100 text-sm font-mono select-all"
+                onClick={(e) => (e.target as HTMLInputElement).select()}
+              />
+              <div className="flex justify-end pt-2">
+                <Button onClick={() => toggleShowShareURLModal()}>Close</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
-          <AnimatePresence>
-            {showSettings && (
-              <motion.div
-                ref={settingsRef}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                className="absolute top-12 left-4 z-30 p-3 bg-white border rounded-lg shadow-md"
+          <div className="flex flex-1 gap-2 p-2 overflow-hidden">
+            <Card className="flex-1 relative overflow-hidden p-4 border-zinc-200 bg-white">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="absolute top-2 left-2 z-20 text-zinc-600 hover:bg-zinc-100"
+                onClick={() => setShowSettings((prev) => !prev)}
               >
-                <SettingsDialog />
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <MoreVertical size={18} />
+              </Button>
 
-          <FormCreator />
-        </Card>
+              <AnimatePresence>
+                {showSettings && (
+                  <motion.div
+                    ref={settingsRef}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="absolute top-12 left-4 z-30 p-3 bg-white border rounded-lg shadow-md"
+                  >
+                    <SettingsDialog />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-        <Card className="flex-1 overflow-auto p-4 border-zinc-200 bg-white">
-          <FormPreviewer />
-        </Card>
-      </div>
-    </div>
+              <FormCreator />
+            </Card>
+
+            <Card className="flex-1 overflow-auto p-4 border-zinc-200 bg-white">
+              <FormPreviewer />
+            </Card>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

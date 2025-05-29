@@ -16,7 +16,7 @@ model User {
 
 model Form {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  user          User         @relation(fields: [userId], references: [id])
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   publishedDate DateTime     @default(now())
   updatedDate   DateTime     @updatedAt
   userId        String       @db.ObjectId
@@ -25,10 +25,17 @@ model Form {
 }
 
 model FormAnswer {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  form    Form   @relation(fields: [formId], references: [id])
-  formId  String @db.ObjectId
-  answers Json
+  id      String            @id @default(auto()) @map("_id") @db.ObjectId
+  form    Form              @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId  String            @db.ObjectId
+  answers SubmittedAnswer[]
+}
+
+type SubmittedAnswer {
+  questionId String
+  question   String
+  type       String
+  data       String
 }
 
 type FormStruct {
