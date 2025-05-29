@@ -3,9 +3,9 @@
 import useFormStore from "@/utils/useFormStore";
 import QuestionCreator from "./QuestionCreator";
 import { QuestionType, SectionType } from "@/utils/types";
-
-// Lucide icons
 import { Plus, Trash2, Copy, LayoutList } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 export default function QuestionOutlined({
   questionData,
@@ -20,52 +20,58 @@ export default function QuestionOutlined({
   const isQuestion = "title" in questionData;
 
   return (
-    <div className="w-full border rounded-lg p-6 bg-muted mb-6 shadow-sm">
-      {isQuestion ? (
-        <QuestionCreator index={index} questionData={questionData} />
-      ) : (
-        <h2 className="text-lg font-medium text-foreground mb-2">
-          Section Break
-        </h2>
-      )}
+    <Card className="w-full bg-background shadow-sm rounded-xl">
+      <CardContent>
+        {isQuestion ? (
+          <QuestionCreator index={index} questionData={questionData} />
+        ) : (
+          <h2 className="text-lg font-medium text-foreground mb-4">
+            Section Break
+          </h2>
+        )}
+      </CardContent>
 
-      <div className="flex flex-wrap justify-end gap-2 mt-4">
-        <button
+      <CardFooter className="flex flex-wrap md:flex-nowrap justify-end gap-2 md:gap-3 items-center">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => createNewQuestion(questionData.id)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 mr-2" />
           Add Question
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => deleteQuestion(questionData.id)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent"
         >
-          <Trash2 className="w-4 h-4" />
+          <Trash2 className="w-4 h-4 mr-2" />
           {isQuestion ? "Delete Question" : "Delete Section"}
-        </button>
+        </Button>
 
         {isQuestion && (
           <>
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => duplicateQuestion(questionData.id)}
-              className="inline-flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent"
             >
-              <Copy className="w-4 h-4" />
+              <Copy className="w-4 h-4 mr-2" />
               Duplicate
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => addSection(questionData.id)}
-              className="inline-flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent"
             >
-              <LayoutList className="w-4 h-4" />
+              <LayoutList className="w-4 h-4 mr-2" />
               Add Section
-            </button>
+            </Button>
           </>
         )}
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 }

@@ -6,6 +6,17 @@ import useFormStore from "@/utils/useFormStore";
 import { useEffect, useState } from "react";
 import AnswerBox from "./AnswerBox";
 
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 export default function QuestionCreator({
   questionData,
   index,
@@ -14,100 +25,82 @@ export default function QuestionCreator({
   index: number;
 }) {
   const [question, setQuestion] = useState(questionData);
-
-  const {
-    createNewQuestion,
-    updateQuestion,
-    deleteQuestion,
-    duplicateQuestion,
-    addSection,
-  } = useFormStore((state) => state);
+  const { updateQuestion } = useFormStore((state) => state);
 
   useEffect(() => {
     updateQuestion(question.id, question);
   }, [question]);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 max-w-2xl w-full mx-auto mt-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        {index + 1}. <span className="text-gray-500">New Question</span>
-      </h2>
+    <Card className="w-full max-w-3xl mx-auto rounded-2xl bg-background border border-border/2 shadow-sm">
+      <CardHeader>
+        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+          {index + 1}. <span className="text-muted-foreground">Question</span>
+        </h2>
+      </CardHeader>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-4">
-        <input
-          autoFocus
-          type="text"
-          value={question.title}
-          placeholder="Type your question here..."
-          onChange={(e) => {
-            setQuestion({
-              ...question,
-              title: e.target.value,
-            });
-          }}
-          className="flex-1 p-3 border border-blue-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+      <CardContent className="space-y-3">
+        <div className="flex flex-col sm:flex-row gap-6">
+          <div className="flex-1 space-y-2">
+            <Label htmlFor="question" className="text-sm text-muted-foreground">
+              Question
+            </Label>
+            <Input
+              id="question"
+              autoFocus
+              value={question.title}
+              placeholder="Type your question here..."
+              onChange={(e) =>
+                setQuestion({ ...question, title: e.target.value })
+              }
+              className="rounded-lg border-border/30"
+            />
+          </div>
 
-        <select
-          value={question.ans.type}
-          onChange={(e) => {
-            const ansType = AnsType[e.target.value as keyof typeof AnsType];
-            console.log("Selected: ", ansType);
-            setQuestion({
-              ...question,
-              ans: {
-                ...question.ans,
-                type: ansType,
-                data: AnsOption[ansType],
-              },
-            });
-          }}
-          className="w-full sm:w-48 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          {Object.keys(AnsType).map((opt, idx) => (
-            <option key={idx} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
+          <div className="w-full sm:w-52 space-y-2">
+            <Label
+              htmlFor="answerType"
+              className="text-sm text-muted-foreground"
+            >
+              Answer Type
+            </Label>
+            <Select
+              value={question.ans.type}
+              onValueChange={(val) => {
+                const ansType = AnsType[val as keyof typeof AnsType];
+                setQuestion({
+                  ...question,
+                  ans: {
+                    ...question.ans,
+                    type: ansType,
+                    data: AnsOption[ansType],
+                  },
+                });
+              }}
+            >
+              <SelectTrigger className="rounded-lg border-border/30">
+                <SelectValue placeholder="Select type" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.keys(AnsType).map((opt, idx) => (
+                  <SelectItem key={idx} value={opt}>
+                    {opt}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-      <AnswerBox
-        option={question.ans.type}
-        scene={Scene.Editor}
-        questionId={question.id}
-        data={question.ans.data}
-      />
-
-      {/* <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
-        <button
-          onClick={() => createNewQuestion(question.id)}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition"
-        >
-          ➕ Add Question
-        </button>
-
-        <button
-          onClick={() => deleteQuestion(question.id)}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
-        >
-          🗑️ Delete Question
-        </button>
-
-        <button
-          onClick={() => duplicateQuestion(question.id)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition"
-        >
-          🔁 Duplicate Question
-        </button>
-
-        <button
-          onClick={() => addSection(questionData.id)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition"
-        >
-          Add Section
-        </button>
-      </div> */}
-    </div>
+        <div className="pt-2">
+          <AnswerBox
+            option={question.ans.type}
+            scene={Scene.Editor}
+            questionId={question.id}
+            data={question.ans.data}
+          />
+        </div>
+      </CardContent>
+    </Card>
   );
 }

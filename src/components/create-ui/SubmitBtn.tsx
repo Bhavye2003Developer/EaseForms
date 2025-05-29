@@ -1,8 +1,8 @@
 import { FetchedResponse, Scene } from "@/utils/types";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BtnCss } from "./SingleQuestionCard";
 import useFormFillingStore from "@/utils/useFormFillingStore";
+import { Button } from "@/components/ui/button";
 
 export default function SubmitBtn({ scene }: { scene: Scene }) {
   const formSubmittingLoadingMsg = `Submitting the ${
@@ -24,57 +24,51 @@ export default function SubmitBtn({ scene }: { scene: Scene }) {
     return res;
   }
 
-  return (
-    <>
-      <button
-        className={
-          isBtnDisabled
-            ? `${BtnCss.disabled} opacity-60 cursor-not-allowed`
-            : BtnCss.enabled
-        }
-        disabled={isBtnDisabled}
-        onClick={async () => {
-          setIsBtnDisabled(true);
-          console.log("scene: ", scene);
+  const handleSubmit = async () => {
+    setIsBtnDisabled(true);
 
-          if (
-            Array.isArray(form?.formData.questions) &&
-            form.formData.questions.some((question) => "ans" in question)
-          ) {
-            const answerNotFilledIds: number[] = [];
-            form?.formData.questions.forEach((question) => {
-              if ("ans" in question && question.ans.isAnswerFilled === false) {
-                answerNotFilledIds.push(question.id);
-              }
-            });
-            if (answerNotFilledIds.length > 0) {
-              toast.error("You havn't attended all the questions yet");
-              setIsBtnDisabled(false);
-            } else {
-              if (scene === Scene.Preview) {
-                console.log("msg: ", formSubmittingLoadingMsg);
-                toast.loading(formSubmittingLoadingMsg, {
-                  id: "exampleMsg",
-                });
-                setTimeout(() => {
-                  toast.dismiss("exampleMsg");
-                  setIsBtnDisabled(false);
-                }, 3000);
-              } else {
-                toast.loading(formSubmittingLoadingMsg, {
-                  id: "submittingForm",
-                });
-                await submitForm();
-                toast.dismiss("submittingForm");
-                toast.success("Form Submitted Successfully");
-                setFormSubmitted();
-              }
-            }
-          }
-        }}
-      >
-        Submit
-      </button>
-    </>
+    if (
+      Array.isArray(form?.formData.questions) &&
+      form.formData.questions.some((question) => "ans" in question)
+    ) {
+      const answerNotFilledIds: number[] = [];
+
+      form.formData.questions.forEach((question) => {
+        if ("ans" in question && question.ans.isAnswerFilled === false) {
+          answerNotFilledIds.push(question.id);
+        }
+      });
+
+      if (answerNotFilledIds.length > 0) {
+        toast.error("You haven’t attempted all the questions yet");
+        setIsBtnDisabled(false);
+        return;
+      }
+
+      if (scene === Scene.Preview) {
+        toast.loading(formSubmittingLoadingMsg, { id: "exampleMsg" });
+        setTimeout(() => {
+          toast.dismiss("exampleMsg");
+          setIsBtnDisabled(false);
+        }, 3000);
+      } else {
+        toast.loading(formSubmittingLoadingMsg, { id: "submittingForm" });
+        await submitForm();
+        toast.dismiss("submittingForm");
+        toast.success("Form Submitted Successfully");
+        setFormSubmitted();
+      }
+    }
+  };
+
+  return (
+    <Button
+      onClick={handleSubmit}
+      disabled={isBtnDisabled}
+      variant="default"
+      className="px-6"
+    >
+      Submit
+    </Button>
   );
 }

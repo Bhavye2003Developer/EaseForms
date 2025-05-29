@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Card } from "@/components/ui/card";
 
 export default function QuestionCasing({
   children,
@@ -10,18 +11,18 @@ export default function QuestionCasing({
   isAnswerFilled: boolean;
 }) {
   return (
-    <div
-      className={`relative rounded-xl p-1 transition-all ${
-        !isAnswerFilled ? "border border-red-200" : "border border-gray-200"
+    <Card
+      className={`relative p-1 transition-all ${
+        isAnswerFilled ? "border-border" : "border-destructive/30"
       }`}
     >
       {children}
 
       {!isAnswerFilled && (
-        <p className="absolute bottom-2 right-4 text-sm text-red-600">
+        <p className="absolute bottom-2 right-4 text-sm text-destructive">
           ⚠️ You haven’t attempted this question
         </p>
       )}
-    </div>
+    </Card>
   );
 }

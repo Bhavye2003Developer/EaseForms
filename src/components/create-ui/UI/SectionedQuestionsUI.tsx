@@ -12,59 +12,53 @@ export default function SectionedQuestionsUI({
   const [sectionedQuestionsArray, setSectionedQuestionsArray] = useState<
     QuestionType[][]
   >([]);
-
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
 
   const isFirst = currentSectionIndex === 0;
   const isLast = currentSectionIndex === sectionedQuestionsArray.length - 1;
 
   const handlePrev = () => {
-    if (!isFirst) {
-      setCurrentSectionIndex((prev) => prev - 1);
-    }
+    if (!isFirst) setCurrentSectionIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (!isLast) {
-      setCurrentSectionIndex((prev) => prev + 1);
-    }
+    if (!isLast) setCurrentSectionIndex((prev) => prev + 1);
   };
 
   useEffect(() => {
-    // console.log("questions updated: ", questions);
-    const sectionedQuestionsArray: QuestionType[][] = [];
-    let sectionTempArray: QuestionType[] = [];
-    questions.forEach((question) => {
-      if ("ans" in question) sectionTempArray.push(question);
-      else {
-        if (sectionTempArray.length > 0)
-          sectionedQuestionsArray.push(sectionTempArray);
-        sectionTempArray = [];
+    const sectioned: QuestionType[][] = [];
+    let buffer: QuestionType[] = [];
+
+    questions.forEach((q) => {
+      if ("ans" in q) {
+        buffer.push(q);
+      } else {
+        if (buffer.length) sectioned.push(buffer);
+        buffer = [];
       }
     });
-    if (sectionTempArray.length > 0)
-      sectionedQuestionsArray.push(sectionTempArray);
-    setSectionedQuestionsArray(sectionedQuestionsArray);
+
+    if (buffer.length) sectioned.push(buffer);
+    setSectionedQuestionsArray(sectioned);
   }, [questions]);
 
   return (
-    <div className="w-full">
-      <div className="w-full">
-        {sectionedQuestionsArray.length > 0 && (
-          <MultipleQuestionsCard
-            scene={scene}
-            questions={sectionedQuestionsArray[currentSectionIndex]}
-            onPrev={handlePrev}
-            onNext={handleNext}
-            buttonsActivity={{
-              prev: !isFirst,
-              next: !isLast,
-            }}
-          />
-        )}
-        <div className="text-center mt-4 text-sm text-gray-500">
-          Section {currentSectionIndex + 1} of {sectionedQuestionsArray.length}
-        </div>
+    <div className="w-full space-y-6">
+      {sectionedQuestionsArray.length > 0 && (
+        <MultipleQuestionsCard
+          scene={scene}
+          questions={sectionedQuestionsArray[currentSectionIndex]}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          buttonsActivity={{
+            prev: !isFirst,
+            next: !isLast,
+          }}
+        />
+      )}
+
+      <div className="text-center text-sm text-muted-foreground font-medium pt-2">
+        Section {currentSectionIndex + 1} of {sectionedQuestionsArray.length}
       </div>
     </div>
   );

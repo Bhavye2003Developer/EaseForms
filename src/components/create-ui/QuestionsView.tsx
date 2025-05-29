@@ -13,7 +13,7 @@ export default function QuestionsView({
   scene: Scene;
 }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {UIMode === QuestionsUIMode.Simple ? (
         <SimpleQuestionUI questions={questions} scene={scene} />
       ) : (

@@ -1,8 +1,6 @@
 import { DivStructType, Scene } from "@/utils/types";
 import SectionedQuestionsUI from "./SectionedQuestionsUI";
-import useFormFillingStore from "@/utils/useFormFillingStore";
 import QuestionsPageUI from "./QuestionsPageUI";
-import FormSubmissionPage from "../FormSubmissionPage";
 
 export default function SimpleQuestionUI({
   scene,
@@ -11,24 +9,18 @@ export default function SimpleQuestionUI({
   questions: DivStructType;
   scene: Scene;
 }) {
-  const sectionCnt = questions.filter(
-    (question) => !("title" in question)
-  ).length;
+  const hasSections = questions.some((q) => !("title" in q));
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
-      {sectionCnt > 0 ? (
+    <div className="max-w-3xl mx-auto px-3 py-4 space-y-4 sm:space-y-5">
+      {hasSections ? (
         <SectionedQuestionsUI questions={questions} scene={scene} />
+      ) : questions.length > 0 ? (
+        <QuestionsPageUI questions={questions} scene={scene} />
       ) : (
-        <>
-          {questions.length > 0 ? (
-            <QuestionsPageUI questions={questions} scene={scene} />
-          ) : (
-            <div className="text-center text-gray-500 text-sm">
-              No questions available.
-            </div>
-          )}
-        </>
+        <div className="text-center text-sm text-muted-foreground">
+          No questions available.
+        </div>
       )}
     </div>
   );

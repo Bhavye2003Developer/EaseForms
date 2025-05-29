@@ -22,7 +22,6 @@ export default function ExportToExcelModal({
   const confirmExport = async () => {
     if (selectedFormId) {
       const url = `/api/export-responses?formId=${selectedFormId}`;
-      //   window.open(url, "_blank");
 
       const resp = await fetch(url);
       const formAnswers: FetchedResponse = await resp.json();

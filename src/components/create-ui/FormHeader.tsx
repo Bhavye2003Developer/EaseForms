@@ -2,6 +2,9 @@
 
 import useFormStore from "@/utils/useFormStore";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function FormHeader() {
   const createNewQuestion = useFormStore((state) => state.createNewQuestion);
@@ -12,38 +15,37 @@ export default function FormHeader() {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
-    setFormHeaderState({
-      title: title,
-    });
+    setFormHeaderState({ title });
   }, [title]);
 
   return (
-    <div
-      className="p-6 rounded-lg shadow-xl max-w-screen mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+    <Card
       ref={wrapperRef}
+      className="w-full p-6 text-left border border-zinc-200 rounded-xl shadow-sm bg-white"
     >
-      <h1 className="text-2xl font-semibold text-white mb-4">Form Header</h1>
+      <CardContent className="p-0">
+        <h1 className="text-2xl font-semibold text-zinc-800 mb-4">
+          Form Header
+        </h1>
 
-      <input
-        autoFocus
-        type="text"
-        value={title}
-        placeholder="Type your form heading here..."
-        className="w-full p-3 border-2 border-transparent rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 mb-6 shadow-md"
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <Input
+          autoFocus
+          type="text"
+          value={title}
+          placeholder="Type your form heading here..."
+          className="mb-6 bg-white text-zinc-800 shadow-md"
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <div className="flex justify-end">
-        <button
-          className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition-all ease-in-out"
-          onClick={() => {
-            console.log("creating new question...");
-            createNewQuestion(0);
-          }}
-        >
-          ➕ Add New Question
-        </button>
-      </div>
-    </div>
+        <div className="flex justify-end">
+          <Button
+            className="bg-teal-500 hover:bg-teal-600 text-white"
+            onClick={() => createNewQuestion(0)}
+          >
+            ➕ Add New Question
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

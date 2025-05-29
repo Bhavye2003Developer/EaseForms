@@ -1,4 +1,4 @@
-import { AnswerDataType, choice, Scene } from "@/utils/types";
+import { Scene, choice } from "@/utils/types";
 import MultiOptionInput from "./MultiOptionInput";
 import MultiOptionView from "./MultiOptionView";
 
@@ -8,7 +8,7 @@ export default function MultiChoice(props: {
   data: choice[];
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full space-y-2">
       {props.scene === Scene.Editor ? (
         <MultiOptionInput {...props} isMultiSelect={false} />
       ) : (

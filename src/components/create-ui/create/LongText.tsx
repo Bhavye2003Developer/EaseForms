@@ -1,5 +1,8 @@
+"use client";
+
 import { AnswerDataType, Scene } from "@/utils/types";
 import useFormFillingStore from "@/utils/useFormFillingStore";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function LongText({
   answerData,
@@ -11,26 +14,24 @@ export default function LongText({
   scene: Scene;
 }) {
   const { updateAnswer } = useFormFillingStore();
+
   return (
-    <div className="w-full">
-      {scene === Scene.Editor ? (
-        <textarea
-          disabled={scene === Scene.Editor}
-          placeholder="Long Answer"
-          rows={4}
-          className="w-full border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 px-2 py-1 text-gray-800 placeholder-gray-400 text-base transition-all resize-none"
-        />
-      ) : (
-        <textarea
-          placeholder="Long Answer"
-          value={(typeof answerData === "string" && answerData) || ""}
-          onChange={(e) =>
-            updateAnswer(questionId, e.target.value, e.target.value != "")
-          }
-          rows={4}
-          className="w-full border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 px-2 py-1 text-gray-800 placeholder-gray-400 text-base transition-all resize-none"
-        />
-      )}
-    </div>
+    <Textarea
+      placeholder="Long Answer"
+      rows={4}
+      disabled={scene === Scene.Editor}
+      value={
+        scene !== Scene.Editor && typeof answerData === "string"
+          ? answerData
+          : ""
+      }
+      onChange={
+        scene !== Scene.Editor
+          ? (e) =>
+              updateAnswer(questionId, e.target.value, e.target.value !== "")
+          : undefined
+      }
+      className="text-base px-2 py-1 min-h-[6rem] rounded-md resize-none"
+    />
   );
 }
