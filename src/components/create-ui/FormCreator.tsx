@@ -39,7 +39,7 @@ export default function FormCreator() {
   };
 
   return (
-    <Card className="flex flex-col p-4 bg-muted/40 rounded-2xl border border-muted shadow-sm h-full overflow-y-auto">
+    <Card className="flex flex-col p-4 rounded-2xl border border-muted shadow-sm h-full overflow-y-auto bg-zinc-950 scrollbar-hide">
       <FormHeader />
       {/* <ScrollArea className="mt-4 h-full"> */}
       <DragDropContext onDragEnd={onDragEnd}>

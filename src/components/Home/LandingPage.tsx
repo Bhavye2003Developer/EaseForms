@@ -6,12 +6,10 @@ import Features from "./Features";
 import Footer from "./Footer";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { resetFormUserData, setFormUserId } from "@/utils/helpers";
-import LoadingOverlay from "../LoadingOverlay";
 
 export default function LandingPage() {
   const { isSignedIn } = useUser();
   const { userId } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (userId) setFormUserId(userId);
@@ -23,9 +21,6 @@ export default function LandingPage() {
       <Hero />
       <Features />
       <Footer />
-      {isLoading && (
-        <LoadingOverlay message="Just a moment, we are creating a new form just for you..." />
-      )}
     </main>
   );
 }

@@ -29,7 +29,7 @@ export default function FormPreviewer() {
   }
 
   return (
-    <div className="flex-1 p-4 md:p-6 h-full overflow-y-auto">
+    <div className="flex-1 p-4 md:p-6 h-full overflow-y-auto scrollbar-hide">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-center sm:text-left gap-2">
           <h1 className="text-2xl sm:text-3xl font-semibold text-indigo-700 italic tracking-tight">
