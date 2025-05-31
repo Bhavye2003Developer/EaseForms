@@ -29,7 +29,17 @@ export default function SectionedQuestionsUI({
     const sectioned: QuestionType[][] = [];
     let buffer: QuestionType[] = [];
 
-    questions.forEach((q) => {
+    let startIndex = 0;
+    let endIndex = questions.length - 1;
+
+    while (!("ans" in questions[startIndex]) && startIndex < questions.length)
+      ++startIndex;
+
+    while (!("ans" in questions[endIndex]) && endIndex >= 0) --endIndex;
+
+    // console.log("before everything", questions, startIndex, endIndex);
+
+    questions.slice(startIndex, endIndex + 1).forEach((q) => {
       if ("ans" in q) {
         buffer.push(q);
       } else {

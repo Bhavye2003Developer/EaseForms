@@ -92,7 +92,7 @@ export default function FormFillingView({ formId }: { formId: string }) {
       ) : (
         <div>
           <div className="relative mb-8">
-            <h1 className="text-3xl font-bold italic text-center text-indigo-700 drop-shadow-sm">
+            <h1 className="text-3xl font-bold text-center text-indigo-700 drop-shadow-sm">
               {form.formData.formHeader.title || "Untitled Form"}
             </h1>
 
