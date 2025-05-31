@@ -2,29 +2,28 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  useAuth,
-  UserButton,
-} from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0";
+
 import CreateNewFormBtn from "./CreateNewFormBtn";
 import PublishBtn from "../PublishBtn";
-import { parseEndPoint } from "@/utils/helpers";
-import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import useAppStore from "@/utils/useAppStore";
+import { parseEndPoint } from "@/utils/helpers";
 
-export default function Header({
-  setIsLoading,
-}: {
-  setIsLoading?: (val: boolean) => void;
-}) {
-  const { userId: clerkUserId } = useAuth();
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export default function Header() {
+  const { user, isLoading } = useUser();
+
+  console.log("From header: ", user);
+
   const endPoint = usePathname();
-
   const { isPublishBtnHidden } = useAppStore();
 
   useEffect(() => {
@@ -34,54 +33,73 @@ export default function Header({
   return (
     <header className="w-full h-16 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-6 backdrop-blur-sm shadow-sm">
       <Link href="/" className="select-none">
-        <h1 className="text-indigo-500 font-extrabold text-2xl tracking-tight hover:text-indigo-400 transition cursor-pointer">
+        <h1 className="text-indigo-500 font-extrabold text-2xl tracking-tight hover:text-indigo-400 transition-colors cursor-pointer">
           Easeforms
         </h1>
       </Link>
+      {!isLoading ? (
+        <>
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
+            {/* Auth Button */}
+            {!user && (
+              <Button
+                asChild
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <a href="/auth/login">Sign Up/ Login</a>
+              </Button>
+            )}
 
-      <div className="flex items-center space-x-3">
-        {clerkUserId &&
-          (parseEndPoint(endPoint) === "/create/:formId" &&
-          !isPublishBtnHidden ? (
-            <PublishBtn />
-          ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
-            <CreateNewFormBtn />
-          ))}
+            {/* Conditionally Show Create/Publish Button */}
+            {user &&
+              (parseEndPoint(endPoint) === "/create/:formId" &&
+              !isPublishBtnHidden ? (
+                <PublishBtn />
+              ) : parseEndPoint(endPoint) === "/form/:formId" ? null : (
+                <CreateNewFormBtn />
+              ))}
 
-        {clerkUserId && parseEndPoint(endPoint) !== "/dashboard" && (
-          <Link href="/dashboard">
-            <Button
-              variant="outline"
-              className="text-sm text-white bg-blue-600 hover:bg-blue-700"
-            >
-              Dashboard
-            </Button>
-          </Link>
-        )}
+            {/* Dashboard Link */}
+            {user && parseEndPoint(endPoint) !== "/dashboard" && (
+              <Button
+                asChild
+                variant="outline"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm"
+              >
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+            )}
 
-        <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "ring-2 ring-indigo-600 ring-offset-1",
-              },
-            }}
-          />
-        </SignedIn>
-
-        <SignedOut>
-          <SignInButton>
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition">
-              Sign In
-            </button>
-          </SignInButton>
-          <SignUpButton>
-            <button className="bg-zinc-700 hover:bg-zinc-600 text-zinc-300 text-sm px-4 py-2 rounded-lg font-semibold transition">
-              Sign Up
-            </button>
-          </SignUpButton>
-        </SignedOut>
-      </div>
+            {/* Avatar Dropdown */}
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="p-0 rounded-full w-9 h-9">
+                    <img
+                      src={user.picture}
+                      alt="User avatar"
+                      className="rounded-full w-full h-full object-cover"
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="bg-zinc-900 border-zinc-700"
+                >
+                  <DropdownMenuItem>
+                    <a href="/auth/logout" className="w-full text-left">
+                      Sign out
+                    </a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </header>
   );
 }

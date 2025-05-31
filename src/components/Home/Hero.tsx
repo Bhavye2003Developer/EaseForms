@@ -1,12 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/moving-border";
-import { useUser } from "@clerk/nextjs";
 import { Highlight } from "@/components/ui/hero-highlight";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0";
 
 export default function Hero() {
-  const { isSignedIn, user } = useUser();
+  const { user } = useUser();
 
   return (
     <section className="relative w-full bg-zinc-950 py-24 px-4 overflow-hidden">
@@ -14,9 +14,8 @@ export default function Hero() {
         <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-zinc-800/50 text-sm font-medium text-zinc-300 backdrop-blur">
           No fluff. Just form magic.
         </div>
-
         <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight tracking-tight">
-          {isSignedIn ? `Welcome back, ${user.firstName}.` : "Welcome to"}{" "}
+          {user ? `Welcome back, ${user.name}.` : "Welcome to"}{" "}
           <Highlight className="text-indigo-500">Easeforms</Highlight>
         </h1>
 

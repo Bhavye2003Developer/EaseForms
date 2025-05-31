@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -26,16 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className="scroll-smooth bg-white text-gray-800">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans min-h-screen flex flex-col`}
-        >
-          <Header />
-          <main className="flex-1 relative overflow-hidden">{children}</main>
-          <Toaster position="bottom-right" richColors />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className="scroll-smooth bg-white text-gray-800">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans min-h-screen flex flex-col`}
+      >
+        <Header />
+        <main className="flex-1 relative overflow-hidden">{children}</main>
+        <Toaster position="bottom-right" richColors />
+      </body>
+    </html>
   );
 }

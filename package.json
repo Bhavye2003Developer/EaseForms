@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^4.6.0",
     "@clerk/elements": "^0.23.29",
     "@clerk/nextjs": "^6.20.0",
     "@hello-pangea/dnd": "^18.0.1",

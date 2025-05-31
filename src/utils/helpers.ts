@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/nextjs";
 import {
   Answer,
   AnswerDataType,
@@ -92,24 +91,23 @@ export const FetchAnswersFromForm = (form: FormType): SubmittedAnswer[] => {
   return answers;
 };
 
-export const setFormUserId = async (clerk_userId: string) => {
+export const setFormUserId = async (email: string) => {
   console.log("Fetching userId");
 
   const userData = localStorage.getItem("easeforms_data");
   if (userData) {
     const parsedUserData: UserData = JSON.parse(userData);
-    if (clerk_userId === parsedUserData.clerkId && parsedUserData.userId)
-      return;
+    if (email === parsedUserData.email && parsedUserData.userId) return;
   }
 
-  console.log("User to be created with clerkId: ", clerk_userId);
+  console.log("User to be created with email: ", email);
 
-  const req = await fetch(`/api/user?clerkUserId=${clerk_userId}`);
+  const req = await fetch(`/api/user?email=${email}`);
   const resp: FetchedResponse = await req.json();
 
   const userDataToStore: UserData = {
     userId: resp.data.userId,
-    clerkId: clerk_userId,
+    email: email,
   };
 
   localStorage.setItem("easeforms_data", JSON.stringify(userDataToStore));

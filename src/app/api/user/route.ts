@@ -4,30 +4,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest): Response {
   const params = req.nextUrl.searchParams;
-  const clerkUserId: string = params.get("clerkUserId")!;
-  console.log("Got clerkId: ", clerkUserId);
+  const email: string = params.get("email")!;
+  console.log("Got email: ", email);
 
   let transaction = null;
 
-  const isUserWithClerkIdExists = await prisma.user.findFirst({
+  const isUserWithEmailIdExists = await prisma.user.findFirst({
     where: {
-      clerkUserId: clerkUserId,
+      email: email,
     },
   });
 
-  if (isUserWithClerkIdExists) {
+  if (isUserWithEmailIdExists) {
     return NextResponse.json({
-      msg: "User with clerkId already exists",
+      msg: "User with email already exists",
       error: null,
       data: {
-        userId: isUserWithClerkIdExists.id,
+        userId: isUserWithEmailIdExists.id,
       },
     });
   }
 
   transaction = await prisma.user.create({
     data: {
-      clerkUserId: clerkUserId,
+      email: email,
     },
   });
   console.log("Transact status Signup: ", transaction);

@@ -61,7 +61,7 @@ export default function FormEditor({ formId }: { formId: string }) {
         <ErrorPage msg={error} />
       ) : (
         <div
-          className="flex flex-col bg-muted text-muted-foreground w-full h-full"
+          className="flex flex-col text-muted-foreground w-full h-full bg-zinc-950"
           onClick={(e) => {
             if (
               settingsRef.current &&
