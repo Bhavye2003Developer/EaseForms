@@ -6,6 +6,7 @@ import { QuestionType, SectionType } from "@/utils/types";
 import { Plus, Trash2, Copy, LayoutList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { toast } from "sonner";
 
 export default function QuestionOutlined({
   questionData,
@@ -35,7 +36,10 @@ export default function QuestionOutlined({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => createNewQuestion(questionData.id)}
+          onClick={() => {
+            createNewQuestion(questionData.id);
+            toast.success("New question added", { duration: 1000 });
+          }}
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Question
@@ -44,7 +48,10 @@ export default function QuestionOutlined({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => deleteQuestion(questionData.id)}
+          onClick={() => {
+            deleteQuestion(questionData.id);
+            toast.success("Question deleted", { duration: 1000 });
+          }}
         >
           <Trash2 className="w-4 h-4 mr-2" />
           {isQuestion ? "Delete Question" : "Delete Section"}
@@ -55,7 +62,10 @@ export default function QuestionOutlined({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => duplicateQuestion(questionData.id)}
+              onClick={() => {
+                duplicateQuestion(questionData.id);
+                toast.success("Question duplicated", { duration: 1000 });
+              }}
             >
               <Copy className="w-4 h-4 mr-2" />
               Duplicate
@@ -64,7 +74,10 @@ export default function QuestionOutlined({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => addSection(questionData.id)}
+              onClick={() => {
+                addSection(questionData.id);
+                toast.success("Section added", { duration: 1000 });
+              }}
             >
               <LayoutList className="w-4 h-4 mr-2" />
               Add Section
