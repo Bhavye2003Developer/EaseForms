@@ -11,7 +11,7 @@ export default async function CreatePage({
   const isFormIdValid = formIdSchema.safeParse(formId);
 
   return (
-    <div>
+    <div className="absolute inset-0 overflow-hidden">
       {isFormIdValid.success ? (
         <FormEditor formId={formId} />
       ) : (

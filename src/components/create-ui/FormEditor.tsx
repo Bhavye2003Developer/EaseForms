@@ -61,7 +61,7 @@ export default function FormEditor({ formId }: { formId: string }) {
         <ErrorPage msg={error} />
       ) : (
         <div
-          className="flex flex-col bg-muted text-muted-foreground min-h-screen"
+          className="flex flex-col bg-muted text-muted-foreground w-full h-full"
           onClick={(e) => {
             if (
               settingsRef.current &&
@@ -127,7 +127,7 @@ export default function FormEditor({ formId }: { formId: string }) {
               <FormCreator />
             </Card>
 
-            <Card className="flex-1 overflow-auto p-6 bg-background rounded-2xl shadow-md border">
+            <Card className="flex-1 p-6 bg-background rounded-2xl shadow-md border">
               <FormPreviewer />
             </Card>
           </div>

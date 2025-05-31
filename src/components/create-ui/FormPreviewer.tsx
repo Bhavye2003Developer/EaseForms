@@ -22,14 +22,14 @@ export default function FormPreviewer() {
 
   if (!form) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-full">
         <Skeleton className="h-6 w-48" />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 p-4 md:p-6 min-h-screen">
+    <div className="flex-1 p-4 md:p-6 h-full overflow-y-auto">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-center sm:text-left gap-2">
           <h1 className="text-2xl sm:text-3xl font-semibold text-indigo-700 italic tracking-tight">
@@ -42,13 +42,13 @@ export default function FormPreviewer() {
 
         <Card className="border-none">
           <CardContent>
-            <ScrollArea className="h-full w-full">
-              <QuestionsView
-                scene={Scene.Preview}
-                questions={form.formData.questions}
-                UIMode={form.settings.UIMode}
-              />
-            </ScrollArea>
+            {/* <ScrollArea className="h-full w-full"> */}
+            <QuestionsView
+              scene={Scene.Preview}
+              questions={form.formData.questions}
+              UIMode={form.settings.UIMode}
+            />
+            {/* </ScrollArea> */}
           </CardContent>
         </Card>
       </div>
