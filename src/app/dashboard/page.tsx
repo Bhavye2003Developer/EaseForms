@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import ExportToExcelModal from "@/components/ExportToExcelModal";
-import { useUser } from "@auth0/nextjs-auth0";
 import { redirect } from "next/navigation";
+import useAppStore from "@/utils/useAppStore";
 
 export default function Page() {
   const [formsMetaData, setFormsMetaData] = useState<FormsMetaData | null>(
@@ -24,7 +24,7 @@ export default function Page() {
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const { user } = useUser();
+  const { session } = useAppStore();
 
   const fetchAllFormsInfo = async () => {
     const userId = getUserData().userId;
@@ -52,7 +52,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    if (!user) redirect("/auth/login");
+    if (!session?.user) redirect("/");
     fetchAllFormsInfo();
   }, []);
 

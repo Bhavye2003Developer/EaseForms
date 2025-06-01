@@ -1,3 +1,4 @@
+import { Session } from "next-auth";
 import { create } from "zustand";
 
 type AppState = {
@@ -11,6 +12,8 @@ type AppState = {
   toggleShowShareURLModal: (url?: string) => void;
   isPublishBtnHidden: boolean;
   togglePublishBtnVisibility: () => void;
+  session: Session | null;
+  setSession: (session: Session | null) => void;
 };
 
 const useAppStore = create<AppState>()((set, get) => ({
@@ -44,6 +47,11 @@ const useAppStore = create<AppState>()((set, get) => ({
       ...state,
       isPublishBtnHidden: !state.isPublishBtnHidden,
     }));
+  },
+  session: null,
+  setSession: (session: Session | null) => {
+    console.log("Session updated: ", session);
+    set((state) => ({ ...state, session: session }));
   },
 }));
 
