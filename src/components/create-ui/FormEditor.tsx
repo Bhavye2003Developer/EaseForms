@@ -8,7 +8,7 @@ import FormPreviewer from "./FormPreviewer";
 import SettingsDialog from "./SettingsDialog";
 import useFormStore from "@/utils/useFormStore";
 import useAppStore from "@/utils/useAppStore";
-import { getUserData } from "@/utils/helpers";
+import { getUserData, redirectToLogin } from "@/utils/helpers";
 import { FetchedResponse } from "@/utils/types";
 
 import {
@@ -24,6 +24,8 @@ import ErrorPage from "../ErrorPage";
 import LoadingOverlay from "../LoadingOverlay";
 
 export default function FormEditor({ formId }: { formId: string }) {
+  const { session } = useAppStore();
+
   const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState<string>("");
   const { sharedURL, toggleShowShareURLModal, showShareURLModal } =
@@ -49,8 +51,11 @@ export default function FormEditor({ formId }: { formId: string }) {
   };
 
   useEffect(() => {
-    setFormId(formId);
-    fetchForm();
+    if (!session?.user) redirectToLogin("Please Login to create form.");
+    else {
+      setFormId(formId);
+      fetchForm();
+    }
   }, []);
 
   return (

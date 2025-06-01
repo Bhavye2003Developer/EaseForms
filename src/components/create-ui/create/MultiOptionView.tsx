@@ -17,8 +17,6 @@ export default function MultiOptionView({
 }) {
   const { updateAnswer } = useFormFillingStore();
 
-  // dropdown, multiple select from dropdown.
-
   const inputType = isMultiSelect ? "checkbox" : "radio";
 
   return (

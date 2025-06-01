@@ -1,10 +1,8 @@
 import { AnswerDataType, Scene } from "@/utils/types";
 import { AnsType } from "../../../generated/prisma";
-
-import MultiChoice from "./create/MultiChoice";
-import MultiSelect from "./create/MultiSelect";
 import ShortText from "./create/ShortText";
 import LongText from "./create/LongText";
+import MultiOptional from "./create/MultiOptional";
 
 export default function AnswerBox({
   questionId,
@@ -28,11 +26,25 @@ export default function AnswerBox({
   }
 
   if (option === AnsType.MultiChoice && Array.isArray(data)) {
-    return <MultiChoice questionId={questionId} scene={scene} data={data} />;
+    return (
+      <MultiOptional
+        questionId={questionId}
+        scene={scene}
+        data={data}
+        isMultiSelect={false}
+      />
+    );
   }
 
   if (option === AnsType.MultiSelect && Array.isArray(data)) {
-    return <MultiSelect questionId={questionId} scene={scene} data={data} />;
+    return (
+      <MultiOptional
+        questionId={questionId}
+        scene={scene}
+        data={data}
+        isMultiSelect={true}
+      />
+    );
   }
 
   return null;

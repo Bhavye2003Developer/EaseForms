@@ -69,6 +69,9 @@ export default function Profile() {
               <button className="w-full text-left">Sign out</button>
             </form>
           </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

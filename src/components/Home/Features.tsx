@@ -1,24 +1,4 @@
-"use client";
-
-const features = [
-  {
-    title: "Create Forms Easily",
-    description: "Build forms quickly with an intuitive UI.",
-  },
-  {
-    title: "Answer Types",
-    description: "Supports short/long text, multi-select, and MCQs.",
-  },
-  {
-    title: "Timed Forms",
-    description: "Set response timers for better control.",
-  },
-  { title: "Drag & Drop", description: "Reorder questions effortlessly." },
-  {
-    title: "Live Preview",
-    description: "Instant feedback while editing your form.",
-  },
-];
+import { features } from "@/utils/constants";
 
 export default function Features() {
   return (
