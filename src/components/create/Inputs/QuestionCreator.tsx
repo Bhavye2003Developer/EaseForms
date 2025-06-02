@@ -1,7 +1,6 @@
 "use client";
 
 import { AnsOption, QuestionType, Scene } from "@/utils/types";
-import { AnsType } from "../../../generated/prisma";
 import useFormStore from "@/utils/useFormStore";
 import { useEffect, useState } from "react";
 import AnswerBox from "./AnswerBox";
@@ -16,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AnsType } from "../../../../generated/prisma";
 
 export default function QuestionCreator({
   questionData,

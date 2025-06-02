@@ -1,9 +1,9 @@
 import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
-import SubmitBtn from "./SubmitBtn";
-import QuestionCasing from "../QuestionCasing";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import SubmitBtn from "@/components/fill/SubmitBtn";
+import QuestionCasing from "./QuestionCasing";
 
 export default function MultipleQuestionsCard({
   scene,

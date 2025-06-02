@@ -1,8 +1,8 @@
 import { AnswerDataType, Scene } from "@/utils/types";
-import { AnsType } from "../../../generated/prisma";
-import ShortText from "./create/ShortText";
-import LongText from "./create/LongText";
-import MultiOptional from "./create/MultiOptional";
+import { AnsType } from "../../../../generated/prisma";
+import ShortText from "./answer/ShortText";
+import LongText from "./answer/LongText";
+import MultiOptional from "./answer/MultiOptional";
 
 export default function AnswerBox({
   questionId,

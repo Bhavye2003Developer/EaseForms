@@ -1,8 +1,8 @@
 import { DivStructType, Scene } from "@/utils/types";
-import AnswerBox from "../AnswerBox";
-import SubmitBtn from "../SubmitBtn";
-import QuestionCasing from "@/components/QuestionCasing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AnswerBox from "../../Inputs/AnswerBox";
+import SubmitBtn from "@/components/fill/SubmitBtn";
+import QuestionCasing from "../../Inputs/QuestionCasing";
 
 export default function QuestionsPageUI({
   scene,

@@ -3,7 +3,6 @@
 import useFormStore from "@/utils/useFormStore";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { useEffect } from "react";
-import QuestionsView from "./QuestionsView";
 import Timer from "./Timer";
 import { Scene } from "@/utils/types";
 
@@ -11,6 +10,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import QuestionsView from "../create/Inputs/QuestionsView";
 
 export default function FormPreviewer() {
   const { form, setForm } = useFormFillingStore();

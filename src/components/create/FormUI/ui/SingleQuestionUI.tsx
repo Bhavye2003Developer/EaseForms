@@ -2,8 +2,8 @@
 
 import { DivStructType, QuestionType, Scene, SectionType } from "@/utils/types";
 import { useState } from "react";
-import SingleQuestionCard from "../SingleQuestionCard";
 import useFormFillingStore from "@/utils/useFormFillingStore";
+import SingleQuestionCard from "../../Inputs/SingleQuestionCard";
 
 export default function SingleQuestionUI({
   scene,

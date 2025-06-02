@@ -1,7 +1,8 @@
-import { QuestionsUIMode } from "../../../generated/prisma";
-import SimpleQuestionUI from "./UI/SimpleQuestionUI";
-import SingleQuestionUI from "./UI/SingleQuestionUI";
+
 import { DivStructType, Scene } from "@/utils/types";
+import { QuestionsUIMode } from "../../../../generated/prisma";
+import SimpleQuestionUI from "../FormUI/ui/SimpleQuestionUI";
+import SingleQuestionUI from "../FormUI/ui/SingleQuestionUI";
 
 export default function QuestionsView({
   UIMode,

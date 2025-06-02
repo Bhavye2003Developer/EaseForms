@@ -1,7 +1,7 @@
 import { QuestionType, Scene } from "@/utils/types";
 import AnswerBox from "./AnswerBox";
 import { useEffect } from "react";
-import SubmitBtn from "./SubmitBtn";
+import SubmitBtn from "@/components/fill/SubmitBtn";
 
 export enum BtnCss {
   enabled = "px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200",

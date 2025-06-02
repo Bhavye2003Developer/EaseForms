@@ -4,10 +4,9 @@ import { DivStructType } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import FormHeader from "./FormHeader";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import QuestionOutlined from "./QuestionOutlined";
 
 import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import QuestionOutlined from "../create/Inputs/QuestionOutlined";
 
 export default function FormCreator() {
   const {

@@ -1,6 +1,6 @@
 import { DivStructType, QuestionType, Scene } from "@/utils/types";
 import { useEffect, useState } from "react";
-import MultipleQuestionsCard from "../MultipleQuestionsCard";
+import MultipleQuestionsCard from "../../Inputs/MultipleQuestionsCard";
 
 export default function SectionedQuestionsUI({
   scene,

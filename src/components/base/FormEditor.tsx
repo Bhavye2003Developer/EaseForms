@@ -5,7 +5,6 @@ import { MoreVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import FormCreator from "./FormCreator";
 import FormPreviewer from "./FormPreviewer";
-import SettingsDialog from "./SettingsDialog";
 import useFormStore from "@/utils/useFormStore";
 import useAppStore from "@/utils/useAppStore";
 import { getUserData, redirectToLogin } from "@/utils/helpers";
@@ -20,8 +19,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import ErrorPage from "../ErrorPage";
-import LoadingOverlay from "../LoadingOverlay";
+import SettingsDialog from "./SettingsDialog";
+import LoadingOverlay from "../utils/LoadingOverlay";
+import ErrorPage from "../utils/ErrorPage";
 
 export default function FormEditor({ formId }: { formId: string }) {
   const { session } = useAppStore();

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import QuestionsView from "./create-ui/QuestionsView";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import { FetchedResponse, Scene } from "@/utils/types";
-import FormSubmissionPage from "./create-ui/FormSubmissionPage";
-import Timer from "./create-ui/Timer";
-import TimeBasedIntroPage from "./create-ui/UI/TimeBasedIntroPage";
+import FormSubmissionPage from "./FormSubmissionPage";
+import TimeBasedIntroPage from "../create/FormUI/TimeBasedIntroPage";
+import Timer from "../base/Timer";
+import QuestionsView from "../create/Inputs/QuestionsView";
 
 export default function FormFillingView({ formId }: { formId: string }) {
   const { form, setForm, isFormSubmitted, setFormId } = useFormFillingStore();
