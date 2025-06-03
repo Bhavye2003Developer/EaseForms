@@ -34,7 +34,7 @@ https://github.com/Bhavye2003Developer/EaseForms.git
 cd easeforms
 
 # 3. Install dependencies
-yarn install # or npm install
+npm install # or npm install
 
 # 4. Generate Prisma client
 npx prisma generate
