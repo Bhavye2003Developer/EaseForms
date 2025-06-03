@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import useAppStore from "@/utils/useAppStore";
 import LoadingOverlay from "./LoadingOverlay";
 import ExportToExcelModal from "./ExportToExcelModal";
+import ErrorPage from "./ErrorPage";
 
 export default function Dashboard() {
   const [formsMetaData, setFormsMetaData] = useState<FormsMetaData | null>(
@@ -51,11 +52,11 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!session?.user) redirectToLogin("Please login to access the dashboard");
-    else fetchAllFormsInfo();
-  }, []);
+    if (session?.user) fetchAllFormsInfo();
+  }, [session]);
 
-  if (!session?.user) return null;
+  if (!session?.user)
+    return <ErrorPage msg="You can't access the dashboard without login." />;
 
   if (!formsMetaData) {
     return <LoadingOverlay message="All your forms data is being fetched..." />;

@@ -62,6 +62,8 @@ export default function Profile() {
                   className={`w-full h-full object-cover rounded-full transition-opacity duration-300 ${
                     imgLoaded ? "opacity-100" : "opacity-0"
                   }`}
+                  width={1000}
+                  height={1000}
                 />
               </div>
             ) : (
@@ -75,6 +77,10 @@ export default function Profile() {
           align="end"
           className="bg-zinc-900 border border-zinc-700"
         >
+          <div className="px-4 py-2 text-sm text-zinc-400 border-b border-zinc-700 select-none">
+            {session.user.email}
+          </div>
+
           <DropdownMenuItem>
             <form action={signOutAction} className="w-full">
               <button className="w-full text-left">Sign out</button>
