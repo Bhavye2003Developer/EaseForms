@@ -54,7 +54,7 @@ You'll need to configure the following in your `.env.local`:
 
 ```env
 DATABASE_URL="your-mongodb-uri"
-NEXT_PUBLIC_GITHUB_URL="https://github.com/Bhavye2003Developer/EaseForms_v2.git"
+NEXT_PUBLIC_GITHUB_URL="https://github.com/Bhavye2003Developer/EaseForms.git"
 AUTH_SECRET="your-secret"
 AUTH_GOOGLE_ID="your-google-client-id"
 AUTH_GOOGLE_SECRET="your-google-auth-secret"
