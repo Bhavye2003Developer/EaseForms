@@ -17,7 +17,6 @@ export default function QuestionsPageUI({
         "title" in question ? (
           <QuestionCasing
             key={question.id}
-            questionId={question.id}
             isAnswerFilled={question.ans.isAnswerFilled}
           >
             <Card className="border border-gray-200 shadow hover:shadow-md transition">

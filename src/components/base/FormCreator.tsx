@@ -3,7 +3,12 @@
 import { DivStructType } from "@/utils/types";
 import useFormStore from "@/utils/useFormStore";
 import FormHeader from "./FormHeader";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
 
 import { Card } from "@/components/ui/card";
 import QuestionOutlined from "../create/Inputs/QuestionOutlined";
@@ -27,7 +32,7 @@ export default function FormCreator() {
     return result;
   };
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const reordered = reorder(
       questions,

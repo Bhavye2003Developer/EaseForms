@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { FormattedAnswerType, Response } from "@/utils/types";
+import { Response } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest): Response {
@@ -25,21 +25,19 @@ export async function GET(req: NextRequest): Response {
   let maxQuestionsArrayIndex = 0,
     cnt = 0;
   answers.forEach((answersData, index) => {
-    if (answersData.length > cnt)
-      (cnt = answersData.length), (maxQuestionsArrayIndex = index);
+    if (answersData.length > cnt) {
+      cnt = answersData.length;
+      maxQuestionsArrayIndex = index;
+    }
   });
 
   const questions = answers[maxQuestionsArrayIndex].map(
     (answerData) => answerData.question
   );
 
-  console.log(answers);
-
-  console.log("questions: ", questions);
-
-  const formattedAnswers: any[] = [];
+  const formattedAnswers: { [key: string]: string }[] = [];
   answers.forEach((answersData) => {
-    const structuredAnswers: any = {};
+    const structuredAnswers: { [key: string]: string } = {};
     questions.forEach(
       (question) =>
         (structuredAnswers[question] =

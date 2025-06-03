@@ -1,6 +1,5 @@
 import { useState } from "react";
 import useAppStore from "@/utils/useAppStore";
-import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +13,8 @@ import CreateNewFormBtn from "../Home/CreateNewFormBtn";
 import Link from "next/link";
 import { User } from "lucide-react";
 import PublishBtn from "../create/FormUI/PublishBtn";
+import Image from "next/image";
+import { Button } from "../ui/button";
 
 export default function Profile() {
   const { session, isPublishBtnHidden } = useAppStore();
@@ -54,7 +55,7 @@ export default function Profile() {
                     <User className="w-5 h-5 text-zinc-400 animate-pulse" />
                   </div>
                 )}
-                <img
+                <Image
                   src={session.user.image}
                   alt="User avatar"
                   onLoad={() => setImgLoaded(true)}

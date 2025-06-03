@@ -16,10 +16,6 @@ export default function Header({ session }: { session: Session | null }) {
   const { setSession } = useAppStore();
 
   useEffect(() => {
-    console.log("Path name changed: ", endPoint, parseEndPoint(endPoint));
-  }, [endPoint]);
-
-  useEffect(() => {
     if (isMobile()) toast.info("This site is best viewed on desktop.");
     setSession(session);
   }, []);
@@ -32,6 +28,10 @@ export default function Header({ session }: { session: Session | null }) {
       setSession(null);
     }
   }, [session?.user]);
+
+  useEffect(() => {
+    console.log("Path name changed: ", endPoint, parseEndPoint(endPoint));
+  }, [endPoint]);
 
   return (
     <header className="w-full h-16 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-6 backdrop-blur-sm shadow-sm">

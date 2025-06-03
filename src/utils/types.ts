@@ -73,7 +73,7 @@ export type Answer = {
   questionId: string;
   question: string;
   type: AnsTypePrisma;
-  data: String;
+  data: string;
 };
 
 export type FetchedResponse = {

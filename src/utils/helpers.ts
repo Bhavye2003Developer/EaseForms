@@ -61,7 +61,7 @@ export const getFormattedHHMMSS = (hhmmss: string): string => {
 
 const extractAnswer = (answerData: AnswerDataType): string => {
   if (!Array.isArray(answerData)) return String(answerData);
-  const answer: any[] = [];
+  const answer: string[] = [];
   answerData.forEach((tmpAnswer) => {
     if (tmpAnswer.isMarked) answer.push(tmpAnswer.desc);
   });

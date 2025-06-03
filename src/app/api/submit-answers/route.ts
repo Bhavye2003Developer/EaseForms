@@ -1,7 +1,7 @@
 import { FetchAnswersFromForm } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
 
-import { Answer, Response } from "@/utils/types";
+import { Response } from "@/utils/types";
 import { prisma } from "@/db";
 import { SubmittedAnswer } from "../../../../generated/prisma";
 

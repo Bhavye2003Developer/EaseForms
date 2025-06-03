@@ -23,7 +23,7 @@ const useFormFillingStore = create<FormFillingState>((set, get) => ({
   },
   formId: "null",
   setFormId: (formId: string) => {
-    set((state) => ({ formId: formId }));
+    set(() => ({ formId: formId }));
   },
   updateAnswer(
     questionId: number,

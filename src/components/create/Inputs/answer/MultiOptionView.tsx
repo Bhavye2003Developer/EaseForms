@@ -23,7 +23,7 @@ export default function MultiOptionView({
     <div className="space-y-2 mt-2">
       {data.map((option, index) => {
         const inputId = `q-${questionId}-option-${index}`;
-        const isChecked = option.isMarked;
+        // const isChecked = option.isMarked;
 
         return (
           <div key={index} className="flex items-center gap-3">

@@ -1,6 +1,6 @@
 "use client";
 
-import { DivStructType, QuestionType, Scene, SectionType } from "@/utils/types";
+import { DivStructType, Scene } from "@/utils/types";
 import { useState } from "react";
 import useFormFillingStore from "@/utils/useFormFillingStore";
 import SingleQuestionCard from "../../Inputs/SingleQuestionCard";

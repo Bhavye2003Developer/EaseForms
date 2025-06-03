@@ -27,7 +27,6 @@ export default function MultipleQuestionsCard({
         {questions.map((question, idx) => (
           <QuestionCasing
             key={question.id}
-            questionId={question.id}
             isAnswerFilled={question.ans.isAnswerFilled}
           >
             <Card className="rounded-xl shadow-sm border border-border bg-background transition hover:shadow-md">

@@ -49,7 +49,7 @@ export default function Header({ formId }: { formId: string }) {
       } else {
         toast.error("Something went wrong while publishing.");
       }
-    } catch (error) {
+    } catch (_) {
       toast.dismiss("PublishLoadToast");
       toast.error("Failed to publish form.");
     }

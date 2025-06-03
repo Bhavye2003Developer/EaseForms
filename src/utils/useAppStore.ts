@@ -16,7 +16,7 @@ type AppState = {
   setSession: (session: Session | null) => void;
 };
 
-const useAppStore = create<AppState>()((set, get) => ({
+const useAppStore = create<AppState>()((set) => ({
   formId: "",
   sharedURL: "",
   showShareURLModal: false,

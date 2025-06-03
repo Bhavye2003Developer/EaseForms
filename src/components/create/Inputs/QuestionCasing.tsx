@@ -3,11 +3,9 @@ import { Card } from "@/components/ui/card";
 
 export default function QuestionCasing({
   children,
-  questionId,
   isAnswerFilled,
 }: {
   children: ReactNode;
-  questionId: number;
   isAnswerFilled: boolean;
 }) {
   return (

@@ -38,7 +38,7 @@ const useFormStore = create<FormState>()((set, get) => ({
       maxQuestionId =
         Math.max(...fetchedForm.formData.questions.map((q) => q.id)) + 1;
     console.log("new questionToBeImplenetdId: ", maxQuestionId);
-    set((state) => ({
+    set(() => ({
       questionIdToBeImplemented: maxQuestionId,
       form: fetchedForm,
     }));
