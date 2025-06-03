@@ -17,10 +17,11 @@ export async function GET(req: NextRequest): Response {
 
   if (isUserWithEmailIdExists) {
     return NextResponse.json({
-      msg: "User with email already exists",
+      msg: "You have logged in successfully.",
       error: null,
       data: {
         userId: isUserWithEmailIdExists.id,
+        signup: false,
       },
     });
   }
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest): Response {
     error: null,
     data: {
       userId: transaction.id,
+      signup: true,
     },
   });
 }

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Header from "@/components/Home/Header";
-import { auth } from "@/lib/auth";
+import { auth } from "@/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans min-h-screen flex flex-col`}
       >
-        <Header session={session}/>
+        <Header session={session} />
         <main className="flex-1 relative overflow-hidden">{children}</main>
         <Toaster position="bottom-right" richColors />
       </body>

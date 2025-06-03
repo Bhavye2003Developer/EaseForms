@@ -9,10 +9,10 @@ import {
 import { signOutAction } from "@/utils/auth-action";
 import { parseEndPoint } from "@/utils/helpers";
 import { usePathname } from "next/navigation";
-import PublishBtn from "../PublishBtn";
 import CreateNewFormBtn from "../Home/CreateNewFormBtn";
 import Link from "next/link";
 import { User } from "lucide-react";
+import PublishBtn from "../create/FormUI/PublishBtn";
 
 export default function Profile() {
   const { session, isPublishBtnHidden } = useAppStore();

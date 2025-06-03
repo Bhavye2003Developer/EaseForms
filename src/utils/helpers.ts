@@ -1,15 +1,9 @@
-import {
-  Answer,
-  AnswerDataType,
-  FetchedResponse,
-  FormattedAnswerType,
-  FormType,
-  UserData,
-} from "./types";
+import { AnswerDataType, FetchedResponse, FormType, UserData } from "./types";
 import { ROUTES } from "./constants";
 import { match } from "path-to-regexp";
-import { string } from "zod/v4";
 import { SubmittedAnswer } from "../../generated/prisma";
+import { toast } from "sonner";
+import { signInAction } from "./auth-action";
 
 export const getFormattedTime = (dt: Date): string => {
   return `${dt.getHours()}:${dt.getMinutes()} ${
@@ -105,6 +99,8 @@ export const setFormUserId = async (email: string) => {
   const req = await fetch(`/api/user?email=${email}`);
   const resp: FetchedResponse = await req.json();
 
+  toast.success(resp.msg);
+
   const userDataToStore: UserData = {
     userId: resp.data.userId,
     email: email,
@@ -130,4 +126,10 @@ export const parseEndPoint = (endPoint: string) => {
     return matcher(endPoint);
   });
   return foundedPath;
+};
+
+export const redirectToLogin = (msg: string) => {
+  toast.error(msg);
+  // redirect("/");
+  signInAction();
 };

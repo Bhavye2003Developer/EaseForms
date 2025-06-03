@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   const fetchAllFormsInfo = async () => {
     const userId = getUserData().userId;
-    const req = await fetch(`/api/user-forms?userId=${userId}`);
+    const req = await fetch(`/api/forms-metadata?userId=${userId}`);
     const res: FetchedResponse = await req.json();
     if (!res.error) setFormsMetaData(res.data);
   };

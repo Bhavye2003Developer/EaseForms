@@ -1,5 +1,5 @@
-import FormEditor from "@/components/create-ui/FormEditor";
-import ErrorPage from "@/components/ErrorPage";
+import FormEditor from "@/components/base/FormEditor";
+import ErrorPage from "@/components/utils/ErrorPage";
 import { formIdSchema } from "@/utils/zod_schemas";
 
 export default async function CreatePage({

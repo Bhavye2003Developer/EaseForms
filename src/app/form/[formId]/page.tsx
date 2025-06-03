@@ -1,4 +1,4 @@
-import FormFillingView from "@/components/FormFillingView";
+import FormFillingView from "@/components/fill/FormFillingView";
 
 export default async function CreatePage({
   params,
