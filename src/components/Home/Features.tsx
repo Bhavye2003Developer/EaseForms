@@ -2,7 +2,7 @@ import { features } from "@/utils/constants";
 
 export default function Features() {
   return (
-    <section className="w-full bg-zinc-950 py-5 px-4">
+    <section className="w-full bg-zinc-950 pb-5 px-4">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
           Powerful Features

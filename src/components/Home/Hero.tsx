@@ -12,7 +12,7 @@ export default function Hero() {
   const { session } = useAppStore();
 
   return (
-    <section className="relative w-full bg-zinc-950 py-28 px-6 md:px-10 overflow-hidden">
+    <section className="relative w-full bg-zinc-950 pt-28 pb-14 px-6 md:px-10 overflow-hidden">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
