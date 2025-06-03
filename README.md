@@ -1,7 +1,7 @@
 
 # Easeforms
 
-> **🚀 [Try it live →](https://easeforms.vercel.app/)** | Built for developers who value clean code and beautiful UX
+> **🚀 [Try it live →](https://easeforms.vercel.app/)**
 
 Easeforms is an open-source  and developer-centric form builder that lets users create smart, interactive forms with ease.
 
