@@ -133,3 +133,7 @@ export const redirectToLogin = (msg: string) => {
   // redirect("/");
   signInAction();
 };
+
+export const isMobile = () => {
+  return typeof screen.orientation !== "undefined";
+};

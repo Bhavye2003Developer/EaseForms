@@ -38,9 +38,8 @@ export default function FormCreator() {
   };
 
   return (
-    <Card className="flex flex-col p-2 rounded-2xl border border-muted shadow-sm h-full overflow-y-auto bg-zinc-950 scrollbar-hide">
+    <Card className="flex flex-col p-2 sm:p-4 rounded-2xl border border-muted shadow-sm h-full overflow-y-auto bg-zinc-950 scrollbar-hide">
       <FormHeader />
-      {/* <ScrollArea className="mt-4 h-full"> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="singleList">
           {(provided, snapshot) => (
@@ -62,7 +61,7 @@ export default function FormCreator() {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={`p-2 rounded-xl transition-shadow border ${
+                      className={`p-2 sm:p-4 rounded-xl transition-shadow border ${
                         snapshot.isDragging ? "shadow-lg" : "shadow"
                       }`}
                     >
@@ -76,7 +75,6 @@ export default function FormCreator() {
           )}
         </Droppable>
       </DragDropContext>
-      {/* </ScrollArea> */}
     </Card>
   );
 }

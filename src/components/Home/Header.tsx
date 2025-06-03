@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import useAppStore from "@/utils/useAppStore";
-import { parseEndPoint } from "@/utils/helpers";
+import { isMobile, parseEndPoint } from "@/utils/helpers";
 import SignInBtn from "../auth/SignInBtn";
 import { Session } from "next-auth";
 import Profile from "../auth/Profile";
@@ -21,6 +20,7 @@ export default function Header({ session }: { session: Session | null }) {
   }, [endPoint]);
 
   useEffect(() => {
+    if (isMobile()) toast.info("This site is best viewed on desktop.");
     setSession(session);
   }, []);
 

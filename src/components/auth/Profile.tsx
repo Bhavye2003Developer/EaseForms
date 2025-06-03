@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useAppStore from "@/utils/useAppStore";
 import { Button } from "../ui/button";
 import {
@@ -18,12 +19,12 @@ export default function Profile() {
   const { session, isPublishBtnHidden } = useAppStore();
   const endPoint = usePathname();
   const path = parseEndPoint(endPoint);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   if (!session?.user) return null;
 
   return (
-    <div className="flex items-center gap-3">
-      {/* Conditional Buttons */}
+    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
       {path === "/create/:formId" && !isPublishBtnHidden ? (
         <PublishBtn />
       ) : path === "/form/:formId" ? null : (
@@ -40,7 +41,6 @@ export default function Profile() {
         </Button>
       )}
 
-      {/* Profile Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -48,11 +48,21 @@ export default function Profile() {
             className="p-0 rounded-full w-9 h-9 overflow-hidden"
           >
             {session.user.image ? (
-              <img
-                src={session.user.image || ""}
-                alt="User avatar"
-                className="w-full h-full object-cover rounded-full"
-              />
+              <div className="w-full h-full relative">
+                {!imgLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
+                    <User className="w-5 h-5 text-zinc-400 animate-pulse" />
+                  </div>
+                )}
+                <img
+                  src={session.user.image}
+                  alt="User avatar"
+                  onLoad={() => setImgLoaded(true)}
+                  className={`w-full h-full object-cover rounded-full transition-opacity duration-300 ${
+                    imgLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              </div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-zinc-800 rounded-full">
                 <User className="w-5 h-5 text-zinc-400" />
