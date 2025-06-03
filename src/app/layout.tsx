@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Easeforms",
   description: "Easily create smart, beautiful forms in seconds",
+  icons: {
+    icon: [{ url: "/favicon.ico" }],
+  },
 };
 
 export default async function RootLayout({
