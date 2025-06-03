@@ -5,6 +5,8 @@
 
 Easeforms is an open-source  and developer-centric form builder that lets users create smart, interactive forms with ease.
 
+![image](https://github.com/user-attachments/assets/e7213dc9-0f21-4968-8773-62f7f1df1d32)
+
 ## 🌟 Features
 
 -   **Drag-and-Drop Interface** – Design forms effortlessly with a smooth layout experience
