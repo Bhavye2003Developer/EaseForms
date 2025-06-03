@@ -28,7 +28,7 @@ Easeforms is an open-source  and developer-centric form builder that lets users 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Bhavye2003Developer/EaseForms_v2.git
+https://github.com/Bhavye2003Developer/EaseForms.git
 
 # 2. Navigate into the project
 cd easeforms
