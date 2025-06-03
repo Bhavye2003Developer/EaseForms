@@ -36,21 +36,17 @@ cd easeforms
 # 3. Install dependencies
 yarn install # or npm install
 
-# 4. Setup environment variables
-cp .env.example .env.local
-# Fill in your DB and Auth credentials in .env.local
-
-# 5. Generate Prisma client
+# 4. Generate Prisma client
 npx prisma generate
 
-# 6. Run dev server
+# 5. Run dev server
 npm run dev
 
 ```
 
 ## 🔐 Environment Variables
 
-You'll need to configure the following in your `.env.local`:
+You'll need to configure the following in your `.env`:
 
 ```env
 DATABASE_URL="your-mongodb-uri"
