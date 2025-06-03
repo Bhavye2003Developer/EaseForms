@@ -29,6 +29,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth bg-white text-gray-800">
+      <link href="./../../public/easeforms_logo.ico" rel="icon" sizes="any" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans min-h-screen flex flex-col`}
       >
